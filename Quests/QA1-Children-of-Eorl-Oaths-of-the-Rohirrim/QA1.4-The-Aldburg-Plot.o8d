@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Quest" shared="True">
+    <card qty="1" id="287655ab-df12-4fcf-b3c5-36afdd0d872e">Evil Under the Moon</card>
+    <card qty="1" id="196a4f05-fe32-42f9-88aa-4ae43962cf48">Gathering Clues</card>
+    <card qty="1" id="db51642d-f36f-4319-a9ee-d9fb5d912897">The Uncertain Dawn</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="3" id="5bea4f50-d569-4da3-94e5-ad0d2574b3fb">Old Farmhouse</card>
+    <card qty="2" id="9108bfe5-30b1-42e5-8866-1df5936f8d4a">Abandoned Mill</card>
+    <card qty="2" id="29e93b1e-ebc7-4a57-8a23-eb7ecaf915f5">Recreant Rider</card>
+    <card qty="2" id="0fa296fc-3e23-4b9f-8dce-fb1244f63aeb">Deadly Defector</card>
+    <card qty="1" id="9656fa81-aa25-4579-bb6a-d11dd0cb17b9">Aldburg Malcontent</card>
+    <card qty="2" id="6672e282-c378-411a-a101-2eb1e6757ae9">Misty Street</card>
+    <card qty="2" id="2d7dcb33-1536-449f-bc42-382da80bd9cb">Well-lit Hall</card>
+    <card qty="3" id="073539f7-5962-4f07-9714-eed16345af4c">Decrepit Hovel</card>
+    <card qty="2" id="c6ce21fd-336e-4d29-9217-a7468071f9d7">Taken by the Night</card>
+    <card qty="3" id="66887a1f-8344-4ceb-be6e-d54ba522ad4e">False Lead</card>
+    <card qty="1" id="18eaacb9-925a-49ae-9101-4c420bd5d33a">Sudden Ambush</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="b2b0edb1-5ea7-4a4e-9495-6a084fee744f">The Aldburg Plot Rules</card>
+    <card qty="1" id="c9a7a090-f0eb-474e-bcc1-95f7a7c5ea21">The Aldburg Plot 1</card>
+    <card qty="1" id="079d2660-fc59-4545-8372-98d6cb8a0b88">The Aldburg Plot 2</card>
+    <card qty="1" id="0030124a-1765-4c48-be68-1791cde9c1b3">The Aldburg Plot 3</card>
+    <card qty="1" id="4906a312-294b-47db-835d-45339e1a5f83">The Aldburg Plot 4</card>
+    <card qty="1" id="231c963a-bfdd-44a9-b680-fb8c21e3fd4c">The Aldburg Plot 5</card>
+    <card qty="1" id="4afcbb19-84ee-433b-ba23-314c4e854ca0">Red Harvest</card>
+    <card qty="1" id="a6ead42b-887a-43c4-a092-422d6e4e8418">The Prisoner in White</card>
+    <card qty="1" id="02e5a1c9-4209-4bbf-96b8-5d5ee7ed6698">The Man with the Twisted Lip</card>
+    <card qty="1" id="f363261b-dfe3-4d84-9260-ca23eb84b56c">A Fire Rises</card>
+    <card qty="1" id="3038b932-33c7-4c0b-8de4-69461d728de4">A Case of Identity</card>
+    <card qty="1" id="198364e8-45bc-45c3-9d5d-5cf2a2c0ce38">Whisperer in the Darkness</card>
+    <card qty="1" id="22fffee3-e5d9-4159-82d6-c946d875b6e7">Spreading Inferno</card>
+    <card qty="1" id="eb65adff-1355-4525-bdc9-2ae6e96bbb36">The Whisperer</card>
+    <card qty="1" id="17fe0f1e-fcca-401f-88b7-6edae12be418">The Spy Master</card>
+    <card qty="1" id="b7a162d6-96af-4188-95b9-c018ae9b0365">Ossian</card>
+    <card qty="1" id="06c1fa99-16b4-4eff-8eed-2d3aee161ca9">The Armoury</card>
+    <card qty="1" id="fe25197e-cd1a-4088-998b-5b371cd70f94">Great Mead Hall</card>
+    <card qty="3" id="e810251f-5aba-4134-8264-acf9ed401324">Town Guard</card>
+    <card qty="3" id="feafb001-aca7-489b-b2e4-1b998988cf97">Dunlending Agents</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="22cf4d32-7934-45e4-9f0a-1846d4714d07">Garrison Barracks</card>
+    <card qty="1" id="a2278bfd-906a-46a0-bdd2-21b70a376e9e">The Horse’s Tail</card>
+    <card qty="1" id="29e93b1e-ebc7-4a57-8a23-eb7ecaf915f5">Recreant Rider</card>
+    <card qty="1" id="0fa296fc-3e23-4b9f-8dce-fb1244f63aeb">Deadly Defector</card>
+    <card qty="1" id="9656fa81-aa25-4579-bb6a-d11dd0cb17b9">Aldburg Malcontent</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

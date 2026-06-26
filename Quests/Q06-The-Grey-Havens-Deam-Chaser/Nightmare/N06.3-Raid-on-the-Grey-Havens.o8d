@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Quest" shared="True">
+    <card qty="1" id="a33274da-588d-4430-b730-0e82942c0605">Raid on the Grey Havens</card>
+    <card qty="1" id="fab58a26-eaa6-4e6b-aa59-575bab8a2599">The Corsairs' Assault</card>
+    <card qty="1" id="ccba3aa6-5129-47d8-839c-b20aff126e62">Sahir's Advance</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="2" id="4893d105-fada-4bee-a4bb-d26463b97b63">Sahír's Ravager</card>
+    <card qty="2" id="766735f8-3b17-4b50-aee3-a869837f986c">Mithlond Harbor</card>
+    <card qty="2" id="c69c1fe9-076a-4a5b-8388-9f653015d84d">Burning Piers</card>
+    <card qty="2" id="a961751d-414b-4a53-9da4-5708f8b7bb1f">Pillaged Ship</card>
+    <card qty="2" id="7fa34ed7-6c3d-41a2-9c03-d8a766a35ece">White Ship</card>
+    <card qty="2" id="25eb1da3-b559-4e47-ae20-e6096a8cbc96">Elven Caravel</card>
+    <card qty="2" id="91143aee-41e7-4cac-8ec2-e112689fcc17">Put to the Torch</card>
+    <card qty="2" id="76a512ea-3a6a-4c99-8c29-d980dea802ff">The Fires Spread</card>
+    <card qty="2" id="d03bdefa-cc39-43b6-9af9-feeb33858958">Umbar Raider</card>
+    <card qty="2" id="d7885efa-3af6-48e6-8eb1-5750892fdb34">Corsair Infiltrator</card>
+    <card qty="2" id="4b3a4229-eb85-49b0-9f34-78cb17301b34">Raid Leader</card>
+    <card qty="2" id="c057b0ef-eb85-4afc-9ca8-60a0cca92bcc">Battle-Hardened</card>
+    <card qty="3" id="c4993a31-1e07-469c-a3cb-13e90e44253f">Corsair Pillager</card>
+    <card qty="3" id="5d491420-2c69-41b8-8023-a7020f5a33df">Corsair Pyromaniac</card>
+    <card qty="1" id="4a9282c0-44e5-4438-9b97-4b93dc29282d">Elite Marauder</card>
+    <card qty="2" id="98763910-365c-452a-b7ed-24512c3962a8">Burning Tower</card>
+    <card qty="3" id="6e765a17-9c2e-4b30-b023-5f08450553c4">Sudden Assault</card>
+    <card qty="2" id="b52b72ae-574d-4736-96d6-3531a0aae7ae">Infiltration</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="24a555aa-6987-4189-ac1d-60a74263bd87">Raid on the Grey Havens</card>
+    <card qty="1" id="97bf780d-cd76-492f-a970-37f78273c5bb">Captain Sahír</card>
+    <card qty="1" id="f0d30258-7122-4004-a689-9ff50a00b3af">Na'asiyah</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="6302e603-fade-43b3-a6b3-235af412fdfa">The Havens Burn</card>
+    <card qty="1" id="c792fec6-5840-4aba-8dcd-36b1632d58fa">Dream-chaser</card>
+    <card qty="1" id="e0c17eeb-3231-49a4-a807-1e176247573c">Nárelenya</card>
+    <card qty="1" id="7e8c1439-0d73-459d-b3d9-29c7c2c56e76">Dawn Star</card>
+    <card qty="1" id="f40d0756-8603-4bf3-ad66-2890552bd60e">Silver Wing</card>
+    <card qty="1" id="4893d105-fada-4bee-a4bb-d26463b97b63">Sahír's Ravager</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

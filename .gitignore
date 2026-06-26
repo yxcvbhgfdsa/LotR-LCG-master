@@ -32,3 +32,31 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Python / local runtime
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local app state and logs
+*.log
+draw_log.txt
+playerdraw_log.txt
+save.rb
+side_quests_output.txt
+_csv_check.txt
+.codex-drive-sync-state.json
+
+# Build artifacts
+dist/
+build/
+*.spec
+
+# Editor / agent state
+.vscode/
+.idea/
+.agents/
+.claude/
+.cursor/
+.workbuddy/

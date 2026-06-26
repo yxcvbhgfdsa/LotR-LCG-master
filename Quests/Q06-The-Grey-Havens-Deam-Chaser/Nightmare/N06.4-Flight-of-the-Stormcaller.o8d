@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Quest" shared="True">
+    <card qty="1" id="00724f28-cae7-4d45-95b4-076d91bd2a86">Flight of the Stormcaller</card>
+    <card qty="1" id="4489214b-775c-4e63-b8ec-c504526e478f">Swift Departure</card>
+    <card qty="1" id="315ddd38-e50f-4db0-8e5c-8030998e4f7f">Full Sail Ahead!</card>
+    <card qty="1" id="0700c66d-3fe6-4619-9512-edb0241e6203">The Weather Turns Foul</card>
+    <card qty="1" id="4576db5c-fdc2-45f2-ac8b-d1edb8150678">The Cape of Andrast</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="3" id="3de80480-6316-4c43-824c-44d3ad424a7b">Sahír’s Escort</card>
+    <card qty="2" id="c084e998-a5c8-4efd-a6ed-441f9f912c99">Swift Raider</card>
+    <card qty="2" id="962991f0-44af-47ba-9ff0-0f7ed302a543">Man Overboard!</card>
+    <card qty="2" id="cf070c26-dd32-4ee8-bd6c-ffe9c011bd64">Vast Coastland</card>
+    <card qty="1" id="595c34f1-60e3-401a-bd65-df6dda627896">Hidden Cove</card>
+    <card qty="2" id="076b47e8-6bbe-41b3-9af8-edeca28e2c0c">Raging Squall</card>
+    <card qty="1" id="ec2f100d-22c8-4cc6-82d9-fb4f07446b0f">Rolling Seas</card>
+    <card qty="2" id="4f4df8ea-7f18-4a76-85b0-7ece828bb837">Thrown Off Course</card>
+    <card qty="2" id="2b3973f5-e6f6-4611-87b7-b6e3dc33eb66">Rough Waters</card>
+    <card qty="2" id="4d925556-3a39-4e49-aafa-0adac6cacc52">Waterspout</card>
+    <card qty="3" id="7691fb33-603e-4460-9f09-5f96bc05c2bb">Sudden Storms</card>
+    <card qty="2" id="71d7dd78-a967-43dd-ab73-e46a5d4d4519">Winds of Wrath</card>
+    <card qty="2" id="dd13a7d6-b58e-41ce-a73c-c86a45996607">Tide-Runner</card>
+    <card qty="1" id="51c3083f-3a95-44aa-bb34-4b28c9189c05">Venom's Bite</card>
+    <card qty="3" id="35524392-598c-4980-93ea-91d7702242ab">Sharp Jetties</card>
+    <card qty="3" id="c81aa8c4-969d-46f6-b0a6-a53e59e75db9">Cliffside Inlet</card>
+    <card qty="3" id="6d34a654-ec8f-41b5-8fa9-a86a15cdf5e6">Dark and Stormy</card>
+    <card qty="3" id="17516d4f-8ce4-491e-8b2d-8dc9fe841934">Sahir's Getting Away!</card>
+  </section>
+  <section name="Special" shared="True">
+    <card qty="2" id="cac948bb-b3dc-423d-8082-340e2596d623">Corsair Seafarer</card>
+    <card qty="3" id="4d85bbe6-1bc7-4890-8974-e42e2d0f9431">Cunning Pirate</card>
+    <card qty="2" id="2362af02-42b8-43fe-b3b6-f11f011b3197">Vicious Marauder</card>
+    <card qty="2" id="27bdece4-dfac-438e-87cd-1dc653eab8d6">Umbar Captain</card>
+    <card qty="4" id="a3ac80dc-be8b-4d45-a9c4-f611183eb4be">Raider of the Storm</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="5484e07e-b5a2-470a-84ba-be78062a61f2">Flight of the Stormcaller</card>
+    <card qty="1" id="39df5c92-f79e-4d39-b8a3-f93631e183db">Full Sail Ahead!</card>
+    <card qty="1" id="3065a397-5346-4148-8e0a-47009fe9b87d">The Stormcaller</card>
+    <card qty="1" id="07a8f60f-926c-4342-bf04-e3af9a24df10">Dream-chaser</card>
+    <card qty="1" id="81632d10-625e-42f0-9e6b-09574a9ffbc3">Dawn Star</card>
+    <card qty="1" id="32db1af6-e214-4958-9ca4-bdf3a73758b5">Nárelenya</card>
+    <card qty="1" id="c9139d8c-0d9d-4d34-bfb5-8d40ca455bfc">Silver Wing</card>
+    <card qty="1" id="ce1cf93c-68d9-4613-af3a-a08671152358">Heading</card>
+  </section>
+  <section name="Second Quest Deck" shared="True">
+    <card qty="1" id="c7bcb6fc-dde8-4df0-bd0e-3791b0fef4d0">The Weather Turns Foul</card>
+    <card qty="1" id="076e69c7-156b-46ef-8d11-d6a659da68b2">The Cape of Andrast</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="2" id="ec2f100d-22c8-4cc6-82d9-fb4f07446b0f">Rolling Seas</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True">
+    <card qty="1" id="2232bb8b-4b21-4315-9c6d-300b3a3ed7f9">Searching the High Seas</card>
+    <card qty="1" id="a8c911a5-bc2f-4882-8581-c5129d682370">Destroy the Dreadnaught</card>
+  </section>
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Encounter" shared="True">
+    <card qty="2" id="ad2fdaaa-90d8-4d56-8112-37278e369dbd">Black Sails</card>
+    <card qty="2" id="fa9a87c8-ed31-44b9-b5d6-4f42ca6de2c9">Corsair Skiff</card>
+    <card qty="1" id="ef9c63c3-08f3-4e8a-9156-3887df213550">Corsair Skirmisher</card>
+    <card qty="1" id="a258aec8-a5d9-4194-8612-ac2dd3b8f99e">Corsair Warship</card>
+    <card qty="1" id="4d4f814c-57d6-4d19-b147-6ab5e321cdd6">Ramming Ship</card>
+    <card qty="1" id="06d3e4c3-d716-4b9a-b1c6-b6835bdd361a">Slave Ship</card>
+    <card qty="3" id="9fb2a57c-5f37-4427-bb50-fc732194f4f3">War Galley</card>
+    <card qty="2" id="413fa654-8c2c-4245-9c6b-78d98db9903e">Sea Monster</card>
+    <card qty="2" id="cc0e7ed5-1a20-466d-84e7-355d690080cc">Belfalas Shipyard</card>
+    <card qty="1" id="7fbf49c1-fae7-4968-bc60-503d92f8aa18">Cobas Haven</card>
+    <card qty="3" id="390c3a3f-a5f2-44f2-bcc7-fbe22e46cbb5">Isle of Fortune</card>
+    <card qty="3" id="049758ee-7fb1-4978-9ed0-1b4de1d5ae14">Mouths of Anduin</card>
+    <card qty="3" id="96b6e743-0f7b-4d7f-8623-437911137940">Tolfalas Landing</card>
+    <card qty="3" id="e7b0f67c-ad7e-442a-af9f-188e9cedddde">Wicked Cove</card>
+    <card qty="3" id="2937b3c4-2e60-49a7-87cc-d6b708b6462d">Ballista Barrage</card>
+    <card qty="1" id="5666ae7f-838c-4f18-ad78-c40302c444e6">Boarding Party</card>
+    <card qty="1" id="7bb3db62-642f-4ab1-9ce7-a870fad8fecd">Grappled!</card>
+    <card qty="3" id="055e0afc-b257-43ef-9b74-02e6ee16d40c">Out of the Mist</card>
+    <card qty="2" id="8cfe3fbe-f6bb-43ab-89af-8f9fb6dc2bd6">Overworked</card>
+    <card qty="2" id="68ba3515-4cbc-4e73-b8f3-69a3ab4b8110">Taking on Water</card>
+    <card qty="3" id="33f456cb-3119-444b-9bbe-a0db4e5e5de1">Violent Tempest</card>
+  </section>
+  <section name="Special" shared="True">
+    <card qty="1" id="e1c90186-e56e-44c0-ad7d-65c6cc6fbad7">Brash Corsair</card>
+    <card qty="3" id="c5b174ae-d1e5-4dac-bedf-7a6c741e26d6">Corsair Plunderer</card>
+    <card qty="3" id="01ce9bbd-3f99-47eb-a702-ca40205324fb">Daring Buccaneer</card>
+    <card qty="3" id="7869b9ba-7757-4d8e-a201-aaf247ec6f99">Fierce Marauder</card>
+    <card qty="2" id="3fca46ae-c558-4666-8b0a-8c5c9ee5156a">Southron Sailor</card>
+    <card qty="1" id="33c87224-ad8d-41a0-b08a-931e9205609b">Umbar Captain</card>
+  </section>
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True">
+    <card qty="1" id="f7babd23-3133-4fdc-ab08-1f863d41ad96">Easy Mode</card>
+    <card qty="1" id="666a449f-e103-4d70-932e-48e57c4d662c">Standard Mode</card>
+    <card qty="1" id="e0928dc0-6f67-4611-843c-3354e949d879">Hard Mode</card>
+    <card qty="1" id="78d40f21-ce85-4600-8f5e-5159d83c50cb">Eithiliant</card>
+    <card qty="1" id="244873ca-427f-4358-804d-16bec79fca36">Golden Wing</card>
+    <card qty="1" id="eb2b84b4-40b3-4dda-bf87-4f59a78aa6b1">Pride of Lebennin</card>
+    <card qty="1" id="5bca670f-054d-41cd-93d7-0e318dc8c0e1">Silent Mist</card>
+    <card qty="1" id="9022960a-30cc-4453-9e5e-00b17ac03efc">Swan Ship of Dol Amroth</card>
+    <card qty="1" id="6c4bf737-20cf-4fc5-b473-8f1540430c45">Twilight's Call</card>
+    <card qty="4" id="4bb271af-6486-4625-bf7e-386c74baec9b">Gondorian Warship</card>
+    <card qty="1" id="16fc9e92-cbc9-46ff-8312-a9c6491ca70b">Dreadnaught</card>
+    <card qty="1" id="7e8ff46f-2d5a-49e3-bb97-15a3cbc254d6">Captain of the Haven</card>
+    <card qty="1" id="b78d0cf0-c3d3-4bd9-98c5-61d8a4485684">Commander of the Dreadnaught</card>
+    <card qty="1" id="7e6fec55-9dd6-4fdc-96b5-4922aa095544">Descendant of Castamir</card>
+    <card qty="1" id="d4de89b5-2e86-417a-baf1-81e7e852e5d4">Hydraken</card>
+    <card qty="1" id="da8951b1-f170-48c4-8c0b-8979e5134aaf">Ophidian</card>
+    <card qty="1" id="f071a69f-34e3-4603-a632-80b6b45b0e36">Varjax</card>
+  </section>
+  <section name="Staging Setup" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

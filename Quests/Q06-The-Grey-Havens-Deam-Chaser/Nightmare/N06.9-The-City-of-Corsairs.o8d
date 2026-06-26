@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Quest" shared="True">
+    <card qty="1" id="b4b93598-b2f1-4a7c-84df-32fe5a58ccc4">The City of Corsairs</card>
+    <card qty="1" id="c79ff551-f816-4106-9c55-e22d175e544c">The Coast of Umbar</card>
+    <card qty="1" id="19675b16-16ee-4477-a753-bd1cf7b51b7a">Fate of The Dream-chaser</card>
+    <card qty="1" id="58d90f80-eb1a-46d9-a5c1-2e7b8c5b8451">The Haven of Umbar</card>
+    <card qty="1" id="7b8369b4-cca1-4076-8985-1c7be238ccb0">Final Confrontation</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="2" id="0f7ce386-9510-4fd5-93aa-145190f8d1de">Slave Ship</card>
+    <card qty="2" id="a3173fc4-1ddb-470d-ae12-a35e24ea63a3">Corsair Waters</card>
+    <card qty="2" id="04f24d17-9764-4385-b22c-0e45f6fa5654">Watch Tower</card>
+    <card qty="2" id="2b3973f5-e6f6-4611-87b7-b6e3dc33eb66">Rough Waters</card>
+    <card qty="2" id="4d925556-3a39-4e49-aafa-0adac6cacc52">Waterspout</card>
+    <card qty="3" id="7691fb33-603e-4460-9f09-5f96bc05c2bb">Sudden Storms</card>
+    <card qty="2" id="71d7dd78-a967-43dd-ab73-e46a5d4d4519">Winds of Wrath</card>
+    <card qty="2" id="c1273c2f-a616-45ee-804d-a16c28b6e63d">Light Cruiser</card>
+    <card qty="2" id="c057b0ef-eb85-4afc-9ca8-60a0cca92bcc">Battle-Hardened</card>
+    <card qty="2" id="a312e181-9209-4460-b6ba-c90c99e011fe">Corsair Warship</card>
+    <card qty="2" id="28ba7c20-b660-40cb-9e2c-bf6ebaec723e">Boarding Party</card>
+    <card qty="1" id="16361c0e-f422-44d4-8f25-bc32b7a9aadd">Scouting Ship</card>
+    <card qty="2" id="89b9eb6d-21a5-463b-b80a-586b531e56de">Patrol Ship</card>
+    <card qty="2" id="ac878445-4c48-46b3-8664-c8572b2f93f2">Corsair Loyalist</card>
+    <card qty="2" id="6eea3254-9a47-494b-a19c-6a9efb7fc793">Walls of Umbar</card>
+    <card qty="2" id="d583f6a7-c86f-47c9-aa75-f17f3befbdfd">Umbar Bridge</card>
+    <card qty="2" id="d4e0a9cb-6739-457c-9ce7-ca06c27183d3">Inspiring Fury</card>
+  </section>
+  <section name="Special" shared="True">
+    <card qty="3" id="d03bdefa-cc39-43b6-9af9-feeb33858958">Umbar Raider</card>
+    <card qty="3" id="2fd16de8-3286-4003-9978-574738b2a337">Umbar Slaver</card>
+    <card qty="2" id="4b3a4229-eb85-49b0-9f34-78cb17301b34">Raid Leader</card>
+  </section>
+  <section name="Second Special" shared="True">
+    <card qty="3" id="b4769083-91fb-4e9c-9736-17e8c28ff971">Fury and Malice</card>
+    <card qty="2" id="06badf71-8e85-479e-8ddf-1dec7a40e325">City of Corsairs</card>
+    <card qty="2" id="dd394c76-c2b9-4b1c-8948-a056de97b779">Streets of Umbar</card>
+    <card qty="3" id="5c0a0aea-af43-441b-9d7f-86a1dfd09f00">Umbar Harbor</card>
+    <card qty="2" id="720b2482-f69c-4a88-8352-721d854704d2">Foes of Ecthelion</card>
+    <card qty="2" id="7f0e7969-bca4-48a3-99b5-ba055bd376af">Umbar Patrol</card>
+    <card qty="1" id="8d546f2d-2296-4d52-b8f0-5803be8d9b84">The Cursed Sword</card>
+    <card qty="3" id="60d839a5-7b1c-4ad7-b2dd-f7344b97d7fb">Umbar Patrol</card>
+    <card qty="2" id="d76823ec-0216-42cc-aa40-8c6b284c62e1">Raise the Alarm!</card>
+    <card qty="3" id="260708f2-17f2-4ffc-b7e3-43806d5c842f">Slave Trade</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="c354e410-e15a-4999-bb14-696b5e89cee9">Captain Sahír</card>
+    <card qty="1" id="f811f153-81f4-4688-8b4d-400215e6748a">The Shattered Monument</card>
+    <card qty="1" id="07a8f60f-926c-4342-bf04-e3af9a24df10">Dream-chaser</card>
+    <card qty="1" id="81632d10-625e-42f0-9e6b-09574a9ffbc3">Dawn Star</card>
+    <card qty="1" id="32db1af6-e214-4958-9ca4-bdf3a73758b5">Nárelenya</card>
+    <card qty="1" id="c9139d8c-0d9d-4d34-bfb5-8d40ca455bfc">Silver Wing</card>
+    <card qty="1" id="ce1cf93c-68d9-4613-af3a-a08671152358">Heading</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="c45dc401-bb07-42ec-ba4c-ee9105a3f349">Stormcaller</card>
+    <card qty="2" id="797a1805-f347-4eb3-9f77-5c9e6b6a850f">Southern Belfalas</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

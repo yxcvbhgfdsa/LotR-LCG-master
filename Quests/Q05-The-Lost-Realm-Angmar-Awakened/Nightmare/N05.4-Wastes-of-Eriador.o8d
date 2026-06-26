@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Quest" shared="True">
+    <card qty="1" id="970eb6ec-5ec3-4444-9298-e0e8764fbda5">The Wastes of Eriador</card>
+    <card qty="1" id="b6af7b48-e072-45e8-a745-4de2ac8ded8c">Across the Wastes</card>
+    <card qty="1" id="43509bf0-3250-420f-b743-e56c3ad5cd90">Howling at Night</card>
+    <card qty="1" id="fac30859-0ad6-4d07-8b73-b5e2af044a52">Battle with the Pack</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="2" id="4c68d3ef-2309-47db-ba21-08bf2f7336b9">Northern Warg</card>
+    <card qty="2" id="9feef7b4-4ca7-4adc-aeb7-56947254588a">Blood-thirsty Warg</card>
+    <card qty="2" id="da6d1bd2-575b-4292-9757-3792b79a4b78">Hunting Pack</card>
+    <card qty="2" id="22d6a151-ee2a-4ad0-9d97-5eddd5cc0391">White Warg</card>
+    <card qty="3" id="e49be9ae-10f1-44fe-a1b8-fc931be2d208">Wolf of Angmar</card>
+    <card qty="2" id="019ebbd1-9632-4c0a-bd98-4ecef29afb1a">Warg's Den</card>
+    <card qty="2" id="d960e5a1-73eb-4699-b3c1-2eadeb2c6f23">North Downs</card>
+    <card qty="1" id="cf33276f-22e5-467d-9543-6b345d17e7bc">Sudden Darkness</card>
+    <card qty="3" id="92ef70d1-b46c-454d-ab7d-2ab56227d9be">Predatory Wolves</card>
+    <card qty="1" id="b79e8b2a-0ebe-4698-bc6d-43c19d44202d">Freezing Blast</card>
+    <card qty="2" id="9db89c44-e692-4afa-ac07-d4ac35165cb7">Cold from Angmar</card>
+    <card qty="1" id="5388683d-3240-433a-9602-a7367e428406">Make Camp</card>
+    <card qty="2" id="7d2b321b-d4e6-4dd4-a124-028c772592ee">Weight of Responsibility</card>
+    <card qty="1" id="efcd8672-26f1-4c32-b6ef-5a06f80e406a">Lost in the Wilderness</card>
+    <card qty="5" id="964209a4-0219-4fc0-a734-b89abd3074f0">Pack Hunters</card>
+    <card qty="3" id="8bfb1224-0a31-4ced-9e68-cb0b9d438035">Shrouded Wilderness</card>
+    <card qty="3" id="a203a422-201a-4b2a-b9bd-687258687479">Snowy Badlands</card>
+    <card qty="3" id="8bc37a15-f097-4471-8259-ac6f2cac3bc3">Cunning Wolves</card>
+    <card qty="3" id="4d3d40e7-fc9a-414b-aaf9-2bae207a2e42">Torrent of Hail</card>
+    <card qty="1" id="ec0c1c07-2d48-4fa8-948c-51d976ffe559">Make a Stand</card>
+    <card qty="1" id="cd23a6ca-9c2d-429f-9926-2fc75a67603b">Forced off Track</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="77dd117d-b2b6-4324-aa59-09fd1343fde9">Pack Leader</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="3e471bd0-5ee5-4846-815d-fd6a5cd5f921">Daybreak</card>
+    <card qty="1" id="207b12bd-20b4-470d-81cc-7896904334d5">Amarthiúl</card>
+  </section>
+  <section name="Active Setup" shared="True">
+    <card qty="1" id="e2763cc3-019b-4397-b6f8-f647bf3fdf43">Shrouded Hills</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

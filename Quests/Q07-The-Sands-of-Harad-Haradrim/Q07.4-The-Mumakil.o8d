@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Quest" shared="True">
+    <card qty="1" id="adf2480a-644a-47ee-8deb-bd08ff32bf31">Welcome to the Jungle</card>
+    <card qty="1" id="fc6d1863-5007-4705-9d47-99d6d118e5ca">Capture the Mumakil</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="1" id="e6d7da0a-eb6d-429b-b9f9-e32027866d1b">Harad Tiger</card>
+    <card qty="4" id="257ffa68-7458-4f3c-bc7e-8d46b27cd837">Territorial Ape</card>
+    <card qty="2" id="60e40838-a6f2-4dbd-8ed2-88ba94d9ac0b">Strangling Python</card>
+    <card qty="2" id="737724a5-2603-40b0-8a0b-4e72dbb3775e">Giant Centipede</card>
+    <card qty="3" id="6651f8a6-e442-4eba-a8b5-13fab4c1e93c">Mumak Trail</card>
+    <card qty="2" id="4a28b128-1f89-4ad0-b27b-4cb1755c2d23">Stampeding Oliphaunt</card>
+    <card qty="2" id="ad7fc95f-4a8d-4a15-b170-b0db3c3002f0">The Savage South</card>
+    <card qty="2" id="df69b078-0073-44b6-9f18-1fed38f9711c">Terrible Fever</card>
+    <card qty="2" id="855580e2-87b1-444c-b37a-1062c050d9ee">Biting Insects</card>
+    <card qty="1" id="f041d625-2075-4501-ad40-f17042c3d3df">Guardians of the Jungle</card>
+    <card qty="1" id="e7413cb0-3443-40d4-88f4-06d7cfa1ab1d">Jungle Trail</card>
+    <card qty="2" id="36e1a766-7b31-4bb4-be01-4995a9f9c2f3">Forest Clearing</card>
+    <card qty="2" id="bb5d1d76-663f-4261-94ec-7a9bfc025acf">Dense Jungle</card>
+    <card qty="2" id="01a43351-0e36-4175-9a94-693ff91404ad">Overgrown</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="4" id="f35e7236-2e03-4e03-aa92-7c4803e79acf">Wild Mumak</card>
+    <card qty="1" id="f16aabcd-6a98-4e4a-89ca-0f0d69407d85">Horse-hair Lasso</card>
+    <card qty="1" id="c08310b6-5201-4c70-975e-61a2e7ff329b">Poisoned Spear</card>
+    <card qty="1" id="4a5c11eb-44b8-4c6e-a9fa-83112dbd57c0">Pit Trap</card>
+    <card qty="1" id="fc351b81-fc50-40a5-9f94-7ab885cb7a8c">Noose of Vines</card>
+    <card qty="1" id="6651f8a6-e442-4eba-a8b5-13fab4c1e93c">Mumak Trail</card>
+    <card qty="1" id="e7413cb0-3443-40d4-88f4-06d7cfa1ab1d">Jungle Trail</card>
+    <card qty="1" id="36e1a766-7b31-4bb4-be01-4995a9f9c2f3">Forest Clearing</card>
+    <card qty="1" id="bb5d1d76-663f-4261-94ec-7a9bfc025acf">Dense Jungle</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Quest" shared="True">
+    <card qty="1" id="fa8e0538-d920-4f0e-9810-103c5186531f">Setting Out</card>
+    <card qty="1" id="7d0387db-eba6-44e0-8602-b031a2927ca4">Racing North</card>
+    <card qty="1" id="c9bd8efc-b0df-4ab9-aeb2-07796818ff7d">Hunted in Harad</card>
+    <card qty="1" id="70decac2-b07f-4c96-9684-4c008f19610b">The Ford of Harnen</card>
+  </section>
+  <section name="Second Quest Deck" shared="True">
+    <card qty="1" id="a11f08ac-541b-46ba-9528-467dcbdc90c6">Racing North</card>
+    <card qty="1" id="b21850eb-ca62-47d8-b7aa-6d6c5ff29867">Hunted in Harad</card>
+    <card qty="1" id="a7f5f1b7-6510-4c0f-9198-fd109e19a5c3">The Ford of Harnen</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="1" id="50950a5b-0002-432a-b6d6-4ac2ca12e501">Expanse of Harad</card>
+    <card qty="2" id="4a18a702-0c0e-4be8-b26d-ccf5d4d95e2a">Blistering Erg</card>
+    <card qty="1" id="5ae90f6e-1b35-4f08-9f10-912bc9cdd3d1">Harad Road</card>
+    <card qty="4" id="590dd523-5743-4c36-b905-c34c021c2676">Uruk Pursuer</card>
+    <card qty="3" id="25b9113d-1096-4b8d-a2d3-1eb134fbca62">Racing Warg</card>
+    <card qty="2" id="610f3112-1123-4956-a955-df9d42b937bf">Pursuers from Mordor</card>
+    <card qty="3" id="2ce0c7c6-e7ae-4847-a02d-2be874afa3d4">Howling at their Heels</card>
+    <card qty="1" id="84877af6-0720-4ef8-802b-69b792c32e15">Find Water</card>
+    <card qty="2" id="3d9db37c-4b51-4da8-be2b-25cd2d48e28b">Towering Dunes</card>
+    <card qty="1" id="19bcc176-d952-485b-9d28-12188c5a0bc1">Desert Oasis</card>
+    <card qty="2" id="6def55a1-ee80-4570-831b-d591e6effc11">Sandstorm</card>
+    <card qty="2" id="6d2cbe18-4504-46df-821c-d3ce588bcb3f">Heat Exhaustion</card>
+    <card qty="1" id="8a0a834b-d10c-43b1-a43c-75b459c18374">Uruks of the Eye</card>
+    <card qty="3" id="ad251ffd-8653-4a45-b88e-def2ffecc2dc">Uruk of Mordor</card>
+    <card qty="1" id="f63cbcf5-e846-476f-abc6-a9e86e89a2fd">Uruk Warg-Rider</card>
+    <card qty="2" id="27d6c3df-c7dc-4ea0-941f-dcad65b3f1eb">Mordor Warg</card>
+    <card qty="2" id="cfcee6c8-9eee-4623-afd1-a49ea77e2322">Fear of Mordor</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="4" id="5a3a6917-900b-4878-9545-56c297a50248">Tamed Mumak</card>
+    <card qty="1" id="27748abf-80e8-4928-b506-53d7c23d76c6">Uruk Chieftain</card>
+    <card qty="1" id="447061f6-3399-4309-9885-1045f115820f">Setting Out</card>
+    <card qty="1" id="715625a1-320e-478c-afd3-bec7111105f2">River Harnen</card>
+    <card qty="1" id="f63cbcf5-e846-476f-abc6-a9e86e89a2fd">Uruk Warg-Rider</card>
+    <card qty="1" id="50950a5b-0002-432a-b6d6-4ac2ca12e501">Expanse of Harad</card>
+    <card qty="1" id="4a18a702-0c0e-4be8-b26d-ccf5d4d95e2a">Blistering Erg</card>
+    <card qty="1" id="5ae90f6e-1b35-4f08-9f10-912bc9cdd3d1">Harad Road</card>
+    <card qty="1" id="3d9db37c-4b51-4da8-be2b-25cd2d48e28b">Towering Dunes</card>
+    <card qty="1" id="19bcc176-d952-485b-9d28-12188c5a0bc1">Desert Oasis</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

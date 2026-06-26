@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Quest" shared="True">
+    <card qty="1" id="9b75cef3-e5a3-4284-aff6-9a0b473fa37d">The Haunted Keep</card>
+    <card qty="1" id="48d2ea1f-449b-4af9-9f43-c70fffd66991">Searching the Ruins</card>
+    <card qty="1" id="6948a0fa-e13f-4023-865f-3c8b6599c6a0">The Cursed Shade</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="1" id="c3aff9c9-640f-4e90-85f3-6e245c2156fe">Crypt Key</card>
+    <card qty="1" id="29662c71-2f27-405c-ae5a-db519ed91f33">Old Lantern</card>
+    <card qty="1" id="5dbc4cec-84c9-420b-809f-088296eb4a62">Scatha’s Teeth</card>
+    <card qty="1" id="f829839e-b79d-465a-8ca9-bf6af975ce7b">Fram’s Shade</card>
+    <card qty="2" id="36ac198d-0248-464a-8919-36f96b8e7caf">Crypt Stalker</card>
+    <card qty="3" id="62d814e4-e0cf-437b-8ee7-b26478beb721">Evil Spectre</card>
+    <card qty="1" id="11c67697-29da-4c76-bf89-985c2c036940">Forgotten Crypt</card>
+    <card qty="1" id="8c4cc797-13e6-4ee4-a991-7ec76866418a">Haunted Hall</card>
+    <card qty="1" id="4bae8841-e3e4-4a93-b10f-8544eaab9cb3">Hidden Staircase</card>
+    <card qty="2" id="ed7b5f3e-432b-4dd7-85f9-6dea5ff62d3d">Moonlit Passage</card>
+    <card qty="2" id="f2c22e9a-c3f6-450c-b891-98e0e5c18b6c">Cursed Tower</card>
+    <card qty="1" id="bececd5f-87dd-4141-8ecf-69e43ecc0ff4">Abandoned Ruins</card>
+    <card qty="2" id="b5c08c5b-dd05-4139-b262-e9d5c0f29016">Terrible Shadows</card>
+    <card qty="3" id="f5a65abc-e3df-4d26-aeed-2a3b1effb005">Slammed Shut</card>
+    <card qty="2" id="3566b6df-a1cd-4417-b202-27e0ecc0a966">Afraid of the Dark</card>
+    <card qty="3" id="cfddac0a-3055-46bd-af9a-8bdda8c9abb6">Eyes in the Dark</card>
+    <card qty="2" id="5bcec205-7f6b-44b9-bb4d-9addde372316">Werewolf</card>
+    <card qty="3" id="9b3c0e2a-c874-41b7-9ccd-2798a4884b34">Giant Spider</card>
+    <card qty="3" id="f5d539b2-0b65-493d-8493-5122a0761eed">Black Bats</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="315c85eb-9c20-46a1-b445-e5197cd15032">The Cursed Tomb</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="4bae8841-e3e4-4a93-b10f-8544eaab9cb3">Hidden Staircase</card>
+    <card qty="1" id="f2c22e9a-c3f6-450c-b891-98e0e5c18b6c">Cursed Tower</card>
+    <card qty="1" id="ed7b5f3e-432b-4dd7-85f9-6dea5ff62d3d">Moonlit Passage</card>
+    <card qty="1" id="8c4cc797-13e6-4ee4-a991-7ec76866418a">Haunted Hall</card>
+    <card qty="1" id="11c67697-29da-4c76-bf89-985c2c036940">Forgotten Crypt</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

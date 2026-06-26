@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Quest" shared="True">
+    <card qty="1" id="c3d01d85-72cb-4d81-8b75-966ec4a1b9c4">The Dread Realm</card>
+    <card qty="1" id="e2f901ad-f5bc-4d29-b6c3-50c261e5668a">The Catacombs of Carn Dûm</card>
+    <card qty="1" id="b7c19049-9587-48bc-8807-5cc7334399b9">Angmar Awakened</card>
+    <card qty="1" id="73969b8e-9591-4ab0-bd28-75c7780875b0">Daechanar's Fall</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="3" id="0771f1dc-4baa-4181-9344-4ddd1e59136b">Dwimmerlaik</card>
+    <card qty="2" id="160c8dcb-baa1-4176-9308-7328e500d62e">Wraith of Carn Dûm</card>
+    <card qty="2" id="ee30a928-cdf8-40c0-87b3-13115bc16cd3">Sinister Dungeon</card>
+    <card qty="3" id="06c4f297-b2a4-43a6-8d56-aa3385da3b69">Tombs of Carn Dûm</card>
+    <card qty="2" id="432c306a-7a68-45f9-8621-d7ea2126ae0b">Dark Halls</card>
+    <card qty="2" id="3385b644-5fd6-4473-9fec-45d7262f5824">Unholy Crypt</card>
+    <card qty="2" id="fb40f70e-0d36-4d18-ae51-23be5f1a3260">Possession</card>
+    <card qty="4" id="205f938d-8dc8-4366-adc0-35897aaef600">Death and Calamity</card>
+    <card qty="5" id="21fec323-3155-4b64-8506-fa87d44f01fc">Cursed Dead</card>
+    <card qty="2" id="123bc772-2c27-4f26-a7f2-a3c4928a9dc4">Restless Evil</card>
+    <card qty="1" id="7295a9fb-961f-42ad-b07d-33793e2f2274">Seal the Tomb</card>
+    <card qty="2" id="f8d69554-7cc1-4adc-b021-b6d3601e777d">Dark Sorcery</card>
+    <card qty="3" id="a6ea339d-aec3-4ec7-9374-c1442385c260">Heavy Curse</card>
+    <card qty="1" id="c3e07d8f-3af3-4f21-8951-d3300ca376fa">The Power of Angmar</card>
+    <card qty="2" id="898579aa-324e-4e58-920e-30ab29c8700a">Silent Guardian</card>
+    <card qty="3" id="159f7a00-2c31-4e64-8adc-6143a5a7d8bb">Necromancer of Carn Dûm</card>
+    <card qty="2" id="c5711d74-8adb-427a-b0fe-e7a8c373659b">Inner Sanctum</card>
+    <card qty="3" id="bc8020d9-4c85-4cf5-899f-3547d9d7efeb">Cursed Halls</card>
+    <card qty="3" id="346f832a-27ba-4c71-83b5-f690d0953911">Power Beyond Death</card>
+    <card qty="3" id="77414e71-92e8-4237-a627-4d92c02cddbc">Daechannar's Curse</card>
+    <card qty="2" id="d0968637-1ffc-4365-855f-ee35704a8128">All is Lost</card>
+    <card qty="1" id="ac5c7c07-591f-4ac0-9080-e46433a50ff3">The Witch-King's Gift</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="74f12c0b-6c63-4b2e-a15f-41b179b9dec9">The Dread Realm</card>
+    <card qty="1" id="8bb270a0-72b4-49d5-a4d3-a962edd5f67b">Daechanar</card>
+    <card qty="1" id="1cdc36d4-fd78-4ebe-850b-13f24ee73244">Altar of Midwinter</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

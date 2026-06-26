@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True">
+    <card qty="1" id="4d85eda6-14e2-4dee-b912-31056fc6a2cc">The Goblin’s Task</card>
+    <card qty="1" id="8cb63364-11e8-4044-9712-613ccbfcfa5f">Rescue Tiny</card>
+    <card qty="1" id="7ab4b2ae-a646-4e24-bec6-7cd85d8a1c7c">Retrieve Urdug’s Horn</card>
+    <card qty="1" id="a4cd5ce9-fc29-44b6-9bee-eafbbd431c49">Find Durin’s Key</card>
+    <card qty="1" id="f63c9a8e-23dc-4c3a-bbff-00bd585e27bc">Urdug’s Gambit</card>
+  </section>
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Encounter" shared="True">
+    <card qty="2" id="caaafdd2-3559-496a-a08c-ce81ec212b6c">Grey Mountain Giant</card>
+    <card qty="3" id="4c653b80-0b0e-4383-b0bb-aa31f12b3e74">Hunting Eagle</card>
+    <card qty="2" id="eed0925e-5376-4ad0-b571-69cfbb2118ae">Wilderland Bear</card>
+    <card qty="2" id="702e659f-949c-491d-84ab-e1d5b4166f46">Grey Moorland</card>
+    <card qty="3" id="68e3c34a-1af7-410f-ad57-85386181c6d7">Deep Ravine</card>
+    <card qty="3" id="3733b627-08bd-4d12-a2ec-dadfcbfc6695">Slopes of Ered Mithrin</card>
+    <card qty="3" id="b1612370-142d-4557-8884-b3da12b4baca">Sneaking Off</card>
+    <card qty="3" id="5edbdc1f-e177-4a8b-b4f1-8475fe297a4b">Harsh Weather</card>
+    <card qty="2" id="edfb7ef3-dee9-4cf4-986e-5698bb3fb320">Wild Creatures</card>
+    <card qty="2" id="8615beb7-a9f7-4852-bc0a-3d1a5f2c9532">Pack of Wargs</card>
+    <card qty="2" id="db960347-11ee-4ad7-8784-e4827fb7daaf">Hills of Wilderland</card>
+    <card qty="3" id="74fc62c2-b1b6-4338-819a-1f00f871312c">Lonely Lands</card>
+    <card qty="2" id="daa67624-18ba-43a3-92c6-6e5586166bb0">Ruined Supplies</card>
+    <card qty="2" id="b81e837e-f4e8-43e9-892a-8bfaecbd1416">Lost in the Wild</card>
+    <card qty="2" id="0f2929de-bef9-40b8-b0ed-de69e136188f">Weighed Down</card>
+    <card qty="2" id="23fb0422-0e54-4064-bb76-e5bf3c214709">Stone Troll</card>
+    <card qty="2" id="b7431f72-5157-4a6d-a6c0-86bcf88f2669">Hobgoblin</card>
+  </section>
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True">
+    <card qty="1" id="0e90a1fb-b498-4b6e-a6c8-de3e3ed38aa4">Urdug</card>
+    <card qty="1" id="0909409e-d2d3-4304-b239-76bb6da0dceb">Durin’s Key</card>
+    <card qty="1" id="9e864a49-89b3-4ea0-be1f-f4336adfa088">Urdug’s Horn</card>
+    <card qty="1" id="f8716c9e-b35a-474d-8800-cc0256f38b36">Tiny</card>
+  </section>
+  <section name="Staging Setup" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

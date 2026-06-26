@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True">
+    <card id="5866cf9b-6f5d-4929-bb90-a8875e92277b" qty="1">Battle for the Hill</card>
+    <card id="72a2a2e9-dfff-4358-847b-a4fcd72f29be" qty="1">Hold the Hilltop</card>
+    <card id="ec28d3c0-20da-4533-baba-a6551367480e" qty="1">The Last Push</card>
+  </section>
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Encounter" shared="True">
+    <card id="983b8cbc-9076-4e78-a9c3-e9b80fe91448" qty="1">Dunland Chieftain</card>
+    <card id="e9636ed5-dec9-42b5-864e-21f5c07bb975" qty="2">Wild Ravager</card>
+    <card id="9cba1e58-ddd3-4839-9669-e8a27e56d8db" qty="3">Dunlending Berserker</card>
+    <card id="f63a916e-19eb-4bec-8da4-388c75b331c8" qty="1">Hillman Scout</card>
+    <card id="1769384c-47f0-49ed-81ef-2d34fbdeca61" qty="1">Surprise Attack</card>
+    <card id="1e3c2326-a08f-4fea-ac66-9c4af1c11cd3" qty="1">A History of Strife</card>
+    <card id="29e93b1e-ebc7-4a57-8a23-eb7ecaf915f5" qty="1">Recreant Rider</card>
+    <card id="0fa296fc-3e23-4b9f-8dce-fb1244f63aeb" qty="2">Deadly Defector</card>
+    <card id="14dc5586-0684-4646-8538-f9768c3e5c7d" qty="2">Bald Hill</card>
+    <card id="41ce70c2-f0be-423f-829d-2f5c4842f3ac" qty="2">Wooden Barricade</card>
+    <card id="ef5fe059-002a-4485-a17c-d73123a601cb" qty="2">Rocky Slope</card>
+    <card id="0664def5-37d1-42f0-a2a6-f3d72b35de87" qty="2">Surrounding Grassland</card>
+    <card id="3de7be98-9bc8-4bec-b6c2-298fb7b44427" qty="1">Narrow Stair</card>
+    <card id="b07567e2-1ada-4b51-b767-e5ce882a0741" qty="2">From All Sides</card>
+    <card id="27afff09-d1f0-488d-b5ce-b8a70cbd98da" qty="1">Another Wave</card>
+    <card id="62113d7c-c919-4767-bf9a-8766d23f3da4" qty="2">Assault Upon Erelas</card>
+  </section>
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True">
+    <card id="b5c1b317-0db5-4ae2-81be-5639c332305d" qty="1">The Battle for the Beacon 1</card>
+    <card id="e9860b32-8bff-4217-be96-debedce09aae" qty="1">The Battle for the Beacon 2</card>
+    <card id="26358dc8-d50d-4809-ba45-f4ef921147f8" qty="1">The Battle for the Beacon 3</card>
+    <card id="cf4d1463-8c63-4650-b3ba-e1f717180628" qty="1">The Battle for the Beacon 4</card>
+    <card id="9e9d5155-c037-41c2-ba44-be6ef46624ba" qty="1">The Battle for the Beacon 5</card>
+    <card id="aec6142a-e870-4dee-b112-902b2d59e9be" qty="1">Host of Rohan</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card id="88fa54fc-d94b-429b-8021-6ece29a5cea8" qty="1">Erelas Beacon</card>
+    <card id="f0cf6716-96a4-4d2a-bc3e-80d0cf5add77" qty="4">Enraged Dunlending</card>
+    <card id="53dcedb3-3640-4655-a150-9d0dd534a126" qty="1">Reclaim the Beacon</card>
+  </section>
+  <section name="Active Setup" shared="True">
+    <card id="0664def5-37d1-42f0-a2a6-f3d72b35de87" qty="1">Surrounding Grassland</card>
+  </section>
+  <notes><![CDATA[]]></notes>
+</deck>

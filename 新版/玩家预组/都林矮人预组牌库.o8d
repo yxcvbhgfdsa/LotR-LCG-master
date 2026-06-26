@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Hero" shared="False">
+    <card qty="1" id="51223bd0-ffd1-11df-a976-1801204c9065">Ori</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801206c9005">Dáin Ironfoot</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801207c9008">Bifur</card>
+  </section>
+  <section name="Ally" shared="False">
+    <card qty="3" id="c2c8d69a-6639-49af-89ed-86f2ffc8c096">Ered Luin Miner</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-1801204c9027">Dori</card>
+    <card qty="2" id="6778eb01-6b07-4dbe-87f1-e854ab548813">Glóin</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801200c9059">Erebor Hammersmith</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9061">Miner of the Iron Hills</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801200c9073">Gandalf</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801207c9030">Erebor Record Keeper</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801209c9007">Bombur</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801212c9021">Longbeard Elder</card>
+    <card qty="3" id="3eb1141f-bf1f-401e-a69d-e4df0af2a8ab">Ered Nimrais Prospector</card>
+  </section>
+  <section name="Attachment" shared="False">
+    <card qty="2" id="51223bd0-ffd1-11df-a976-1801204c9024">Cram</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-1801204c9084">Thrór&#039;s Map</card>
+    <card qty="3" id="9152834a-5355-42ba-9592-1a3c1940d1a8">King Under the Mountain</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801207c9050">Narvi&#039;s Belt</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801210c9009">Legacy of Durin</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801212c9017">Healing Herbs</card>
+  </section>
+  <section name="Event" shared="False">
+    <card qty="2" id="51223bd0-ffd1-11df-a976-1801204c9011">A Very Good Tale</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801207c9024">Durin&#039;s Song</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801209c9015">Lure of Moria</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801213c9028">We Are Not Idle</card>
+    <card qty="3" id="6a871e9e-fa3e-4556-8730-09aed1a3ec40">Hidden Cache</card>
+  </section>
+  <section name="Side Quest" shared="False">
+  </section>
+  <section name="Sideboard" shared="False">
+    <card qty="1" id="51223bd0-ffd1-11df-a976-1801204c9062">Nori</card>
+    <card qty="3" id="18d5f7fd-9d6e-44aa-9463-3530278f8c51">Erebor Guard</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-1801204c9032">Fili</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-1801204c9055">Kili</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-1801204c9027">Dori</card>
+    <card qty="1" id="6778eb01-6b07-4dbe-87f1-e854ab548813">Glóin</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801207c9088">Zigil Miner</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801209c9007">Bombur</card>
+    <card qty="3" id="86e1977f-0a24-46c8-a7ee-d5d78410f1a3">Dwarf Pipe</card>
+    <card qty="1" id="c984e8e8-94a6-4af6-9455-824ad2cf46f9">Magic Ring</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-1801204c9024">Cram</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-1801204c9084">Thrór&#039;s Map</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801207c9050">Narvi&#039;s Belt</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801210c9009">Legacy of Durin</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801212c9017">Healing Herbs</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-1801204c9011">A Very Good Tale</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801207c9024">Durin&#039;s Song</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801209c9015">Lure of Moria</card>
+  </section>
+  <section name="Quest" shared="True" />
+  <section name="Encounter" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

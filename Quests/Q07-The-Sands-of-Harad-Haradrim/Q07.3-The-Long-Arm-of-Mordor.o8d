@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True">
+    <card qty="1" id="5d991933-f49d-4ece-a288-7484ebc75d14">Surprise Attack</card>
+    <card qty="1" id="947f8b80-5d96-43eb-89ac-95b7738f2d55">Find the Others</card>
+    <card qty="1" id="98cc592d-6e3e-494a-bddf-ef5e0908c279">Free the Captives</card>
+    <card qty="1" id="0bb77cd5-0340-4411-9e1f-997b1d6cb35a">Escape into the Jungle</card>
+  </section>
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Encounter" shared="True">
+    <card qty="2" id="ec97b3a4-4904-42ac-beb0-9d4d935241fb">Southron Boma</card>
+    <card qty="2" id="c179ea26-838b-449c-b0a0-f2049e20b01f">Village Hut</card>
+    <card qty="2" id="dd7ca673-fc3c-4caf-859a-ca32722e68dc">Savage Attack</card>
+    <card qty="3" id="4ae7d13b-4b73-477b-ab71-5bd6bfc7b912">Overrun by Orcs</card>
+    <card qty="2" id="e7413cb0-3443-40d4-88f4-06d7cfa1ab1d">Jungle Trail</card>
+    <card qty="3" id="36e1a766-7b31-4bb4-be01-4995a9f9c2f3">Forest Clearing</card>
+    <card qty="3" id="bb5d1d76-663f-4261-94ec-7a9bfc025acf">Dense Jungle</card>
+    <card qty="2" id="01a43351-0e36-4175-9a94-693ff91404ad">Overgrown</card>
+    <card qty="1" id="8a0a834b-d10c-43b1-a43c-75b459c18374">Uruks of the Eye</card>
+    <card qty="3" id="ad251ffd-8653-4a45-b88e-def2ffecc2dc">Uruk of Mordor</card>
+    <card qty="2" id="f63cbcf5-e846-476f-abc6-a9e86e89a2fd">Uruk Warg-Rider</card>
+    <card qty="2" id="27d6c3df-c7dc-4ea0-941f-dcad65b3f1eb">Mordor Warg</card>
+    <card qty="2" id="cfcee6c8-9eee-4623-afd1-a49ea77e2322">Fear of Mordor</card>
+  </section>
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True">
+    <card qty="1" id="a0e1e091-fbbb-459e-9cb7-2cc63bd85711">Kahliel</card>
+    <card qty="1" id="b546c9b7-7721-4275-ba8b-ba28364aeb95">Firyal</card>
+    <card qty="1" id="278a52c1-d52e-4084-b985-dbf24eb35901">Yazan</card>
+    <card qty="1" id="a0417d08-1905-46f9-bd65-067c1c59f0a3">Jubayr</card>
+    <card qty="4" id="c459cbdb-9831-4803-91b0-e791e349ace8">Sauron’s Enforcers</card>
+    <card qty="1" id="27748abf-80e8-4928-b506-53d7c23d76c6">Uruk Chieftain</card>
+  </section>
+  <notes><![CDATA[]]></notes>
+</deck>

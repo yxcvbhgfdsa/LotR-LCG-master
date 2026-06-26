@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Quest" shared="True">
+    <card qty="1" id="25e58441-df9d-4935-a3c7-0a5b210538c5">A City in Turmoil</card>
+    <card qty="1" id="f77e471a-7dd2-4f05-ac8f-fbb534c66633">The Shadow of Mordor</card>
+    <card qty="1" id="51b45e84-3f63-46ea-aa08-b83dd89244ff">Leader of the Cult</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="2" id="80e25c61-e49c-40cb-b8e7-b4c45620163c">Servant of Sauron</card>
+    <card qty="2" id="eb2b56e7-d669-405b-b2d3-5d3c30cb3f4e">Treacherous Easterling</card>
+    <card qty="2" id="4b7db087-febb-4e88-bd30-e0f7919511c7">Dakrness in the East</card>
+    <card qty="2" id="0323e852-a05c-4c2d-a038-3f2596af7a85">City Forum</card>
+    <card qty="2" id="2f5221a8-8afd-48d8-afd3-352151d87ed6">Seedy Tavern</card>
+    <card qty="2" id="e3b4dfb0-2875-4e73-aea3-c63cab5cc43a">Overwhelmed</card>
+    <card qty="2" id="1cd05eb5-2456-467a-8d24-efaadd027145">Rhûn Backstabber</card>
+    <card qty="1" id="ba630f98-6ad5-4c4a-adfd-aeeac5485722">Shadow of Fear</card>
+    <card qty="3" id="9bcae7d4-8bbc-4d82-a173-ca2f63557664">Under Guard</card>
+    <card qty="2" id="617bc2e6-05a9-4c99-b3ff-8304ecb6ef32">Secret Cultist</card>
+    <card qty="3" id="6d485bbc-6876-4160-8111-77f3935123c9">Messenger from Mordor</card>
+    <card qty="3" id="57e22e64-6ff5-4133-8c70-2ee3460d02f9">Evidence of the Cult</card>
+    <card qty="2" id="522c612d-5f3c-4a02-a1a7-7d87191922e0">Disappearances</card>
+    <card qty="3" id="5100f009-8c78-4f2a-b77e-1bd9ccbfef77">Hillside Manor</card>
+    <card qty="1" id="203ed863-1738-4974-ae79-19977eea868d">Unwelcome Travelers</card>
+    <card qty="2" id="d7775ec0-caf0-42b8-9aef-ca70a1e6950b">Catacombs</card>
+    <card qty="2" id="55d05b39-c993-45bb-874c-3eacbcf49278">Side Street</card>
+  </section>
+  <section name="Special" shared="True">
+    <card qty="1" id="ae20c7c6-9950-4799-a88e-d0b394879af2">Sauron Worship</card>
+    <card qty="1" id="8f6e5d67-81c7-4db8-9cb0-ef45b71490c6">Bribes</card>
+    <card qty="1" id="ef6ebaef-6b53-4aa0-b03b-9929bd2bc492">Submit or Die</card>
+  </section>
+  <section name="Second Special" shared="True">
+    <card qty="1" id="52b0bc28-37bb-4097-b96a-cc7dc4af8721">Black Nûmenórean</card>
+    <card qty="1" id="f250a697-b5aa-4041-9bad-a66b2ab8ccba">The Governor</card>
+    <card qty="1" id="2351fadd-4348-4a17-b062-f0e8142f2e6f">Priest of Sauron</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Setup" shared="True" />
+  <section name="Staging Setup" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Quest" shared="True">
+    <card qty="1" id="9ebe2570-4478-45a4-af3b-5ba73a75cff9">尼宾督姆的黑暗</card>
+    <card qty="1" id="8b1a3e3e-903f-4c4d-acf4-c216c2116339">意外的攻击</card>
+    <card qty="1" id="09a5cf0c-153e-4fa8-9f42-0e13ea70eb11">裂隙</card>
+    <card qty="1" id="a589eabf-64a6-4400-aa3d-ad30b4f721c3">守誓者</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="1" id="998f6e45-b0d3-42c4-b5ba-fdf301401d90">半兽人部队</card>
+    <card qty="2" id="e8db9cc7-d53f-4ce9-991d-31078b2d507a">半兽人射手</card>
+    <card qty="2" id="acd10bf3-4af4-41f0-888f-55eb777be3d8">半兽人信使</card>
+    <card qty="2" id="b18b3bfa-4620-4c15-960f-5a3642ca9d5a">半兽人镇拾荒者</card>
+    <card qty="1" id="26e6135d-df1b-4221-ba45-a501858bafdf">半兽人正在向你们袭来！</card>
+    <card qty="2" id="7b3e0874-fa4e-4ffb-8614-2bb088896d42">黑暗中的眼睛</card>
+    <card qty="2" id="dbf55659-b4ea-4a8a-82d1-20c0f2e4405e">巨型洞穴食人妖</card>
+    <card qty="2" id="8104e805-08e3-4379-acde-0a9cc96837fe">山洞座狼</card>
+    <card qty="1" id="2c21eeec-9aa4-4278-b050-f4297426f89a">半兽人隧道</card>
+    <card qty="1" id="35617e02-f4ad-4e6d-af45-9b5e0b7ce682">无光的通道</card>
+    <card qty="1" id="d4a5f505-6cc6-4669-b9b9-8f5ad2a6e5df">岔路</card>
+    <card qty="1" id="21d3d814-0fa5-41a3-b0d9-3ba5163374ed">坍塌的矿井</card>
+    <card qty="1" id="67ddffc2-652d-4892-97a6-fe2af59d4616">半兽人地牢</card>
+    <card qty="2" id="ffb334eb-991d-4615-93ce-b2215a02d74f">倾颓的废墟</card>
+    <card qty="2" id="2fb27cc8-c3f5-4172-8ff0-456907f9b111">迷失在黑暗中</card>
+    <card qty="1" id="5a5f72e8-0133-439f-b715-c7600b20fba9">警戒的眼睛</card>
+    <card qty="1" id="b18b3bfa-4620-4c15-960f-5a3642ca9d6b">野生座狼</card>
+    <card qty="2" id="7b3e0874-fa4e-4ffb-8614-2bb088896d43">黑曜石箭矢</card>
+    <card qty="1" id="67ddffc2-652d-4892-97a6-fe2af59d4617">倾颓的楼梯</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="dee08f07-580d-4229-8e56-573ef9eed6b0">开裂的柱子</card>
+    <card qty="1" id="737b346c-792e-48d2-b8da-5dae52ddc902">半兽人首领</card>
+    <card qty="1" id="a0b5c990-9acd-499c-befe-9a55e347f075">洞穴火炬</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="67ddffc2-652d-4892-97a6-fe2af59d4616">半兽人地牢</card>
+    <card qty="1" id="21d3d814-0fa5-41a3-b0d9-3ba5163374ed">坍塌的矿井</card>
+    <card qty="1" id="d4a5f505-6cc6-4669-b9b9-8f5ad2a6e5df">岔路</card>
+    <card qty="1" id="35617e02-f4ad-4e6d-af45-9b5e0b7ce682">无光的通道</card>
+    <card qty="1" id="2c21eeec-9aa4-4278-b050-f4297426f89a">半兽人隧道</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Quest" shared="True">
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa083c40">Among a Sea of Thieves</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa083c41">Trouble at the Wharf</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa083c42">Planned Escape</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa083c43">A Frantic Flight!</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="3" id="42247950-90e6-41d9-ade9-68f3aa083c60">Edge Acolyte</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa083c70">Statue of Thorongil</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa083c71">Monument to Telumehtar</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa083c72">Palace of the Sea-Kings</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa083c73">King Minardils Memorial</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa083c74">Monument to the Sea-Kings</card>
+    <card qty="3" id="42247950-90e6-41d9-ade9-68f3aa083c75">Crowded Marketplace</card>
+    <card qty="2" id="42247950-90e6-41d9-ade9-68f3aa083c76">Justice District</card>
+    <card qty="2" id="42247950-90e6-41d9-ade9-68f3aa083c77">Harbor Market</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa083c80">Row Row Row!</card>
+    <card qty="4" id="42247950-90e6-41d9-ade9-68f3aa083c82">Furious Ram</card>
+    <card qty="2" id="eb14b1cd-53fe-43f3-81af-fbb80796fd01">Hopping Dove Inn</card>
+    <card qty="1" id="eb14b1cd-53fe-43f3-81af-fbb80796fe03">The Tale of the Great Terror</card>
+    <card qty="1" id="eb14b1cd-53fe-43f3-82af-fbb80797fe01">Inargo Drum-Bark</card>
+    <card qty="1" id="eb14b1cd-53fe-43f3-82af-fbb80797fe02">Lira of Lindon</card>
+    <card qty="1" id="eb14b1cd-53fe-43f3-81af-fbb80796fe11">Unexpected Assistance</card>
+    <card qty="2" id="595472bd-d87d-4758-af52-d1e8a4ffbca2">Whistle of Castamir</card>
+    <card qty="2" id="595472bd-d87d-4758-af52-d1e8a4ffbcb1">Harbor Street</card>
+    <card qty="1" id="595472bd-d87d-4758-af52-d1e8a4ffbcc1">Temptations of the Mind</card>
+    <card qty="2" id="595472bd-d87d-4758-af52-d1e8a4ffbcc2">Darkness and Despair</card>
+    <card qty="2" id="cc830841-34b4-4c7f-8532-ca737bbf791e">Sly Burglar</card>
+    <card qty="2" id="696432bd-a10b-438c-90e3-87c85566cd9d">Voice of Meneldil</card>
+    <card qty="1" id="c2681341-a3c0-4401-9fe0-f1f0272d363d">Howl of the Wolves</card>
+    <card qty="3" id="32b59257-2bdf-4fa2-9075-20b68093adc0">The Lonely Griffin</card>
+    <card qty="2" id="21b2d724-eda0-485c-9484-07652f332650">Tales of Blood and Thunder</card>
+    <card qty="2" id="42247950-90e6-41d9-ade9-68f3aa083c83">Wandering Whispers</card>
+  </section>
+  <section name="Special" shared="True">
+    <card qty="3" id="eb14b1cd-53fe-43f3-81af-fbb80796fe02">Raging Fire</card>
+    <card qty="3" id="42247950-90e6-41d9-ade9-68f3aa083c61">Frenzied Sea-raider</card>
+    <card qty="4" id="eb14b1cd-53fe-43f3-81af-fbb80796fc01">Invading Raider</card>
+    <card qty="3" id="eb14b1cd-53fe-43f3-81af-fbb80796fc02">Marauding Poet</card>
+    <card qty="1" id="eb14b1cd-53fe-43f3-81af-fbb80796fc03">Deghar</card>
+    <card qty="4" id="595472bd-d87d-4758-af52-d1e8a4ffbca1">The Kings Men</card>
+    <card qty="2" id="eb14b1cd-53fe-43f3-81af-fbb80796fe01">Sturdy Shipbuilding</card>
+  </section>
+  <section name="Second Special" shared="True">
+    <card qty="2" id="42247950-90e6-41d9-ade9-68f3aa083c02">Intercepted Message</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa083c03">Thorough Investigation</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa083c11">Mutiny</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa083c12">Double Patrol</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa08aa12">Uvanhorn</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa08aa13">Shadowcloud</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa08aa14">The Terror of Andrast</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa08aa11">Nimble</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="42247950-90e6-43d9-bde9-68f3aa083c01">[VTtE] Rule I</card>
+    <card qty="1" id="42247950-90e6-43d9-bde9-68f3aa083c02">[VTtE] Rule II</card>
+    <card qty="1" id="42247950-90e6-43d9-bde9-68f3aa083c03">[VTtE] Rule III (FAQ)</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68faaa083c91">Morwen</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa08aa02">Uvanhorn</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa08aa03">Shadowcloud</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa08aa04">The Terror of Andrast</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa08aa05">The Hunting Shade</card>
+    <card qty="1" id="42247950-90e6-41d9-ade9-68f3aa08aa01">Nimble</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Staging Setup" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

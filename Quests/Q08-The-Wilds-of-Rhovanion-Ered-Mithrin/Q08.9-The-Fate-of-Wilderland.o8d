@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Encounter" shared="True">
+    <card qty="2" id="ec9f4d54-a419-4b3e-a6b9-605119950d07">Goblin Troop</card>
+    <card qty="3" id="552b11aa-b91e-44aa-8e54-1bad1aa74bbd">Stray Goblin</card>
+    <card qty="2" id="8615beb7-a9f7-4852-bc0a-3d1a5f2c9532">Pack of Wargs</card>
+    <card qty="2" id="db960347-11ee-4ad7-8784-e4827fb7daaf">Hills of Wilderland</card>
+    <card qty="3" id="74fc62c2-b1b6-4338-819a-1f00f871312c">Lonely Lands</card>
+    <card qty="2" id="fc70a2bc-c2ba-4364-a609-811daa0d6780">Gathering Gloom</card>
+    <card qty="3" id="9b5e1acd-c396-464d-ab54-df86833aad07">Swarms of Bats</card>
+    <card qty="3" id="3b26d048-24cb-4978-86f9-d255048426d8">Urdug’s Elite</card>
+    <card qty="3" id="3f8273a2-f64c-407c-97fb-4a4ef0bddb0b">Fierce Vanguard</card>
+    <card qty="2" id="4abe9f52-1e56-479a-a59f-c3f7075ec493">Warg-rider</card>
+    <card qty="1" id="98461b3e-54c4-4eb9-9172-616c9bebb0f6">Gate of Gundabad</card>
+    <card qty="3" id="f7117e07-e8d2-4e7d-a5c3-5dd0f1c0d455">Hilltop Battlements</card>
+    <card qty="3" id="7d71aa09-badb-4ba8-9d08-597a8d814020">Dwarven Watchtower</card>
+    <card qty="3" id="882952c5-c3a7-43aa-91d2-8a130b300d5f">Slopes of Gundabad</card>
+    <card qty="3" id="c2d8cd64-a1dc-4bf2-9e61-0336170e73af">Fierce Attack</card>
+    <card qty="3" id="5775b97c-4047-4dc2-b148-b852bad4f9bb">Urdug’s Command</card>
+    <card qty="2" id="c5e9ef20-a88f-40fb-861f-c44de8e12bd9">Dark Clouds</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True">
+    <card qty="1" id="99ab7a92-0e3e-4ec2-9a40-0f467920879d">Urdug’s Assault</card>
+    <card qty="1" id="d90a8977-78e1-445d-b57d-a13e0e98f450">Outflanked</card>
+    <card qty="1" id="0fffdddc-d9f9-498a-9669-e840304ebb9b">The Final Push</card>
+  </section>
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="7f9cf578-980e-43af-995f-27a84fd54a01">The Heroes’ Defense</card>
+    <card qty="1" id="aeb2f711-4597-42c1-af8c-eb7d6f4fa79a">The Goblins’ Assault</card>
+    <card qty="1" id="315ed83a-1dae-421f-b5ba-1bcb5cd6c2a7">Urdug</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

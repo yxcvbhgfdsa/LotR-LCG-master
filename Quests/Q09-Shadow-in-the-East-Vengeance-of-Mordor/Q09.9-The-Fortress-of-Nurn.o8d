@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Quest" shared="True">
+    <card qty="1" id="b56f7d39-ca8d-4979-baa6-8a2f875d6463">Assault on Dol Rhugar</card>
+    <card qty="1" id="ba090102-5f80-4dbc-aefd-2f965685e954">The Final Confrontation</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="3" id="2629ae83-bfb8-4be1-84a5-fa9e8b1fc20b">Soldier of Nurn</card>
+    <card qty="2" id="2c32f4b8-83c7-4ac6-9401-3378a4ca530b">Easterling Mercenary</card>
+    <card qty="2" id="43867521-f76f-48be-9911-a90ac0f539f6">Mordor Olog-hai</card>
+    <card qty="3" id="67455bf8-25ea-453e-9066-58e66fdf0528">Guard Dogs</card>
+    <card qty="2" id="b645ea89-caa8-44ee-b290-fcd93204e838">Fortress Walls</card>
+    <card qty="3" id="ab92ac2e-30e8-4eb2-9818-7d7efd3658aa">Guard Tower</card>
+    <card qty="3" id="cb2e53d5-5a62-4a70-88b0-3ee464b397c2">Plaza of Nurn</card>
+    <card qty="3" id="30a1913f-03e2-46fb-be6d-3b86064d1afd">Determined Defense</card>
+    <card qty="2" id="aefb838f-b748-4249-8f24-8dce9e838880">The Dark Lord's Reach</card>
+    <card qty="1" id="254444df-3e65-4531-b6db-2fdacd0788b4">The Dungeons of Dol Rhugar</card>
+    <card qty="3" id="8d61982f-acf9-4b03-969f-6e75688ee1fd">Ulchor's Rage</card>
+    <card qty="2" id="1ac7e2b5-aa19-4608-b101-e22390c8a906">Fanaticism</card>
+    <card qty="2" id="55d05b39-c993-45bb-874c-3eacbcf49278">Side Street</card>
+    <card qty="2" id="d7775ec0-caf0-42b8-9aef-ca70a1e6950b">Catacombs</card>
+    <card qty="3" id="9bcae7d4-8bbc-4d82-a173-ca2f63557664">Under Guard</card>
+    <card qty="1" id="203ed863-1738-4974-ae79-19977eea868d">Unwelcome Travelers</card>
+  </section>
+  <section name="Special" shared="True">
+    <card qty="1" id="4cd62a82-6bc9-4e38-8561-49b5fa2aba7e">Under the Watchful Eye</card>
+    <card qty="1" id="f3285b0c-ccd9-48b1-9c20-c8fbc4bd1695">Covered in Darkness</card>
+    <card qty="1" id="bd837efe-9358-4fe9-8770-69b9b1fefb48">The Armies of Mordor</card>
+    <card qty="1" id="47ecf6a6-84e9-4aa7-ba23-9afe914027cd">The Tower of Barad-dûr</card>
+    <card qty="1" id="2fe95d8c-0f30-4c20-b926-d92e4feea8e2">Khamûl the Easterling</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="4" id="74ceb68a-a1c9-41bc-aeb8-41738b34a3bb">Ulchor's Guard</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="015c235b-877b-4433-b979-99c4097ef784">Thane Ulchor</card>
+    <card qty="1" id="dc074506-e478-4b63-88e4-9d6e4f8eb6d4">Storm the Castle</card>
+    <card qty="1" id="6860f9ad-0f09-450a-adf9-6ebe9b872a49">Storm the Castle</card>
+    <card qty="1" id="107805c4-6abf-4eb1-87fd-0ad7ffcfbf42">Storm the Castle</card>
+    <card qty="1" id="63f46289-b5ef-44d1-b6cb-ce382031a768">Storm the Castle</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Hero" shared="False" />
+  <section name="Quest" shared="True">
+    <card qty="1" id="8db8a9b7-402f-40fe-943e-8a3e58662b38">The Ring Goes South</card>
+    <card qty="1" id="fb0f51c6-c96e-44f1-9f67-1235eb2351dc">The Ring Goes South</card>
+    <card qty="1" id="0c0fdef7-f55a-4bcf-91f9-317cd7a00777">The Council of Elrond</card>
+    <card qty="1" id="9e678947-2687-4b3b-b98c-f05f289793ff">The Nine Walkers</card>
+    <card qty="1" id="0ae0d2d5-b082-4cc7-b227-9b60c60de8b4">The Hunt is Up!</card>
+    <card qty="1" id="3e99373a-ce10-4907-acd5-5a4b8dce425c">The Gates of Moria</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="3" id="6c01519b-bb2c-4c8b-b5d3-4951d2a32d13">Misty Mountain Warg</card>
+    <card qty="3" id="fd9a5cdb-071c-4a2c-aa1e-b25d22d06a10">Expanse of Hollin</card>
+    <card qty="2" id="73867364-ecad-451c-b75f-3da7ea1f1b48">Hunting Hawk</card>
+    <card qty="1" id="232256cb-40ee-4cec-84ac-995b3ba43eb2">Great Warg Chief</card>
+    <card qty="4" id="1a55452f-9e4c-4cdc-8ce1-549c862bf96e">Hound of Sauron</card>
+    <card qty="2" id="e476b426-a9db-4d95-ab93-a32f4a5b7f48">Howling Warg</card>
+    <card qty="3" id="867b61a1-4e23-4426-ad94-b912e89055b8">Redhorn Foothills</card>
+    <card qty="3" id="af787868-59d6-48be-983f-447ba0523f46">Eregion</card>
+    <card qty="2" id="78fd9e40-f68d-46c9-b6bf-8fec3b77bfcf">Regiments of Crows</card>
+    <card qty="2" id="60546e25-329e-4846-852d-65c1a6ee6c5c">Bitter Cold</card>
+    <card qty="2" id="54981b6b-c247-40f9-9321-fd7913b897dd">Storm of Howls</card>
+    <card qty="3" id="958e2ca4-208c-4235-be56-afc463e9eb2f">Slopes of Hithaeglir</card>
+    <card qty="2" id="89a39894-f5d2-42a5-9927-fb057db778f4">Hunted in Hollin</card>
+    <card qty="2" id="c1b934af-a47f-4886-846f-c319b2efeca0">Shelterless Land</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="4" id="34e81b70-82c4-4fb4-8e6b-e3df7f587181">Pale-Green Tentacle</card>
+    <card qty="1" id="5963e5c4-0f2e-43c4-afa2-a9b2cfde73d1">Doors of Durin</card>
+    <card qty="1" id="8f38ca4f-5893-4bd4-854d-6788a3ada41f">Watcher in the Water</card>
+  </section>
+  <section name="Attachment" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="f9196cda-8f50-4cc5-9aad-1c56cb677bca">Frodo Baggins</card>
+    <card qty="1" id="ba2e4a33-edc6-4638-a3f5-b818b080aea8">The One Ring</card>
+    <card qty="1" id="7791cd04-7ffe-41f3-9633-cf57ad3a34ca">Sting</card>
+    <card qty="1" id="23acfc2e-3262-4f22-8496-a753fa9089bd">Mithril Shirt</card>
+    <card qty="1" id="c7f5eac0-dbda-419f-994c-c182775682b3">Glamdring</card>
+    <card qty="1" id="24eabbac-62b1-4d2c-93a0-f97c04a2aefa">Andúril</card>
+    <card qty="1" id="7068731b-3837-40f3-9e98-6c996af4dddc">Lust for the Ring</card>
+  </section>
+  <section name="Active Setup" shared="True">
+    <card qty="1" id="ebd1944a-928c-40ff-88de-dfebdfcf633c">Redhorn Pass</card>
+  </section>
+  <notes><![CDATA[]]></notes>
+</deck>

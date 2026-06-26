@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True">
+    <card id="38d451f7-8e44-429a-83e0-0980ca7ca043" qty="1">Thieves and Coursers</card>
+    <card id="8853b3c5-0a24-441c-bc3f-c5806232f740" qty="1">The King’s Stallion</card>
+    <card id="566eb7ed-96b5-49ad-bc74-e2c6b45e176f" qty="1">The Sweeping Tide</card>
+  </section>
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Encounter" shared="True">
+    <card id="a262dacd-cd61-4094-8b3f-179568470d53" qty="1">Wild Country</card>
+    <card id="06d01a0b-c0da-4a02-b14d-5ed3c85cc703" qty="2">Endless Grasslands</card>
+    <card id="86baad6a-1311-4937-8c64-f102df5793b7" qty="1">Windworn Villages</card>
+    <card id="9fae1363-c207-4b52-86a1-58f16f76b857" qty="1">Humpbacked Downs</card>
+    <card id="c267f288-46e9-480f-bf3f-20aa65e925a5" qty="2">Ride Through the Night</card>
+    <card id="e969e8b5-e9cb-4780-b2cf-b023e68fb9d7" qty="1">The Green Sea</card>
+    <card id="102d881a-2e4c-458d-b60d-d07eca90cf9d" qty="1">Crimson Banner</card>
+    <card id="c6cc05a1-deef-4276-afc9-d908f6d7aa4b" qty="1">White Mountain Reinforcements</card>
+    <card id="a9b1fc82-7d77-46b5-8bb7-f1504307b1df" qty="2">Saddle-slasher</card>
+    <card id="1e15bc37-aa5e-4659-946f-e3d43b6acd93" qty="2">Rein-ripper</card>
+    <card id="4527d251-6e28-4b56-9afd-001bd87467f5" qty="1">Bridle-biter</card>
+    <card id="9ac6e1a2-baba-468f-a049-2d0d4587b20c" qty="1">Pommel-pouncer</card>
+    <card id="e9f7be18-e9dd-4856-9d80-fa3a30bd8cb2" qty="2">Spoiled Pasture</card>
+    <card id="7dbad5b2-4479-44c2-8066-d1c8c3e4d9d2" qty="1">Horse Thieves’ Hovel</card>
+    <card id="810f765c-981b-4ac6-8de7-2b177d120477" qty="1">Horse Lord’s Lodge</card>
+    <card id="4fbf623c-61ab-4173-861c-8fdb35bbbdfe" qty="2">Thirst for Horse Blood</card>
+    <card id="55f52599-49c5-4a37-bb50-5672f254e5b4" qty="1">Overburdened</card>
+  </section>
+  <section name="Special" shared="True">
+    <card id="caf0280a-be69-4ddd-9c57-ff5f3a0658fb" qty="1">Orc Battalion</card>
+    <card id="1e93aacb-09e4-43cd-b7e2-566e88acfdad" qty="3">Servant of the Eye</card>
+    <card id="7aea9d7a-39e9-45f8-9639-501577b63312" qty="2">Black Land Scouts</card>
+    <card id="a30a334b-9045-48c0-ad31-7dd90fccbb6b" qty="2">Orcish Horse-butcher</card>
+  </section>
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True">
+    <card id="fd570b51-d92d-49c9-9982-aa15e0a52222" qty="1">The Horse Lord’s Ire 1</card>
+    <card id="090a8493-8d31-40eb-8a65-0640d1bf48e8" qty="1">The Horse Lord’s Ire 2</card>
+    <card id="431c22ec-2b2a-42af-ab5f-c7710ed2e627" qty="1">The Horse Lord’s Ire 3</card>
+    <card id="56d94ac2-c651-4408-a398-54b9c81cee2d" qty="1">The Horse Lord’s Ire 4</card>
+    <card id="7d0bcdf9-505a-42a5-a8b9-415da358db52" qty="1">Felaróf</card>
+    <card id="1ee6f7ce-7d0d-4f01-afeb-c08abbf197d6" qty="1">Thruk</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card id="974730af-0ef0-4604-a390-65c0b73c45ee" qty="1">Stolen Steeds</card>
+    <card id="65f15c99-d34e-4496-9ad3-4036114dc333" qty="1">Flinthoof</card>
+    <card id="608a1135-3b40-4189-b498-b9eff3a3f7ce" qty="1">Brightmane</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

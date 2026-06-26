@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Hero" shared="False">
+    <card qty="1" id="4c4cccd3-576a-41f1-8b6c-ba11b4cc3d4b">Celeborn</card>
+    <card qty="1" id="9d548a43-0ef8-45e6-ab95-7356d218d203">Haldir of Lórien</card>
+    <card qty="1" id="8d6a15a8-e363-46bb-8e49-0af45a1ea0d1">Galadriel</card>
+  </section>
+  <section name="Ally" shared="False">
+    <card qty="3" id="d30fd38a-65fe-464d-acac-47d0f02deb05">Greenwood Archer</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9060">Henamarth Riversong</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9073">Gandalf</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801205c9014">Silvan Tracker</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801206c9016">Mirkwood Runner</card>
+    <card qty="2" id="e4fd6e25-982a-464f-82d8-812269864d46">Silvan Refugee</card>
+    <card qty="3" id="dad6e885-d535-4100-bd9f-4726ea7c7465">Naith Guide</card>
+    <card qty="3" id="bd81ff6a-9c8f-415e-85fb-da84c21ef2a4">Galadhrim Minstrel</card>
+    <card qty="3" id="b91ba94d-e6b9-41f6-89ed-df1fb1f22335">Defender of the Naith</card>
+    <card qty="2" id="9220dbae-e7fc-43fc-b772-043af7d4bda1">Orophin</card>
+    <card qty="3" id="ff3794e8-d8b1-48dc-a9f8-97ea7d6b3874">Galadriel&#039;s Handmaiden</card>
+  </section>
+  <section name="Attachment" shared="False">
+    <card qty="3" id="b4d93180-0ebc-4a9b-9817-e761068570e3">O Lórien!</card>
+    <card qty="2" id="f86ea37a-d70d-4ff2-ac36-2a0ff1f7ffa9">Lembas</card>
+    <card qty="2" id="17cb8a9a-6369-4ea9-a614-02908bd7b77f">Wingfoot</card>
+    <card qty="3" id="17ed9b53-19f5-4ad1-ab91-14c2859e5a60">Nenya</card>
+  </section>
+  <section name="Event" shared="False">
+    <card qty="2" id="70c370e2-ae8e-4dff-bf38-619e9c6d0ce7">Host of Galadhrim</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9050">A Test of Will</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801210c9005">Elrond&#039;s Counsel</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801212c9010">Daeron&#039;s Runes</card>
+    <card qty="2" id="f39eaad9-134d-406b-9111-e03c33e0cd16">The Tree People</card>
+    <card qty="3" id="14936075-9e6a-43af-9497-dbee9df95781">Feigned Voices</card>
+  </section>
+  <section name="Side Quest" shared="False">
+  </section>
+  <section name="Sideboard" shared="False">
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801213c9004">Elrond</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801205c9014">Silvan Tracker</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801206c9016">Mirkwood Runner</card>
+    <card qty="1" id="e4fd6e25-982a-464f-82d8-812269864d46">Silvan Refugee</card>
+    <card qty="3" id="4b794779-c6b6-4ee0-b13f-196b721e28a7">Rúmil</card>
+    <card qty="3" id="39775f69-5cf4-4133-9cf4-45a1522aa9ea">Galadhon Archer</card>
+    <card qty="1" id="9220dbae-e7fc-43fc-b772-043af7d4bda1">Orophin</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801213c9027">Vilya</card>
+    <card qty="1" id="f86ea37a-d70d-4ff2-ac36-2a0ff1f7ffa9">Lembas</card>
+    <card qty="3" id="12d436ac-15e6-47c5-8288-357c918071a7">Bow of the Galadhrim</card>
+    <card qty="1" id="17cb8a9a-6369-4ea9-a614-02908bd7b77f">Wingfoot</card>
+    <card qty="1" id="70c370e2-ae8e-4dff-bf38-619e9c6d0ce7">Host of Galadhrim</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801210c9005">Elrond&#039;s Counsel</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801212c9010">Daeron&#039;s Runes</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801213c9007">Hands Upon the Bow</card>
+    <card qty="1" id="f39eaad9-134d-406b-9111-e03c33e0cd16">The Tree People</card>
+    <card qty="3" id="af74e00e-a04e-4a15-a538-d36539bfb751">Pursuing the Enemy</card>
+  </section>
+  <section name="Quest" shared="True" />
+  <section name="Encounter" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

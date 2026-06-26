@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Quest" shared="True">
+    <card qty="1" id="9cb0fd46-5ff4-4286-9843-f598723bc51b">The Battle of Carn Dûm</card>
+    <card qty="1" id="b1662195-6d46-474c-9ee9-ccbf14c7b70e">The Clutches of Carn Dûm</card>
+    <card qty="1" id="b659e2a1-55b1-4562-ab2c-0e36772d8183">Midwinter's Crux</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="4" id="f41fb428-d21c-47b2-9bd7-cc97202c2a7e">Orc Grunts</card>
+    <card qty="2" id="57b1cf62-1841-4f65-b9eb-fc82b1eac918">Werewolf of Angmar</card>
+    <card qty="2" id="afd48fc2-1bca-44d1-9b30-380d2035f2fb">Mountains of Angmar</card>
+    <card qty="2" id="23670d99-7a26-4838-a112-2f6d8a7186f8">Blight of Carn Dûm</card>
+    <card qty="3" id="be784402-7f83-43aa-9e77-c2aac8dd3526">Fortress Walls</card>
+    <card qty="2" id="f330efb5-6263-48a1-9f08-0911f214bd96">The Sky Darkens</card>
+    <card qty="2" id="d3a3d024-2321-4707-b319-eb62537e6d92">Vile Affliction</card>
+    <card qty="2" id="5fd6638a-3135-460f-bf5e-b3cb0128f939">Daechanar's Will</card>
+    <card qty="2" id="9d5d2136-f1e7-40fd-9a0f-fbac3c87f8f6">Angmar Orc</card>
+    <card qty="2" id="cc13ea34-ab19-474e-afe5-29c8651126d0">Angmar Captain</card>
+    <card qty="2" id="f8d69554-7cc1-4adc-b021-b6d3601e777d">Dark Sorcery</card>
+    <card qty="3" id="a6ea339d-aec3-4ec7-9374-c1442385c260">Heavy Curse</card>
+    <card qty="1" id="c3e07d8f-3af3-4f21-8951-d3300ca376fa">The Power of Angmar</card>
+    <card qty="3" id="5273452f-2d35-4a1c-91db-5bde684ed4a7">Orc Wight</card>
+    <card qty="2" id="6008ab23-bedb-4501-aa1a-35bc555f905b">Thaurdir's Elite</card>
+    <card qty="3" id="c5f58852-7f2a-4828-bd59-0b20c3059c40">Stronghold Tower</card>
+    <card qty="2" id="cb77d46f-e8af-42f0-9619-da6e077ade04">Gates of Carn Dûm</card>
+    <card qty="3" id="40886c6a-0960-443b-8562-05b8fec9d34a">Death and Decay</card>
+    <card qty="2" id="0bc8f9e4-7eac-4ac6-ae91-f5ba5d5052aa">Howling of Wargs</card>
+    <card qty="1" id="8d99a2be-18d6-4bfb-85ab-7be54a18e6b7">Black Mare</card>
+    <card qty="1" id="cde8957d-c9c8-4dab-a38f-7fa262247092">Protect the Flanks</card>
+    <card qty="1" id="e2c4a5fe-dc9d-481b-b46b-91613e62d250">Rally the Fighters</card>
+    <card qty="1" id="fa377dbc-a99e-4554-8c99-51835697ff8a">Sever the Head</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="9ca8dc18-a6f5-478b-8870-e151d853a28d">The Battle of Carn Dûm</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="c73317e6-133e-4e35-af48-ad3ffc9f252d">Thaurdir</card>
+    <card qty="4" id="9e0bb4e8-9b4f-4780-9b83-ea6bc86745ae">Carn Dûm Garrison</card>
+  </section>
+  <section name="Active Setup" shared="True">
+    <card qty="1" id="f49b1e33-6190-4e21-8779-ecfb3a39bb75">Accursed Battlefield</card>
+  </section>
+  <notes><![CDATA[]]></notes>
+</deck>

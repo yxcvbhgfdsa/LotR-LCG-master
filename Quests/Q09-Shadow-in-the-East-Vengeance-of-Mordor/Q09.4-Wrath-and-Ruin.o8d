@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True">
+    <card qty="1" id="cefd0596-2e3b-4496-95e0-57899ab83b04">Inside the Walls</card>
+    <card qty="1" id="138ee2a3-0982-48ab-945e-60fab6f06586">Drive them Out</card>
+  </section>
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Encounter" shared="True">
+    <card qty="2" id="f2981455-b642-4d9b-851d-0209a12cffae">Champion of Rhûn</card>
+    <card qty="4" id="215881a3-df0a-4163-a19d-33b444e7aa95">Easterling Skirmisher</card>
+    <card qty="2" id="0198aa68-aced-42d0-8816-719ce166ef15">Contested Square</card>
+    <card qty="2" id="f672b4f9-6ce8-4be0-95ab-fb5d2091f4ca">Ransacked House</card>
+    <card qty="2" id="2a7b5607-d7ed-4580-b27b-39cf12879297">Makeshift Fortification</card>
+    <card qty="1" id="51a5e288-cf6e-430d-bc66-715ad2be1a16">Captured Tower</card>
+    <card qty="2" id="32621d0f-16a3-4ab9-a553-657834cb6691">Fury</card>
+    <card qty="2" id="1a96a88c-3715-4419-89b1-a218e838b5b5">Caught Off Guard</card>
+    <card qty="2" id="f054a6e2-71ae-4acb-ba62-2548ecbfcf9a">Street Fighting</card>
+    <card qty="2" id="9a870606-9e85-4bdc-a70d-3d1831703eb8">Under Siege</card>
+    <card qty="2" id="a652a7ef-25ad-4e43-94b4-f18c68e34e83">Ulchor's Revenge</card>
+    <card qty="3" id="4befb4c8-e350-48ed-a7dd-ee803e2ca8d7">Easterling Raider</card>
+    <card qty="3" id="aabc830a-4833-42cf-9b26-d8f2c5eb9658">Warrior of Rhûn</card>
+    <card qty="2" id="b897b63d-86ac-417c-88d2-1a594f3674f1">Sword of Rhûn</card>
+    <card qty="2" id="576b4f3c-add2-42b6-b78c-8a2e482290ae">Recurve Bow</card>
+    <card qty="2" id="1cd05eb5-2456-467a-8d24-efaadd027145">Rhûn Backstabber</card>
+    <card qty="2" id="eb2b56e7-d669-405b-b2d3-5d3c30cb3f4e">Treacherous Easterling</card>
+    <card qty="1" id="0323e852-a05c-4c2d-a038-3f2596af7a85">City Forum</card>
+    <card qty="1" id="2f5221a8-8afd-48d8-afd3-352151d87ed6">Seedy Tavern</card>
+    <card qty="2" id="4b7db087-febb-4e88-bd30-e0f7919511c7">Dakrness in the East</card>
+  </section>
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="02a5e04c-d08f-49f4-a7b5-ba6a1cb86de7">Thane Ulchor</card>
+    <card qty="1" id="31c36264-7e6f-45df-a345-167d4df70885">Gate of Dorwinion</card>
+    <card qty="1" id="0198aa68-aced-42d0-8816-719ce166ef15">Contested Square</card>
+    <card qty="1" id="f672b4f9-6ce8-4be0-95ab-fb5d2091f4ca">Ransacked House</card>
+    <card qty="1" id="51a5e288-cf6e-430d-bc66-715ad2be1a16">Captured Tower</card>
+    <card qty="1" id="2a7b5607-d7ed-4580-b27b-39cf12879297">Makeshift Fortification</card>
+    <card qty="1" id="0323e852-a05c-4c2d-a038-3f2596af7a85">City Forum</card>
+    <card qty="1" id="2f5221a8-8afd-48d8-afd3-352151d87ed6">Seedy Tavern</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

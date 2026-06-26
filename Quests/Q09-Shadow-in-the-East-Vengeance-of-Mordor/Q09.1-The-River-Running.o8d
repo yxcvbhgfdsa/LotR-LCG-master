@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Quest" shared="True">
+    <card qty="1" id="fbc99604-7183-41fe-b37c-d5a8f54bea0e">Chased by Easterlings</card>
+    <card qty="1" id="8bd42629-07e8-4d8e-ac82-1f463c1cb7e6">The Crossing of Araw</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="2" id="576b4f3c-add2-42b6-b78c-8a2e482290ae">Recurve Bow</card>
+    <card qty="2" id="37153373-7a82-484e-9aca-7ed47a6a7703">Painful Fatigue</card>
+    <card qty="1" id="c1ee0cb7-a209-44d6-8f35-8494a9e6cf1d">An Arduous Journey</card>
+    <card qty="3" id="53c01bdc-2761-4f8f-90bc-1eedd14ca376">Easterling Horse</card>
+    <card qty="4" id="c6ffa525-d499-4dcc-9f07-cbd0da50479f">Rollings Plains</card>
+    <card qty="3" id="aabc830a-4833-42cf-9b26-d8f2c5eb9658">Warrior of Rhûn</card>
+    <card qty="2" id="1f4cdef5-6847-4dd5-96b0-8ce03d21bd8d">Weary Lands</card>
+    <card qty="2" id="926a17c6-ea0b-43ba-925a-71ba5ef1ed77">Rocky Outcrop</card>
+    <card qty="2" id="b897b63d-86ac-417c-88d2-1a594f3674f1">Sword of Rhûn</card>
+    <card qty="2" id="4befb4c8-e350-48ed-a7dd-ee803e2ca8d7">Easterling Raider</card>
+    <card qty="1" id="5af4be18-af74-46ef-a235-9c1002b85338">Rider of Rhûn</card>
+    <card qty="2" id="a750ab9c-9b29-4ca4-8221-8fa27cd74fe2">Enemies Close Behind</card>
+    <card qty="2" id="f6e8459b-b0d6-4d30-ad8e-6aacfa34ec32">Exposed Riverbank</card>
+    <card qty="2" id="2af71d2e-0b70-43a2-b94e-89770992ef9c">Easterling Outrider</card>
+    <card qty="1" id="1fdfdb77-31e0-458d-85d1-9c158f12717f">River Running</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="bbc72a18-cf4c-469f-bd01-6b1d3492c2ff">Warriors of the East</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="56b24d25-a04a-418b-add0-7b1971dae38e">Easterling Pursuit</card>
+    <card qty="1" id="2af71d2e-0b70-43a2-b94e-89770992ef9c">Easterling Outrider</card>
+    <card qty="1" id="4befb4c8-e350-48ed-a7dd-ee803e2ca8d7">Easterling Raider</card>
+    <card qty="1" id="5af4be18-af74-46ef-a235-9c1002b85338">Rider of Rhûn</card>
+    <card qty="1" id="9042242b-054d-413e-83c7-bb9f42551a8a">Easterling Captain</card>
+    <card qty="1" id="1fdfdb77-31e0-458d-85d1-9c158f12717f">River Running</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

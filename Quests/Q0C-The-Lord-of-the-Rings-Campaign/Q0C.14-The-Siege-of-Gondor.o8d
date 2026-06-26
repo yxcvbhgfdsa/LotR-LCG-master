@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Quest" shared="True">
+    <card qty="1" id="949e2607-cbb5-4ae3-af26-f9d7e00e09d2">The Siege of Gondor</card>
+    <card qty="1" id="7ea102d6-77de-431f-9475-c9be874a5195">Attack on Pelargir</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="3" id="f3ffbb95-5024-41d4-b783-d5fbff5bfa32">Umbar War Galley</card>
+    <card qty="3" id="9c6c003c-b9c7-4240-9e59-414d31b4be3c">Corsair Dromon</card>
+    <card qty="3" id="688d04e8-80d8-4ea8-9274-0712f26fac9b">Port of Pelargir</card>
+    <card qty="2" id="2251670c-c03c-4fd7-9621-c179c9ce79f8">Pelargir Quays</card>
+    <card qty="2" id="87464aa2-e890-4151-8a93-55c2be3e44b2">Corsair Captain</card>
+    <card qty="3" id="22c55625-210c-4843-81ee-d8d6430885b0">Corsair of Umbar</card>
+    <card qty="2" id="8d3c19e0-28f2-4a3d-91b2-8e9911ac4c91">Umbar Pirate Crew</card>
+    <card qty="3" id="2c3f8a11-c7a5-4709-ab8d-7435763f558b">Haradrim Pirate</card>
+    <card qty="2" id="a7ac2b78-52a7-4bd9-b37f-3d424876c7d8">Fell Folk of Umbar</card>
+    <card qty="2" id="1600dd03-7b19-4dd2-924c-30c30b09cb9d">Black Sails</card>
+    <card qty="3" id="a7a8a783-8a22-49fd-a1b7-42e92a44f78c">Raiding the Coasts</card>
+    <card qty="2" id="1db13c26-879b-49cd-9f94-8ba1a0c4f5a4">Driven to the Brink</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="6f9211cc-a523-4a0f-9d44-c757e2f9947b">The Siege of Gondor</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="2e778689-9e3f-4da8-a473-781c777f6473">Aragorn</card>
+    <card qty="1" id="0140d146-771e-4f19-9de8-d7cf0b4d8268">The Corsair Fleet</card>
+    <card qty="1" id="83dd1a59-118c-468d-a47e-e472b066ff3e">Great Corsair Ship</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

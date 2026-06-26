@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Quest" shared="True">
+    <card qty="1" id="63b0498f-9180-4e62-83c1-b9aa29f24712">Stranded in Umbar</card>
+    <card qty="1" id="44d3c25c-e3ef-4ff0-a16a-8a75937bfffe">Flee the City</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="1" id="321abaed-0b0c-465b-9f2a-bb9796e6b8c5">Narrow Alleyway</card>
+    <card qty="1" id="a34ffb4e-c821-42aa-8dab-2914d274b3b1">Umbar Sentry</card>
+    <card qty="1" id="b4543d6e-168b-4ac6-ae65-022e13ce4098">Umbar Street</card>
+    <card qty="2" id="1dab3395-7a34-4b66-aa7f-7834045a7eba">Umbar Square</card>
+    <card qty="1" id="0e58ae5a-0670-4c00-836a-3bef017bf279">Port of Harad</card>
+    <card qty="1" id="7a5671ee-27e0-4d04-95e3-77fe26a8a88b">Haradrim Estate</card>
+    <card qty="1" id="35787b76-d4d5-4bff-bc05-a270b6e4d98e">Enemy Pursuit</card>
+    <card qty="1" id="47b1cd0f-5d56-483c-956c-7851eb4b0a9a">Southron Champion</card>
+    <card qty="1" id="486f9475-98e1-42d9-ac90-e6190545a5b9">Southron Captain</card>
+    <card qty="3" id="6cfc4fa5-bbcc-4c99-82b7-bb6359d24750">Southron Soldier</card>
+    <card qty="4" id="04a23a2e-a14f-4c54-b54f-eeef36d3a92b">Southron Archer</card>
+    <card qty="3" id="37f205e5-5144-4987-8764-46909460797b">Nowhere to Hide</card>
+    <card qty="1" id="24772594-75f3-4789-aeec-41526d845e11">In Hostile Territory</card>
+    <card qty="3" id="2b81f105-3712-4326-ac9f-ed7aa18aace1">Injured Companion</card>
+    <card qty="2" id="cf6094fe-6a58-4784-8e41-1ad546f8b6aa">Enfeebled</card>
+  </section>
+  <section name="Setup" shared="True" />
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="42621898-ffe0-435a-a0c2-34ed4383eadb">“Seize them!”</card>
+    <card qty="4" id="a34ffb4e-c821-42aa-8dab-2914d274b3b1">Umbar Sentry</card>
+    <card qty="1" id="321abaed-0b0c-465b-9f2a-bb9796e6b8c5">Narrow Alleyway</card>
+    <card qty="1" id="b4543d6e-168b-4ac6-ae65-022e13ce4098">Umbar Street</card>
+    <card qty="1" id="1dab3395-7a34-4b66-aa7f-7834045a7eba">Umbar Square</card>
+    <card qty="1" id="0e58ae5a-0670-4c00-836a-3bef017bf279">Port of Harad</card>
+    <card qty="1" id="7a5671ee-27e0-4d04-95e3-77fe26a8a88b">Haradrim Estate</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>
