@@ -9,6 +9,17 @@ from pathlib import Path
 from typing import List, Dict, Optional, Any, Tuple
 from dataclasses import dataclass
 
+_PYQT5_QT_PLUGIN_DIR = (
+    Path(sys.executable).resolve().parent.parent
+    / "Lib"
+    / "site-packages"
+    / "PyQt5"
+    / "Qt5"
+    / "plugins"
+)
+if _PYQT5_QT_PLUGIN_DIR.is_dir():
+    os.environ.setdefault("QT_QPA_PLATFORM_PLUGIN_PATH", str(_PYQT5_QT_PLUGIN_DIR))
+
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QLabel, QFileDialog, QMenu, QVBoxLayout,
     QMessageBox, QMainWindow, QHBoxLayout, QPushButton,
@@ -36,6 +47,7 @@ ENCOUNTER_DECK_TYPES = frozenset({
 })
 O8D_ENCOUNTER_SECTION = "Encounter"
 O8D_QUEST_SECTION = "Quest"
+O8D_SETUP_SECTION = "Setup"
 # 遭遇卡图源尺寸（宽 × 高，竖版）
 ENCOUNTER_CARD_W = 358
 ENCOUNTER_CARD_H = 500
@@ -194,7 +206,7 @@ def _build_encounter_index_by_image_id(
     for row in _read_encounter_csv_rows(csv_path):
         if series and (row.get("系列") or "").strip() != series:
             continue
-        image_id = (row.get("图片链接") or "").strip()
+        image_id = _image_id_stem(row.get("图片链接") or "")
         if image_id:
             index[image_id] = row
     return index
@@ -208,30 +220,31 @@ def _csv_card_qty(row: Dict[str, str]) -> int:
         return 1
 
 
-def load_encounter_deck_from_o8d(
+def _o8d_card_qty(card_el: ET.Element) -> int:
+    qty_raw = (card_el.get("qty") or "1").strip()
+    try:
+        return max(1, int(qty_raw))
+    except ValueError:
+        return 1
+
+
+def _build_cards_from_o8d_section(
     o8d_path: str | Path,
+    section_name: str,
     csv_path: Optional[Path] = None,
     series: Optional[str] = None,
-) -> Tuple[List[Card], List[str]]:
-    """
-    从 o8d 的 Encounter 节构建遭遇抽牌堆。
-    仅保留 ENCOUNTER_DECK_TYPES 中的类型；每种牌的张数取自 CSV「卡牌数量」，忽略 o8d qty。
-    """
+    use_o8d_qty: bool = False,
+    allowed_types: Optional[frozenset[str]] = None,
+) -> Tuple[List[Card], List[str], List[str]]:
     o8d_path = Path(o8d_path)
     csv_path = csv_path or ENCOUNTER_CSV
     series = series or DEFAULT_DECK_SERIES
 
     tree = ET.parse(o8d_path)
     root = tree.getroot()
-
-    encounter_section = None
-    for section in root.findall("section"):
-        if (section.get("name") or "").strip() == O8D_ENCOUNTER_SECTION:
-            encounter_section = section
-            break
-
-    if encounter_section is None:
-        return [], [f"未找到 {O8D_ENCOUNTER_SECTION} 节"]
+    section = _find_o8d_section(root, section_name)
+    if section is None:
+        return [], [f"未找到 {section_name} 节"], []
 
     series_index = _build_encounter_index_by_image_id(csv_path, series=series)
     global_index = _build_encounter_index_by_image_id(csv_path, series=None)
@@ -241,8 +254,8 @@ def load_encounter_deck_from_o8d(
     missing: List[str] = []
     skipped: List[str] = []
 
-    for card_el in encounter_section.findall("card"):
-        image_id = (card_el.get("id") or "").strip()
+    for card_el in section.findall("card"):
+        image_id = _image_id_stem(card_el.get("id") or "")
         if not image_id or image_id in seen_ids:
             continue
         seen_ids.add(image_id)
@@ -254,16 +267,55 @@ def load_encounter_deck_from_o8d(
             continue
 
         card_type = (row.get("类型") or "").strip()
-        if card_type not in ENCOUNTER_DECK_TYPES:
+        if allowed_types is not None and card_type not in allowed_types:
             skipped.append(f"{row.get('卡牌名称', label)} [{card_type}]")
             continue
 
-        qty = _csv_card_qty(row)
+        qty = _o8d_card_qty(card_el) if use_o8d_qty else _csv_card_qty(row)
         for i in range(qty):
             cards.append(Card.from_csv_row(row, copy_index=i if qty > 1 else 0))
 
+    return cards, missing, skipped
+
+
+def load_encounter_deck_from_o8d(
+    o8d_path: str | Path,
+    csv_path: Optional[Path] = None,
+    series: Optional[str] = None,
+) -> Tuple[List[Card], List[str]]:
+    """
+    从 o8d 的 Encounter 节构建遭遇抽牌堆。
+    仅保留 ENCOUNTER_DECK_TYPES 中的类型；每种牌的张数取自 CSV「卡牌数量」，忽略 o8d qty。
+    """
+    cards, missing, skipped = _build_cards_from_o8d_section(
+        o8d_path,
+        O8D_ENCOUNTER_SECTION,
+        csv_path=csv_path,
+        series=series,
+        use_o8d_qty=False,
+        allowed_types=ENCOUNTER_DECK_TYPES,
+    )
     if skipped:
         print(f"o8d 中已跳过非遭遇库类型: {', '.join(skipped)}")
+    return cards, missing
+
+
+def load_setup_cards_from_o8d(
+    o8d_path: str | Path,
+    csv_path: Optional[Path] = None,
+    series: Optional[str] = None,
+) -> Tuple[List[Card], List[str]]:
+    """从 o8d 的 Setup 节加载准备牌池；不洗入遭遇牌库。"""
+    cards, missing, skipped = _build_cards_from_o8d_section(
+        o8d_path,
+        O8D_SETUP_SECTION,
+        csv_path=csv_path,
+        series=series,
+        use_o8d_qty=True,
+        allowed_types=None,
+    )
+    if skipped:
+        print(f"o8d Setup 节已跳过: {', '.join(skipped)}")
     return cards, missing
 
 
@@ -290,7 +342,7 @@ def infer_series_from_o8d(
         return None
     index = _build_encounter_index_by_image_id(csv_path, series=None)
     for card_el in section.findall("card"):
-        image_id = (card_el.get("id") or "").strip()
+        image_id = _image_id_stem(card_el.get("id") or "")
         row = index.get(image_id)
         if row:
             return (row.get("系列") or "").strip() or None
@@ -442,6 +494,7 @@ class CardDrawer(QWidget):
     def __init__(self, parent=None, max_height: int = 158):
         super().__init__(parent)
         self.cards: List[Card] = []
+        self.setup_cards: List[Card] = []
         self.current_card: Optional[Card] = None
         self.current_pixmap: Optional[QPixmap] = None
         self.deck_path: Optional[str] = None
@@ -484,7 +537,13 @@ class CardDrawer(QWidget):
             )
             if missing:
                 print(f"o8d 中未在 CSV 找到的遭遇牌: {', '.join(missing)}")
+            self.setup_cards, setup_missing = load_setup_cards_from_o8d(
+                path, series=self.deck_series
+            )
+            if setup_missing:
+                print(f"o8d Setup 节未在 CSV 找到的准备牌: {', '.join(setup_missing)}")
             return cards
+        self.setup_cards = []
         return load_deck_cards(self.deck_path)
 
     def auto_load_default_deck(self):
@@ -626,7 +685,12 @@ class CardDrawer(QWidget):
             self.cards, missing = load_encounter_deck_from_o8d(
                 path, series=self.deck_series
             )
+            self.setup_cards, setup_missing = load_setup_cards_from_o8d(
+                path, series=self.deck_series
+            )
+            missing.extend(f"Setup: {name}" for name in setup_missing)
         else:
+            self.setup_cards = []
             self.cards = self._reload_cards()
 
         self.current_card = None
@@ -676,14 +740,22 @@ class CardDrawer(QWidget):
             if not name:
                 continue
             found_idx = None
-            for i, card in enumerate(self.cards):
+            found_source = self.cards
+            for i, card in enumerate(found_source):
                 if card.name == name:
                     found_idx = i
                     break
             if found_idx is None:
+                found_source = self.setup_cards
+                for i, card in enumerate(found_source):
+                    if card.name == name:
+                        found_idx = i
+                        break
+            if found_idx is None:
                 missing.append(name)
             else:
-                card = self.cards.pop(found_idx)
+                card = found_source.pop(found_idx)
+                setattr(card, "_setup_origin", "setup" if found_source is self.setup_cards else "deck")
                 self.drawn_ids.discard(card.id)
                 extracted.append(card)
         return extracted, missing
@@ -692,7 +764,11 @@ class CardDrawer(QWidget):
         """将先前取出的卡牌放回牌库（与 extract_cards_by_names 对称）。"""
         count = 0
         for card in cards:
-            self.cards.append(card)
+            origin = getattr(card, "_setup_origin", "deck")
+            if origin == "setup":
+                self.setup_cards.append(card)
+            else:
+                self.cards.append(card)
             self.drawn_ids.discard(card.id)
             count += 1
         if count:

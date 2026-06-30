@@ -6,6 +6,17 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Callable, Optional, List, Dict
 
+_PYQT5_QT_PLUGIN_DIR = (
+    Path(sys.executable).resolve().parent.parent
+    / "Lib"
+    / "site-packages"
+    / "PyQt5"
+    / "Qt5"
+    / "plugins"
+)
+if _PYQT5_QT_PLUGIN_DIR.is_dir():
+    os.environ.setdefault("QT_QPA_PLATFORM_PLUGIN_PATH", str(_PYQT5_QT_PLUGIN_DIR))
+
 from PyQt5.QtWidgets import (
     QApplication, QDialog, QFrame, QHBoxLayout, QLabel,
     QMainWindow, QMenu, QPushButton, QVBoxLayout, QWidget,
@@ -20,11 +31,12 @@ ENCOUNTER_CSV = _PROJECT_ROOT / "魔戒遭遇.csv"
 SCENE_IMAGE_DIR = _PROJECT_ROOT / "cards" / "场景"
 # 准备卡牌列中的指令标记（以 @ 开头，非具体卡名）
 SETUP_REVEAL_PER_PLAYER = "@每位玩家翻遭遇牌库顶"
+SETUP_PER_PLAYER_PREFIX = "@每位玩家"
 
 
 def resolve_scene_image(image_id: str) -> Optional[Path]:
     """根据 CSV 图片链接解析 cards/场景/ 下的图片文件。"""
-    image_id = (image_id or "").strip()
+    image_id = _image_id_stem(image_id)
     if not image_id:
         return None
     for ext in (".jpg", ".jpeg", ".png", ".JPG"):
@@ -32,6 +44,44 @@ def resolve_scene_image(image_id: str) -> Optional[Path]:
         if path.is_file():
             return path
     return None
+
+
+def _image_id_stem(image_id: str) -> str:
+    """统一 o8d id 与 CSV 图片链接：CSV 可能带 .jpg，o8d 通常不带。"""
+    stem = (image_id or "").strip()
+    lower = stem.lower()
+    for ext in (".jpg", ".jpeg", ".png"):
+        if lower.endswith(ext):
+            return stem[: -len(ext)]
+    return stem
+
+
+def _parse_setup_cards(setup_raw: str) -> Dict[str, object]:
+    """解析 CSV「准备卡牌」列；| 表示“和”，@每位玩家X 表示每位玩家各准备 1 张 X。"""
+    setup_parts = [
+        part.strip()
+        for part in (setup_raw or "").split("|")
+        if part.strip()
+    ]
+    setup_cards = []
+    setup_per_player_cards = []
+    setup_reveal_per_player = False
+    for part in setup_parts:
+        if part == SETUP_REVEAL_PER_PLAYER:
+            setup_reveal_per_player = True
+            continue
+        if part.startswith(SETUP_PER_PLAYER_PREFIX):
+            card_name = part[len(SETUP_PER_PLAYER_PREFIX):].strip()
+            if card_name:
+                setup_per_player_cards.append(card_name)
+            continue
+        if not part.startswith("@"):
+            setup_cards.append(part)
+    return {
+        "setup_cards": tuple(setup_cards),
+        "setup_per_player_cards": tuple(setup_per_player_cards),
+        "setup_reveal_per_player": setup_reveal_per_player,
+    }
 
 
 def load_quest_scenes_from_csv(
@@ -66,22 +116,12 @@ def load_quest_scenes_from_csv(
             if num not in number_set:
                 continue
 
-            image_id = (row.get("图片链接") or "").strip()
+            image_id = _image_id_stem(row.get("图片链接") or "")
             img_path = resolve_scene_image(image_id)
             progress_raw = (row.get("探险进度") or "").strip()
             target = int(progress_raw) if progress_raw.isdigit() else 0
             face = (row.get("探险编号") or "").strip()
-            setup_raw = (row.get("准备卡牌") or "").strip()
-            setup_parts = [
-                part.strip()
-                for part in setup_raw.split("|")
-                if part.strip()
-            ]
-            setup_reveal_per_player = SETUP_REVEAL_PER_PLAYER in setup_parts
-            setup_cards = tuple(
-                part for part in setup_parts
-                if not part.startswith("@")
-            )
+            setup_info = _parse_setup_cards(row.get("准备卡牌") or "")
             rows.append({
                 "number": num,
                 "name": (row.get("卡牌名称") or "").strip(),
@@ -89,8 +129,7 @@ def load_quest_scenes_from_csv(
                 "image_id": image_id,
                 "path": str(img_path) if img_path else None,
                 "target": target,
-                "setup_cards": setup_cards,
-                "setup_reveal_per_player": setup_reveal_per_player,
+                **setup_info,
             })
 
     rows.sort(key=lambda r: r["number"])
@@ -110,7 +149,7 @@ def _build_quest_index_by_image_id(csv_path: Optional[Path] = None) -> Dict[str,
         for row in csv.DictReader(f):
             if (row.get("类型") or "").strip() != "探险":
                 continue
-            image_id = (row.get("图片链接") or "").strip()
+            image_id = _image_id_stem(row.get("图片链接") or "")
             if image_id:
                 index[image_id] = row
     return index
@@ -144,7 +183,7 @@ def load_quest_scenes_from_o8d(
     missing: List[str] = []
 
     for order, card_el in enumerate(quest_section.findall("card"), 1):
-        image_id = (card_el.get("id") or "").strip()
+        image_id = _image_id_stem(card_el.get("id") or "")
         if not image_id:
             continue
         row = index.get(image_id)
@@ -162,17 +201,7 @@ def load_quest_scenes_from_o8d(
             number = order
 
         face = (row.get("探险编号") or "").strip()
-        setup_raw = (row.get("准备卡牌") or "").strip()
-        setup_parts = [
-            part.strip()
-            for part in setup_raw.split("|")
-            if part.strip()
-        ]
-        setup_reveal_per_player = SETUP_REVEAL_PER_PLAYER in setup_parts
-        setup_cards = tuple(
-            part for part in setup_parts
-            if not part.startswith("@")
-        )
+        setup_info = _parse_setup_cards(row.get("准备卡牌") or "")
         quests.append({
             "number": number,
             "name": (row.get("卡牌名称") or "").strip() or label,
@@ -180,8 +209,7 @@ def load_quest_scenes_from_o8d(
             "image_id": image_id,
             "path": str(img_path) if img_path else None,
             "target": target,
-            "setup_cards": setup_cards,
-            "setup_reveal_per_player": setup_reveal_per_player,
+            **setup_info,
         })
 
     if missing:

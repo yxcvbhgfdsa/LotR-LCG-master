@@ -9,6 +9,17 @@ from pathlib import Path
 from typing import List, Dict, Optional, Any, Tuple
 from dataclasses import dataclass, field
 
+_PYQT5_QT_PLUGIN_DIR = (
+    Path(sys.executable).resolve().parent.parent
+    / "Lib"
+    / "site-packages"
+    / "PyQt5"
+    / "Qt5"
+    / "plugins"
+)
+if _PYQT5_QT_PLUGIN_DIR.is_dir():
+    os.environ.setdefault("QT_QPA_PLATFORM_PLUGIN_PATH", str(_PYQT5_QT_PLUGIN_DIR))
+
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QLabel, QMenu, QVBoxLayout,
     QMessageBox, QMainWindow, QHBoxLayout, QPushButton,
@@ -125,6 +136,7 @@ CARD_NAME_ALIASES: Dict[str, str] = {
     "罗瑞安守护者": "罗瑞恩的保护者",
     "暗黑学识": "黑暗知识",
     "矮人墓穴": "矮人坟墓",
+    "拖延敌人": "拖延敌军",
 }
 
 def _init_series_aliases() -> Dict[str, str]:
@@ -464,7 +476,7 @@ class DeckListDialog(QDialog):
         hint = QLabel(
             "粘贴或编辑卡组列表（Main Deck 格式），\n"
             "或粘贴 RingsDB 链接后点「加载 RingsDB」/ 直接 OK（支持 decklist 与 deck/view）。\n"
-            "鑻遍泟涓嶅弬涓庢娊鐗岋紱盟友/附属/事件构成 50 张主牌组。"
+            "英雄不参与抽牌；盟友/附属/事件构成 50 张主牌组。"
         )
         hint.setStyleSheet("color: #444;")
         layout.addWidget(hint)

@@ -1,7 +1,19 @@
 import copy
+import os
 import sys
 from pathlib import Path
 from typing import Optional
+
+_PYQT5_QT_PLUGIN_DIR = (
+    Path(sys.executable).resolve().parent.parent
+    / "Lib"
+    / "site-packages"
+    / "PyQt5"
+    / "Qt5"
+    / "plugins"
+)
+if _PYQT5_QT_PLUGIN_DIR.is_dir():
+    os.environ.setdefault("QT_QPA_PLATFORM_PLUGIN_PATH", str(_PYQT5_QT_PLUGIN_DIR))
 
 from PyQt5.QtWidgets import (
     QLabel, QVBoxLayout, QHBoxLayout, QDialog, QMenu,

@@ -573,10 +573,7 @@ class CardWidget(QWidget):
             return
         card_type = (self.current_card.type if self.current_card else "") or ""
         count = self._progress_marker_count
-        show = (
-            card_type == "地区"
-            or card_type in ("任务", "探险", "Side Quest", "Quest")
-        ) and count > 0
+        show = card_type == "地区" and count > 0
         self.bottom_progress_container.setVisible(show)
         if show:
             self._progress_count_label.setText(str(count))
@@ -704,7 +701,7 @@ class CardWidget(QWidget):
             "attack": _parse_int(card.Attack),
             "defense": _parse_int(card.Defense),
             "health": _parse_int(card.Health),
-            "threat": _parse_int(card.Threat or getattr(card, "Threat_Level", "")),
+            "threat": _parse_int(card.Threat or card.Threat_Level),
             "progress": 0,
         }
         row = load_encounter_row_by_name(

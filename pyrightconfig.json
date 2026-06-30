@@ -1,0 +1,10 @@
+{
+  "typeCheckingMode": "off",
+  "reportPrivateUsage": "none",
+  "reportUnknownVariableType": "none",
+  "reportUnknownParameterType": "none",
+  "reportMissingParameterType": "none",
+  "reportUnknownArgumentType": "none",
+  "reportUnknownMemberType": "none",
+  "reportAttributeAccessIssue": "none"
+}
