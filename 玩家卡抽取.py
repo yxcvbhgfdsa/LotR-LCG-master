@@ -137,6 +137,8 @@ CARD_NAME_ALIASES: Dict[str, str] = {
     "暗黑学识": "黑暗知识",
     "矮人墓穴": "矮人坟墓",
     "拖延敌人": "拖延敌军",
+    "敏锐的耳朵": "灵敏的听觉",
+    "维拉的看重": "主神的眷顾",
 }
 
 def _init_series_aliases() -> Dict[str, str]:

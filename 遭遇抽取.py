@@ -1,4 +1,4 @@
-import csv
+﻿import csv
 import json
 import os
 import random
@@ -42,12 +42,14 @@ ENCOUNTER_DECK_TYPES = frozenset({
     "地区",
     "目标",
     "目标-盟友",
+    "船|目标",
     "遭遇支线探险",
     "诡计",
 })
 O8D_ENCOUNTER_SECTION = "Encounter"
 O8D_QUEST_SECTION = "Quest"
 O8D_SETUP_SECTION = "Setup"
+O8D_SPECIAL_SECTION = "Special"
 # 遭遇卡图源尺寸（宽 × 高，竖版）
 ENCOUNTER_CARD_W = 358
 ENCOUNTER_CARD_H = 500
@@ -105,6 +107,11 @@ class Card:
     type: str
     Text_Effect: str
     Demon_Shadow: str
+    Keywords: str
+    series: str = ""
+    Sphere: str = ""
+    Cost: str = ""
+    Willpower: str = ""
 
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> "Card":
@@ -127,6 +134,11 @@ class Card:
             type=data.get("type", ""),
             Text_Effect=data.get("Text Effect", ""),
             Demon_Shadow=data.get("Demon Shadow", ""),
+            Keywords=data.get("Keywords", ""),
+            series=data.get("series", "") or data.get("系列", ""),
+            Sphere=data.get("Sphere", ""),
+            Cost=data.get("Cost", ""),
+            Willpower=data.get("Willpower", ""),
         )
 
     @staticmethod
@@ -158,6 +170,11 @@ class Card:
             type=card_type,
             Text_Effect=(row.get("特性") or "").strip(),
             Demon_Shadow=(row.get("魔影效果") or "").strip(),
+            Keywords=(row.get("关键字") or "").strip(),
+            series=series,
+            Sphere="",
+            Cost="",
+            Willpower=(row.get("意志值") or row.get("意志力") or "").strip(),
         )
 
 
@@ -319,6 +336,23 @@ def load_setup_cards_from_o8d(
     return cards, missing
 
 
+def load_special_cards_from_o8d(
+    o8d_path: str | Path,
+    csv_path: Optional[Path] = None,
+    series: Optional[str] = None,
+) -> Tuple[List[Card], List[str]]:
+    """Load o8d Special section cards; used by scenario-specific side decks."""
+    cards, missing, skipped = _build_cards_from_o8d_section(
+        o8d_path,
+        O8D_SPECIAL_SECTION,
+        csv_path=csv_path,
+        series=series,
+        use_o8d_qty=True,
+        allowed_types=None,
+    )
+    if skipped:
+        print(f"o8d Special skipped: {', '.join(skipped)}")
+    return cards, missing
 def _find_o8d_section(root: ET.Element, section_name: str) -> Optional[ET.Element]:
     for section in root.findall("section"):
         if (section.get("name") or "").strip() == section_name:
@@ -495,6 +529,7 @@ class CardDrawer(QWidget):
         super().__init__(parent)
         self.cards: List[Card] = []
         self.setup_cards: List[Card] = []
+        self.special_cards: List[Card] = []
         self.current_card: Optional[Card] = None
         self.current_pixmap: Optional[QPixmap] = None
         self.deck_path: Optional[str] = None
@@ -542,8 +577,14 @@ class CardDrawer(QWidget):
             )
             if setup_missing:
                 print(f"o8d Setup 节未在 CSV 找到的准备牌: {', '.join(setup_missing)}")
+            self.special_cards, special_missing = load_special_cards_from_o8d(
+                path, series=self.deck_series
+            )
+            if special_missing:
+                print(f"o8d Special 节未在 CSV 找到的卡牌: {', '.join(special_missing)}")
             return cards
         self.setup_cards = []
+        self.special_cards = []
         return load_deck_cards(self.deck_path)
 
     def auto_load_default_deck(self):
@@ -689,8 +730,13 @@ class CardDrawer(QWidget):
                 path, series=self.deck_series
             )
             missing.extend(f"Setup: {name}" for name in setup_missing)
+            self.special_cards, special_missing = load_special_cards_from_o8d(
+                path, series=self.deck_series
+            )
+            missing.extend(f"Special: {name}" for name in special_missing)
         else:
             self.setup_cards = []
+            self.special_cards = []
             self.cards = self._reload_cards()
 
         self.current_card = None
@@ -1026,3 +1072,4 @@ if __name__ == "__main__":
     window = EncounterTestWindow()
     window.show()
     sys.exit(app.exec_())
+

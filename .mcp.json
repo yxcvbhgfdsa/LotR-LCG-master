@@ -1,0 +1,7 @@
+{
+  "ringsdb": {
+    "type": "stdio",
+    "command": "python",
+    "args": ["ringsdb_mcp/run_server.py"]
+  }
+}

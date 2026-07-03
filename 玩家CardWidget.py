@@ -1182,16 +1182,17 @@ class CardWidget(QWidget):
         self.clear_all_markers(persist=False)
         self.current_card = card
         self.card_name = card.name
-        if card.series:
-            self.series = card.series
+        card_series = getattr(card, "series", "")
+        if card_series:
+            self.series = card_series
         self.card_path = card.image_path or None
         self._base_stats = {
-            "willpower": _parse_int(card.Willpower),
-            "attack": _parse_int(card.Attack),
-            "defense": _parse_int(card.Defense),
-            "health": _parse_int(card.Health),
-            "threat": _parse_int(card.Threat),
-            "cost": _parse_int(card.Cost),
+            "willpower": _parse_int(getattr(card, "Willpower", "")),
+            "attack": _parse_int(getattr(card, "Attack", "")),
+            "defense": _parse_int(getattr(card, "Defense", "")),
+            "health": _parse_int(getattr(card, "Health", "")),
+            "threat": _parse_int(getattr(card, "Threat", "")),
+            "cost": _parse_int(getattr(card, "Cost", "")),
         }
         self._printed_stats = dict(self._base_stats)
         self._recalc_stats()
