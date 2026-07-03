@@ -231,6 +231,7 @@ class CardWidget(QWidget):
         self._passive_threat_bonus = 0
         self._resource_count = 0
         self._passive_attack_per_resource = 0
+        self._passive_defense_per_resource = 0
         self._show_resource_badge = False
         self._base_stats = {
             "attack": 0,
@@ -784,6 +785,10 @@ class CardWidget(QWidget):
         )
         if self._passive_attack_per_resource > 0 and self._resource_count > 0:
             stats["attack"] += self._resource_count * self._passive_attack_per_resource
+        if self._passive_defense_per_resource > 0 and self._resource_count > 0:
+            stats["defense"] += (
+                self._resource_count * self._passive_defense_per_resource
+            )
         stats["threat"] = max(0, stats["threat"] + self._passive_threat_bonus)
         self._current_stats = stats
         self._update_threat_badge()
@@ -812,6 +817,13 @@ class CardWidget(QWidget):
         if amount == self._passive_attack_per_resource:
             return
         self._passive_attack_per_resource = amount
+        self._recalc_stats()
+
+    def set_passive_defense_per_resource(self, amount: int):
+        amount = int(amount)
+        if amount == self._passive_defense_per_resource:
+            return
+        self._passive_defense_per_resource = amount
         self._recalc_stats()
 
     def resource_count(self) -> int:
