@@ -1371,6 +1371,7 @@ class CardDrawer(QWidget):
 
         self.card_drawn.emit(self.current_card.id)
         print(f"抽取玩家卡: {self.current_card.name} ({self.current_card.id})")
+        return self.current_card
 
     def show_error_image(self, error_msg: str):
         self.image_label.clear_image()

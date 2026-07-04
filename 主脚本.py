@@ -74,7 +74,7 @@ from 旧版术语 import (
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QFrame, QLabel, QPushButton, QScrollArea, QMessageBox,
-    QDialog, QListWidget,
+    QDialog, QListWidget, QInputDialog,
     QListWidgetItem, QAbstractItemView, QSpinBox, QButtonGroup, QToolButton,
     QStackedWidget, QPlainTextEdit,
 )
@@ -2675,6 +2675,7 @@ class DiscardPileViewDialog(QDialog):
         title: str = "玩家弃牌堆",
         card_kind: str = "player",
         series=None,
+        play_callback=None,
     ):
         super().__init__(parent)
         self.setWindowTitle(title)
@@ -2730,9 +2731,25 @@ class DiscardPileViewDialog(QDialog):
                 min_viewport_width=520,
             )
             layout.addWidget(scroll)
-        _add_prominent_dialog_buttons(
-            layout, accept_text='关闭', on_accept=self.accept
-        )
+        if play_callback is not None:
+            row = QHBoxLayout()
+            row.setContentsMargins(0, 10, 0, 4)
+            row.addStretch(1)
+            play_btn = QPushButton("打出弃牌堆的卡牌")
+            _style_prominent_button(play_btn, primary=False)
+            play_btn.clicked.connect(
+                lambda: (self.accept(), play_callback())
+            )
+            row.addWidget(play_btn)
+            close_btn = QPushButton("关闭")
+            _style_prominent_button(close_btn, primary=True)
+            close_btn.clicked.connect(self.accept)
+            row.addWidget(close_btn)
+            layout.addLayout(row)
+        else:
+            _add_prominent_dialog_buttons(
+                layout, accept_text='关闭', on_accept=self.accept
+            )
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
@@ -4062,10 +4079,11 @@ class MainWindow(QMainWindow):
     })
     DAUGHTER_OF_NIMRODEL_ALLY_NAMES = frozenset({"宁洛德尔之女", "宁若戴尔河之女", "Daughter of the Nimrodel"})
     GALADHRIM_WEAVER_ALLY_NAMES = frozenset({"加拉兹编织者", "凯兰崔姆织女", "Galadhrim Weaver"})
+    GALADHRIM_HEALER_ALLY_NAMES = frozenset({"加拉兹医者", "凯兰崔姆医者", "Galadhrim Healer"})
     LINDIR_ALLY_NAMES = frozenset({"林德", "林迪尔", "Lindir"})
     LONG_DEFEAT_ATTACHMENT_NAMES = frozenset({"长久的失败", "The Long Defeat"})
     SON_OF_ARNOR_ALLY_NAMES = frozenset({"阿尔诺之子", "亚尔诺之子"})  # 亚尔诺之子为旧版印刷
-    SNOWBOURN_SCOUT_ALLY_NAMES = frozenset({"雪邦斥候", "雪界河斥候"})  # 雪界河斥候为旧版印刷
+    SNOWBOURN_SCOUT_ALLY_NAMES = frozenset({"雪河斥候", "雪界河斥候"})  # 雪界河斥候为旧版印刷
     LONG_BEARD_ORC_SLAYER_ALLY_NAMES = frozenset({
         '长须奥克屠戮者', '长须屠兽者',
     })  # 长须屠兽者为旧版印刷名
@@ -4118,6 +4136,9 @@ class MainWindow(QMainWindow):
         "Warden of the Havens",
     })
     WHITE_TOWER_WATCHMAN_ALLY_NAMES = frozenset({"白塔守卫", "White Tower Watchman"})
+    TALE_OF_TINUVIEL_EVENT_NAMES = frozenset({
+        "缇努维尔的传说", "提努维尔的传说", "Tale of Tinúviel",
+    })
     DORI_HERO_NAMES = frozenset({"朵力", "Dori"})
     EREBOR_BOOTS_ATTACHMENT_NAMES = frozenset({'埃瑞博靴子', '依伯鲁之靴', "Boots from Erebor"})
     HARDY_LEADERSHIP_ATTACHMENT_NAMES = frozenset({"坚毅的领袖", "Hardy Leadership"})
@@ -4211,6 +4232,7 @@ class MainWindow(QMainWindow):
     HOLD_YOUR_GROUND_EVENT_NAMES = frozenset({'坚守阵地！', "Hold Your Ground!"})
     HOUR_OF_WRATH_EVENT_NAMES = frozenset({'横扫千军', "Hour of Wrath"})
     LORDS_OF_THE_ELDAR_EVENT_NAMES = frozenset({'艾尔达精灵贵族', "埃尔达领主", "Lords of the Eldar"})
+    ELVEN_LIGHT_EVENT_NAMES = frozenset({'精灵之光', "Elven-light", "精灵的光芒"})
     EXPERT_SWORDSMANSHIP_EVENT_NAMES = frozenset({'精于剑术', "Expert Swordsmanship"})
     UNSEEN_STRIKE_EVENT_NAMES = frozenset({'无影之击', "Unseen Strike"})
     ARROWS_RAIN_EVENT_NAMES = frozenset({"箭雨", "Rain of Arrows"})
@@ -4352,6 +4374,7 @@ class MainWindow(QMainWindow):
     FAST_HITCH_ATTACHMENT_NAMES = frozenset({'绑紧的绳结', "Fast Hitch"})
     PARTING_GIFT_EVENT_NAMES = frozenset({'临别的礼物', "Parting Gift"})
     IMRAHIL_HERO_NAMES = frozenset({"伊姆拉希尔亲王", "印拉希尔王子", "Prince Imrahil"})
+    EOMER_HERO_NAMES = frozenset({"伊奥梅尔", "伊欧墨", "Éomer", "Eomer"})
     CITADEL_PLATE_ATTACHMENT_NAMES = frozenset({'王城板甲', '都城铠甲', "Citadel Plate"})
     GONDORIAN_SHIELD_ATTACHMENT_NAMES = frozenset({"刚铎盾", '刚铎之盾', "Gondorian Shield"})
     DWARF_AXE_ATTACHMENT_NAMES = frozenset({"矮人斧", "矮人战斧", "Dwarf Axe"})
@@ -4372,6 +4395,12 @@ class MainWindow(QMainWindow):
     DARK_KNOWLEDGE_ATTACHMENT_NAMES = frozenset({'黑暗知识', "Dark Knowledge"})
     WINGED_HELM_ATTACHMENT_NAMES = frozenset({
         '鸦翼头盔', '鸦翼盔', "Winged Helm", "Winged Helmet",
+    })
+    WEATHER_STAINED_CLOAK_ATTACHMENT_NAMES = frozenset({
+        "风吹雨淋的斗篷", "破旧的衣物", "Weather-stained Cloak",
+    })
+    SWORD_BEARER_ATTACHMENT_NAMES = frozenset({
+        "佩剑侍从", "Sword-bearer", "Squire of the Sword",
     })
     STAR_SHAPED_BROOCH_ATTACHMENT_NAMES = frozenset({
         "星形别针", "星形领针", "Star-shaped Brooch", "Star Shaped Brooch",
@@ -4528,6 +4557,17 @@ class MainWindow(QMainWindow):
     AMBUSH_ON_SHORE_QUEST_NAMES = frozenset({"岸上的伏击", "Ambush on the Shore"})
     DESPAIR_NAMES = frozenset({"陷入绝望", "Despair"})
     EVIL_STORM_NAMES = frozenset({"邪恶的风暴", "Evil Storm"})
+    VICIOUS_MARAUDER_NAMES = frozenset({
+        "邪恶的掠夺者",
+        "邪恶的惊奇者",
+        "Vicious Marauder",
+    })
+    VICIOUS_MARAUDER_OCTGN_BASE = "2362af02-42b8-43fe-b3b6-f11f011b3197"
+    CORSAIR_INFILTRATOR_NAMES = frozenset({
+        "海盗潜入者",
+        "Corsair Infiltrator",
+    })
+    CORSAIR_INFILTRATOR_OCTGN_BASE = "d7885efa-3af6-48e6-8eb1-5750892fdb34"
     PURSUED_BY_SHADOW_NAMES = frozenset({"魔影追击", "Pursued by Shadow"})
     TREACHEROUS_FOG_NAMES = frozenset({"险恶的迷雾", "Treacherous Fog"})
     KING_SPIDER_NAMES = frozenset({'王蜘蛛', "King Spider"})
@@ -4551,6 +4591,13 @@ class MainWindow(QMainWindow):
         "97bf780d-cd76-492f-a970-37f78273c5bb",
         "f0d30258-7122-4004-a689-9ff50a00b3af",
     })
+    CAPTAIN_SAHIR_NAMES = frozenset({
+        "萨伊尔船长",
+        "萨希尔船长",
+        "Captain Sahír",
+        "Captain Sahir",
+    })
+    CAPTAIN_SAHIR_OCTGN_BASE = "97bf780d-cd76-492f-a970-37f78273c5bb"
     PLAYER_FLEET_SHIP_ORDER = (
         "逐梦者号",
         "黎明之星号",
@@ -4580,6 +4627,11 @@ class MainWindow(QMainWindow):
         "Dream-chaser",
         "Dream Chaser",
     })
+    DAWN_STAR_SHIP_NAMES = frozenset({
+        "黎明之星号",
+        "Dawn Star",
+    })
+    DAWN_STAR_SHIP_OCTGN_BASE = "81632d10-625e-42f0-9e6b-09574a9ffbc3"
     NARELENYA_SHIP_NAMES = frozenset({
         "纳瑞兰雅号",
         "Nárelenya",
@@ -4593,6 +4645,29 @@ class MainWindow(QMainWindow):
     DRIVEN_BY_SHADOW_NAMES = frozenset({'魔影驱使', "Driven by Shadow"})
     BOARDING_PARTY_NAMES = frozenset({"登船小队", "Boarding Party"})
     BOARDING_PARTY_OCTGN_BASE = "28ba7c20-b660-40cb-9e2c-bf6ebaec723e"
+    CORSAIR_WARSHIP_NAMES = frozenset({"海盗战船", "Corsair Warship"})
+    CORSAIR_WARSHIP_OCTGN_BASE = "a312e181-9209-4460-b6ba-c90c99e011fe"
+    WINDS_OF_WRATH_NAMES = frozenset({"愤怒之风", "Winds of Wrath"})
+    WINDS_OF_WRATH_OCTGN_BASE = "71d7dd78-a967-43dd-ab73-e46a5d4d4519"
+    DROWNED_DEAD_NAMES = frozenset({"淹死鬼", "Drowned Dead"})
+    DROWNED_DEAD_OCTGN_BASE = "79d5dc52-cfee-49f9-8a3d-1d4a7a749af2"
+    THRONGS_OF_UNFAITHFUL_NAMES = frozenset({
+        "成群的不忠者",
+        "成群的不思者",
+        "Throngs of Unfaithful",
+    })
+    THRONGS_OF_UNFAITHFUL_OCTGN_BASE = "159f5a8f-1e1f-4282-9936-94b10e348176"
+    SERVANT_OF_THE_DECEIVER_NAMES = frozenset({
+        "欺诈者的仆从",
+        "Servant of the Deceiver",
+    })
+    SERVANT_OF_THE_DECEIVER_OCTGN_BASE = "7a2f15bc-d05d-4891-9558-02396affc32b"
+    SOULLESS_CADAVER_NAMES = frozenset({"无魂死尸", "Soulless Cadaver"})
+    SOULLESS_CADAVER_OCTGN_BASE = "69a3ace6-7588-4ec4-91de-780b56502d8a"
+    CURSE_OF_THE_DOWNFALLEN_NAMES = frozenset({"堕落者的诅咒", "Curse of the Downfallen"})
+    CURSE_OF_THE_DOWNFALLEN_OCTGN_BASE = "ab5fec4c-b353-47e5-ae47-db7daf7f9088"
+    LINGERING_MALEVOLENCE_NAMES = frozenset({"挥之不去的恶意", "Lingering Malevolence"})
+    LINGERING_MALEVOLENCE_OCTGN_BASE = "b03a007c-42bc-433c-bd0e-efbf65a8696d"
     MISTY_MOUNTAIN_GOBLINS_NAMES = frozenset({'狼骑兵'})
     MISTY_MOUNTAINS_ORC_NAMES = frozenset({"迷雾山脉半兽人"})
     MISTY_MOUNTAINS_ORC_OCTGN_BASE = "51223bd0-ffd1-11df-a976-0801200c9111"
@@ -4617,6 +4692,8 @@ class MainWindow(QMainWindow):
         "萨希尔船长": 6,
         "Captain Sahír": 6,
         "Captain Sahir": 6,
+        "海盗战船": 6,
+        "Corsair Warship": 6,
         "娜阿西雅": 4,
         "Na'asiyah": 4,
     }
@@ -4649,6 +4726,8 @@ class MainWindow(QMainWindow):
     NORTHERN_WANDERER_ALLY_NAMES = frozenset({
         "北方的游民", "北方的游侠", "Northern Wanderer", "Northern Ranger",
     })
+    CALPHON_OBJECTIVE_ALLY_NAMES = frozenset({"卡冯", "Calphon"})
+    CALPHON_OBJECTIVE_ALLY_OCTGN_BASE = "24a816f2-172f-4945-8d9b-21eb7fb68263"
     LONGBEARD_ELDER_ALLY_NAMES = frozenset({'长须长者', "Longbeard Elder"})
     WEST_ROAD_TRAVELLER_ALLY_NAMES = frozenset({'西大道旅人', '西大道的旅人', "West Road Traveller"})
     LAMEDON_HUNTER_ALLY_NAMES = frozenset({"拉梅顿猎人", "拉密顿猎人", "Lamedon Hunter"})
@@ -4802,6 +4881,7 @@ class MainWindow(QMainWindow):
         self._enemy_attack_player_index = 0
         self._enemy_attack_ctx: dict | None = None
         self._pending_forced_enemy_attacks: list[dict] = []
+        self._temporary_surge_card_ids: set[str] = set()
         self._enemy_attack_substep_window_active = False
         self._enemies_attacked_this_round: set[str] = set()
         self._player_attack_active = False
@@ -4830,6 +4910,7 @@ class MainWindow(QMainWindow):
         self._game_won = False
         self._shadow_cards: dict = {}
         self._extra_shadow_cards: dict = {}  # 额外的魔影卡牌（如多古尔都驭兽师效果）
+        self._bonus_extra_shadow_cards: dict[str, list] = {}  # 同一敌军上的第 2+ 张额外魔影
         self._shadow_revealed: set[str] = set()
         self._extra_shadow_revealed: set[str] = set()
         self._wolf_rider_shadow_return_ids: set[str] = set()
@@ -4839,6 +4920,9 @@ class MainWindow(QMainWindow):
         self._questing_ids: set[str] = set()
         self._questing_readied: set[str] = set()
         self._questing_ids_this_player: set[str] = set()
+        self._promoted_ally_ids: set[str] = set()  # 佩剑侍从提升的盟友
+        self._captain_sahir_ally_action_used_rounds: dict[str, int] = {}
+        self._naasiyah_ally_action_used_rounds: dict[str, int] = {}
         self._active_side_quest_id = ""
         self._player_side_quest_progress: dict[str, int] = {}
         self._declared_defender_ids: set[str] = set()
@@ -4912,6 +4996,7 @@ class MainWindow(QMainWindow):
         self._wandering_took_action_used_chars: set[str] = set()
         self._rider_of_mark_action_used_chars: set[str] = set()
         self._imrahil_response_used_this_round: bool = False
+        self._eomer_response_used_this_round: bool = False
         self._landroval_response_used: bool = False
         self._rallying_call_return_to_hand_active: bool = False
         self._caldara_action_used: bool = False
@@ -5270,6 +5355,18 @@ class MainWindow(QMainWindow):
                         self._show_encounter_discard_pile_dialog
                     )
                     cell_layout.addWidget(self.encounter_discard_panel)
+                    self.pirate_discard_btn = QPushButton("弃牌堆2 (0)")
+                    self.pirate_discard_btn.setToolTip("单独查看海盗牌组的弃牌堆")
+                    self.pirate_discard_btn.setStyleSheet(
+                        "QPushButton { background-color: #fff2e6; border: 1px solid #cc8a4d; "
+                        "padding: 3px 8px; font-size: 11px; color: #8a4b12; }"
+                        "QPushButton:hover { background-color: #ffe2c2; }"
+                    )
+                    self.pirate_discard_btn.setCursor(Qt.PointingHandCursor)
+                    self.pirate_discard_btn.clicked.connect(
+                        self._show_pirate_discard_pile_dialog
+                    )
+                    cell_layout.addWidget(self.pirate_discard_btn)
                     self._refresh_encounter_discard_pile()
                 # 3-2：航向卡
                 elif row == 2 and col == 1:
@@ -5315,6 +5412,19 @@ class MainWindow(QMainWindow):
                     self.discard_panel = DiscardPilePanel()
                     self.discard_panel.clicked.connect(self._show_discard_pile_dialog)
                     cell_layout.addWidget(self.discard_panel)
+                    # 精灵之光：弃牌堆打出按钮
+                    self.elven_light_discard_btn = QPushButton("打出 精灵之光")
+                    self.elven_light_discard_btn.setStyleSheet(
+                        "QPushButton { background-color: #e8f0ff; border: 1px solid #6688cc; "
+                        "padding: 3px 8px; font-size: 11px; color: #224488; }"
+                        "QPushButton:hover { background-color: #d0e0ff; }"
+                    )
+                    self.elven_light_discard_btn.setCursor(Qt.PointingHandCursor)
+                    self.elven_light_discard_btn.setVisible(False)
+                    self.elven_light_discard_btn.clicked.connect(
+                        self._on_elven_light_discard_btn
+                    )
+                    cell_layout.addWidget(self.elven_light_discard_btn)
                     self._refresh_discard_pile()
                 else:
                     image_label = QLabel(f"区域 {row+1}-{col+1}")
@@ -5506,6 +5616,8 @@ class MainWindow(QMainWindow):
         "_gondorian_fire_phase_uses",
         "_galdor_havens_action_used_chars",
         "_boromir_ready_action_used_chars",
+        "_captain_sahir_ally_action_used_rounds",
+        "_naasiyah_ally_action_used_rounds",
         "_song_of_mocking_redirects",
         "_we_are_not_idle_active",
         "_phase_skip_engagement_checks",
@@ -5523,7 +5635,7 @@ class MainWindow(QMainWindow):
         "current_location_card", "current_location_progress",
         "_location_attachments", "_guarded_objective_attachment_ids",
         "_enemy_attachments", "_quest_attachments", "_player_threat_attachments",
-        "_shadow_cards", "_extra_shadow_cards",
+        "_shadow_cards", "_extra_shadow_cards", "_bonus_extra_shadow_cards",
         "_facedown_attachment_ids",
     )
 
@@ -6731,7 +6843,8 @@ class MainWindow(QMainWindow):
             + shipwright_wp + theoden_wp + sailor_wp + star_brooch_wp
             + ingold_wp + rosabel_wp + voyage_ship_wp + cursed_mists_wp
         )
-        atk_bonus += dain_atk + outlands_atk
+        silver_wing_atk = self._silver_wing_hero_attack_bonus_for(card)
+        atk_bonus += dain_atk + outlands_atk + silver_wing_atk
         hp_bonus += self._hardy_leadership_health_bonus_for(card) + outlands_hp
         eagles_atk, eagles_def = self._misty_mountains_eagles_facedown_stat_bonus(
             card, attachments_map
@@ -6766,7 +6879,7 @@ class MainWindow(QMainWindow):
         host_widget.clicked.connect(
             lambda cid=card.id, w=host_widget: self._on_field_character_quest_click(cid, w)
         )
-        if show_resource_pool and (getattr(card, "type", "") or "").strip() == '英雄':
+        if show_resource_pool and self._is_effectively_hero(card):
             host_widget.play_requested.connect(
                 lambda cid=card.id: self._on_field_hero_action_requested(cid)
             )
@@ -6934,11 +7047,29 @@ class MainWindow(QMainWindow):
 
         return group, host_widget
 
+    def _character_effective_type(self, card) -> str:
+        """返回角色有效类型（佩剑侍从提升的盟友视为英雄）。"""
+        char_id = (getattr(card, "id", "") or "").strip()
+        if char_id and char_id in getattr(self, "_promoted_ally_ids", set()):
+            return '英雄'
+        return (getattr(card, "type", "") or "").strip()
+
+    def _is_effectively_hero(self, card) -> bool:
+        """角色是否有效为英雄（含佩剑侍从提升）。"""
+        return self._character_effective_type(card) == '英雄'
+
+    def _is_effectively_ally(self, card) -> bool:
+        """角色是否有效为盟友（排除佩剑侍从提升的）。"""
+        return self._character_effective_type(card) == '盟友'
+
     def _is_hero_on_field(self, character_id: str) -> bool:
         for idx in range(self.PLAYER_COUNT):
             drawer = self._player_drawer_for(idx)
             if drawer and any(h.id == character_id for h in drawer.deck_heroes):
                 return True
+        # 佩剑侍从：提升的盟友也视为英雄
+        if character_id in getattr(self, "_promoted_ally_ids", set()):
+            return True
         return False
 
     def _refresh_host_group(self, host_id: str):
@@ -6997,14 +7128,43 @@ class MainWindow(QMainWindow):
             for ally in state.ally_cards:
                 self._char_owner[ally.id] = player_idx
                 show_radagast_pool = self._has_radagast_resource_pool_passive(ally)
+                is_promoted = ally.id in self._promoted_ally_ids
+                is_captain_sahir_ally = self._is_captain_sahir_objective_ally_card(
+                    ally
+                )
+                is_naasiyah_ally = self._is_naasiyah_objective_ally_card(
+                    ally
+                )
+                show_pool = (
+                    show_radagast_pool
+                    or is_promoted
+                    or is_captain_sahir_ally
+                    or is_naasiyah_ally
+                )
                 group, host_widget = self._build_character_group(
                     ally,
-                    show_resource_pool=show_radagast_pool,
+                    show_resource_pool=show_pool,
                     show_willpower_badge=in_adventure,
                     attachments_map=state.attachments,
                     hero_resources=state.hero_resources,
                     owner_color=owner_color,
                 )
+                if is_captain_sahir_ally:
+                    self._refresh_captain_sahir_ally_bonus(ally)
+                    host_widget.play_requested.connect(
+                        lambda cid=ally.id: self._on_field_hero_action_requested(cid)
+                    )
+                    host_widget.stats_changed.connect(
+                        lambda c=ally: self._refresh_captain_sahir_ally_bonus(c)
+                    )
+                if is_naasiyah_ally:
+                    self._refresh_naasiyah_ally_combat_bonus(ally)
+                    host_widget.play_requested.connect(
+                        lambda cid=ally.id: self._on_field_hero_action_requested(cid)
+                    )
+                    host_widget.stats_changed.connect(
+                        lambda c=ally: self._refresh_naasiyah_ally_combat_bonus(c)
+                    )
                 if self._has_faramir_willpower_action(ally):
                     host_widget.play_requested.connect(
                         lambda cid=ally.id: self._on_field_hero_action_requested(cid)
@@ -7082,6 +7242,10 @@ class MainWindow(QMainWindow):
                         lambda cid=ally.id: self._on_field_hero_action_requested(cid)
                     )
                 if self._has_gildor_inglorion_deck_swap_action(ally):
+                    host_widget.play_requested.connect(
+                        lambda cid=ally.id: self._on_field_hero_action_requested(cid)
+                    )
+                if self._has_calphon_deck_bottom_swap_action(ally):
                     host_widget.play_requested.connect(
                         lambda cid=ally.id: self._on_field_hero_action_requested(cid)
                     )
@@ -7288,6 +7452,19 @@ class MainWindow(QMainWindow):
 
     def _is_stormcaller_elite_objective_ally_face(self, card) -> bool:
         return self._is_stormcaller_elite_card(card) and self._is_objective_ally_type(card)
+
+    def _is_calphon_objective_ally_card(self, card) -> bool:
+        if card is None:
+            return False
+        base_id = self._card_octgn_base_id(card)
+        if base_id == self.CALPHON_OBJECTIVE_ALLY_OCTGN_BASE:
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return (
+            name in self.CALPHON_OBJECTIVE_ALLY_NAMES
+            or canonical in self.CALPHON_OBJECTIVE_ALLY_NAMES
+        )
 
     def _field_character_card(self, char_id: str):
         widget = self._field_widgets.get(char_id)
@@ -8366,7 +8543,7 @@ class MainWindow(QMainWindow):
     def _host_matches_attachment_restriction(self, attachment_card, host_card) -> bool:
         """附属进场限制（FAQ 1.23）：只检查卡牌文本，不比较宿主与附属派系。"""
         if self._is_ring_mail_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() not in (
+            if self._character_effective_type(host_card) not in (
                 '英雄', "盟友"
             ):
                 return False
@@ -8375,34 +8552,34 @@ class MainWindow(QMainWindow):
                 or self._character_has_hobbit_trait(host_card)
             )
         if self._is_ever_my_heart_rises_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() not in (
+            if self._character_effective_type(host_card) not in (
                 '英雄', "盟友"
             ):
                 return False
             return self._is_dwarf_character_card(host_card)
         if self._is_hardy_leadership_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() != '英雄':
+            if self._character_effective_type(host_card) != '英雄':
                 return False
             return any(
                 s in ("领导", "Leadership")
                 for s in self._hero_effective_spheres(host_card)
             )
         if self._is_love_of_tales_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() != '英雄':
+            if self._character_effective_type(host_card) != '英雄':
                 return False
             return any(
                 s in ('学识', "Lore")
                 for s in self._hero_effective_spheres(host_card)
             )
         if self._is_healing_herbs_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() != '英雄':
+            if self._character_effective_type(host_card) != '英雄':
                 return False
             return any(
                 s in ('学识', "Lore")
                 for s in self._hero_effective_spheres(host_card)
             )
         if self._is_athelas_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() not in (
+            if self._character_effective_type(host_card) not in (
                 '英雄', "盟友"
             ):
                 return False
@@ -8416,19 +8593,19 @@ class MainWindow(QMainWindow):
             trait_text = self._player_race_and_traits_text(host_card)
             return "诺多精灵" in trait_text or "西尔凡精灵" in trait_text
         if self._is_light_of_valinor_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() != '英雄':
+            if self._character_effective_type(host_card) != '英雄':
                 return False
             trait_text = self._player_race_and_traits_text(host_card)
             return "诺多精灵" in trait_text or "西尔凡精灵" in trait_text
         if self._is_to_the_sea_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() not in (
+            if self._character_effective_type(host_card) not in (
                 '英雄', "盟友"
             ):
                 return False
             trait_text = self._player_race_and_traits_text(host_card)
             return "诺多精灵" in trait_text or "Noldor" in trait_text
         if self._is_asfaloth_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() != '英雄':
+            if self._character_effective_type(host_card) != '英雄':
                 return False
             trait_text = self._player_race_and_traits_text(host_card)
             return "诺多精灵" in trait_text or "西尔凡精灵" in trait_text
@@ -8440,11 +8617,11 @@ class MainWindow(QMainWindow):
                 or self._is_gandalf_character_card(host_card)
             )
         if self._is_hobbit_pony_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() != '英雄':
+            if self._character_effective_type(host_card) != '英雄':
                 return False
             return self._character_has_hobbit_trait(host_card)
         if self._is_blood_of_numenor_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() != '英雄':
+            if self._character_effective_type(host_card) != '英雄':
                 return False
             host_id = (getattr(host_card, "id", "") or "").strip()
             return (
@@ -8454,7 +8631,7 @@ class MainWindow(QMainWindow):
                 or self._character_has_dunedain_trait(host_card)
             )
         if self._is_sword_of_numenor_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() != '英雄':
+            if self._character_effective_type(host_card) != '英雄':
                 return False
             host_id = (getattr(host_card, "id", "") or "").strip()
             return (
@@ -8464,11 +8641,11 @@ class MainWindow(QMainWindow):
                 or self._character_has_dunedain_trait(host_card)
             )
         if self._is_heir_of_valandil_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() != '英雄':
+            if self._character_effective_type(host_card) != '英雄':
                 return False
             return self._character_has_dunedain_trait(host_card)
         if self._is_gondorian_fire_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() != '英雄':
+            if self._character_effective_type(host_card) != '英雄':
                 return False
             host_id = (getattr(host_card, "id", "") or "").strip()
             return (
@@ -8478,7 +8655,7 @@ class MainWindow(QMainWindow):
                 or self._character_has_dunedain_trait(host_card)
             )
         if self._is_lord_of_morthond_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() != '英雄':
+            if self._character_effective_type(host_card) != '英雄':
                 return False
             host_id = (getattr(host_card, "id", "") or "").strip()
             return (
@@ -8490,18 +8667,18 @@ class MainWindow(QMainWindow):
                 )
             )
         if self._is_sword_of_morthond_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() != "盟友":
+            if self._character_effective_type(host_card) != "盟友":
                 return False
             host_id = (getattr(host_card, "id", "") or "").strip()
             return self._character_has_gondor_trait(
                 host_card, host_id or None
             )
         if self._is_palantir_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() != '英雄':
+            if self._character_effective_type(host_card) != '英雄':
                 return False
             return self._character_has_noble_trait(host_card)
         if self._is_mariners_compass_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() not in (
+            if self._character_effective_type(host_card) not in (
                 '英雄', "盟友"
             ):
                 return False
@@ -8511,7 +8688,7 @@ class MainWindow(QMainWindow):
                     s in ("领导", "Leadership")
                     for s in self._hero_effective_spheres(host_card)
                 )
-                if (getattr(host_card, "type", "") or "").strip() == '英雄'
+                if self._character_effective_type(host_card) == '英雄'
                 else _card_sphere(host_card) in ("领导", "Leadership")
             )
             trait_text = (
@@ -8520,17 +8697,24 @@ class MainWindow(QMainWindow):
             )
             return has_leadership or "斥候" in trait_text or "Scout" in trait_text
         if self._is_winged_helm_attachment(attachment_card):
-            if (getattr(host_card, "type", "") or "").strip() != '英雄':
+            if self._character_effective_type(host_card) != '英雄':
                 return False
             host_id = (getattr(host_card, "id", "") or "").strip()
             return self._character_has_vigilant(host_id)
+        if self._is_weather_stained_cloak_attachment(attachment_card):
+            trait_text = self._player_race_and_traits_text(host_card)
+            return "游侠" in trait_text or "Ranger" in trait_text
+        if self._is_sword_bearer_attachment(attachment_card):
+            if self._character_effective_type(host_card) != "盟友":
+                return False
+            return _is_unique_card(host_card)
         clause = self._attachment_restrict_clause(attachment_card)
         if not clause:
             return True
         if any(k in clause for k in ('地区', '敌军', '敌人', "遭遇", "陷阱")):
             if not any(k in clause for k in ('英雄', "盟友", "角色")):
                 return False
-        host_type = (getattr(host_card, "type", "") or "").strip()
+        host_type = self._character_effective_type(host_card)
         traits = self._card_trait_text(host_card)
         host_name = (getattr(host_card, "name", "") or "").strip()
         if '学识' in clause and '英雄' in clause:
@@ -9078,6 +9262,9 @@ class MainWindow(QMainWindow):
             self._is_old_stone_troll_card(enemy_card)
             or self._is_lurker_of_the_depths_card(enemy_card)
             or self._is_nameless_cave_dweller_card(enemy_card)
+            or self._is_scouting_ship_enemy(enemy_card)
+            or self._is_corsair_warship_card(enemy_card)
+            or self._is_light_cruiser_card(enemy_card)
         )
 
     def _is_staging_unattached_trap_attachment(self, card) -> bool:
@@ -9893,6 +10080,9 @@ class MainWindow(QMainWindow):
                     if not atts:
                         attachments.pop(host_id, None)
                     owner = self._char_owner.get(att.id, player_idx)
+                    # 佩剑侍从：取消盟友的英雄提升
+                    if self._is_sword_bearer_attachment(att):
+                        self._promoted_ally_ids.discard(host_id)
                     self._discard_attachment_to_pile(att, owner)
                     self._refresh_host_group(host_id)
                     return True
@@ -10672,14 +10862,19 @@ class MainWindow(QMainWindow):
     def _staging_threat_total(self) -> int:
         """探查区卡牌总威胁（含 Threat 标记修正）。"""
         if self.staging_cards:
-            return self._phase_staging_area_threat_bonus + sum(
+            return (
+                self._phase_staging_area_threat_bonus
+                + self._southron_sailor_extra_staging_threat()
+                + sum(
                 self._card_threat_value(
                     card, self._staging_host_widget_for_card(card)
                 )
                 for card in self.staging_cards
                 if card.id not in self._phase_threat_excluded_card_ids
             )
+            )
         total = self._phase_staging_area_threat_bonus
+        total += self._southron_sailor_extra_staging_threat()
         for card in self.staging_cards:
             if card.id in self._phase_threat_excluded_card_ids:
                 continue
@@ -10690,7 +10885,7 @@ class MainWindow(QMainWindow):
         """探险结算用威胁：不含当前地区与已交战敌人："""
         engaged_ids = {c.id for c in self._all_engagement_cards()}
         current_id = self.current_location_card.id if self.current_location_card else None
-        total = 0
+        total = self._southron_sailor_extra_staging_threat()
         for i, card in enumerate(self.staging_cards):
             if current_id and card.id == current_id:
                 continue
@@ -10913,6 +11108,12 @@ class MainWindow(QMainWindow):
         clear_encounter_marker_state_for_card(card)
         if isinstance(card, PlayerCard):
             clear_marker_state_for_card(card)
+        if self._is_calphon_objective_ally_card(card):
+            if not self._game_lost:
+                self._trigger_team_defeat(
+                    f"「{card.name}」离场。卡冯规则：如果卡冯离场，玩家游戏失败。"
+                )
+            print(f"卡冯离场：目标盟友「{card.name}」进入遭遇弃牌堆，玩家游戏失败")
         if self._is_stormcaller_elite_objective_ally_face(card):
             if not self._game_lost:
                 self._trigger_team_defeat(
@@ -11640,6 +11841,8 @@ class MainWindow(QMainWindow):
             return self._resolve_darkened_tunnel_after_travel(card)
         if self._is_sunken_treasury_location(card):
             return self._resolve_sunken_treasury_after_travel(card)
+        if self._is_starlit_sea_location(card):
+            return self._resolve_starlit_sea_after_travel(card)
         if self._is_secret_chamber_location(card):
             return self._resolve_secret_chamber_after_travel(card)
         if self._is_naurlhug_lair_location(card):
@@ -11719,6 +11922,35 @@ class MainWindow(QMainWindow):
             before = self._player_threat(player_idx)
             raised = self._raise_threat(
                 2,
+                player_index=player_idx,
+                elfhelm_source="encounter_effect",
+            )
+            after = self._player_threat(player_idx)
+            player_tag = self._player_tag(player_idx) or f"玩家 {player_idx + 1}"
+            lines.append(f"  {player_tag}：威胁 {before} → {after}（+{raised}）")
+            if self._game_lost:
+                break
+        print(f"游历（{card.name}）：" + "；".join(lines[1:]))
+        return lines
+
+    def _resolve_starlit_sea_after_travel(self, card) -> list[str]:
+        """星辰大海 · 游历：偏离航向时，每位玩家上升 3 点威胁。"""
+        heading = self._current_heading()
+        if heading == 1:
+            note = f"游历 ·「{card.name}」：当前为正常航向，游历效果不生效。"
+            print(note)
+            return [note]
+        lines = [
+            f"游历 ·「{card.name}」：当前处于偏离航向，"
+            "每位玩家上升 3 点威胁。"
+        ]
+        for offset in range(self.PLAYER_COUNT):
+            player_idx = (self.first_player_index + offset) % self.PLAYER_COUNT
+            if player_idx in self._eliminated_players:
+                continue
+            before = self._player_threat(player_idx)
+            raised = self._raise_threat(
+                3,
                 player_index=player_idx,
                 elfhelm_source="encounter_effect",
             )
@@ -12264,6 +12496,8 @@ class MainWindow(QMainWindow):
         drawer = self._player_drawer_for(player_index)
         if drawer is None:
             return f"{tag}：牌库不可用"
+        if self._player_deck_search_blocked_by_soulless(player_index):
+            return self._player_deck_search_blocked_note(player_index, source=title)
         if decline_ok:
             choice = QMessageBox.question(
                 self,
@@ -12563,6 +12797,8 @@ class MainWindow(QMainWindow):
                     0,
                     eng - 10 * self._belegost_loot_attached_to_heroes_count(),
                 )
+            if self._is_scouting_ship_enemy(card) and self._current_heading() > 1:
+                eng = max(0, eng - 15)
         return eng
 
     def _player_initial_threat(self, player_index: int = 0) -> int:
@@ -12582,6 +12818,7 @@ class MainWindow(QMainWindow):
             card for card in self._staging_enemy_cards()
             if card.id not in self._fresh_tracks_ignored_enemy_ids
             and card.id not in self._ranger_spikes_skip_engage_ids
+            and not self._fog_bank_blocks_ship_enemy_combat(card)
             and not self._enemy_blocked_from_engaging_player(
                 card.id, player_index
             )
@@ -13025,6 +13262,7 @@ class MainWindow(QMainWindow):
         """6.2 从遭遇牌库为交战敌人分发魔影卡牌（交战值高者优先；牌库耗尽则跳过）。"""
         self._shadow_cards.clear()
         self._extra_shadow_cards.clear()
+        self._bonus_extra_shadow_cards.clear()
         self._extra_shadow_revealed.clear()
         self._wolf_rider_shadow_return_ids.clear()
         self._wolf_rider_shadow_return_cards.clear()
@@ -13108,6 +13346,7 @@ class MainWindow(QMainWindow):
         self._combat_player_attacks_done = False
         self._shadow_cards.clear()
         self._extra_shadow_cards.clear()
+        self._bonus_extra_shadow_cards.clear()
         self._shadow_revealed.clear()
         self._extra_shadow_revealed.clear()
         self._wolf_rider_shadow_return_ids.clear()
@@ -13239,7 +13478,7 @@ class MainWindow(QMainWindow):
                 host_card = self._character_card_by_id(host_id)
                 if host_card is None:
                     continue
-                if (getattr(host_card, "type", "") or "").strip() != '英雄':
+                if self._character_effective_type(host_card) != '英雄':
                     continue
                 if not self._is_hero_on_field(host_id) or not self._is_character_alive(host_id):
                     continue
@@ -13447,6 +13686,8 @@ class MainWindow(QMainWindow):
     def _enemy_can_attack(self, card) -> bool:
         """敌人是否能够攻击（森林罗网等附属可阻止）。"""
         if (card.type or "").strip() != '敌人':
+            return False
+        if self._fog_bank_blocks_ship_enemy_combat(card):
             return False
         for att in self._enemy_attachments.get(card.id, []):
             if self._attachment_blocks_enemy_attack(att):
@@ -13836,6 +14077,9 @@ class MainWindow(QMainWindow):
             self._try_honor_guard_damage_cancel_response(actual_id, amount)
             self._try_honor_guard_valour_damage_cancel_response(actual_id, amount)
             self._try_winged_helm_damage_cancel_response(actual_id, amount)
+            self._try_weather_stained_cloak_damage_cancel_response(
+                actual_id, amount
+            )
             self._try_gloin_damage_resource_response(actual_id, amount)
             self._try_boomed_and_trumpeted_response(actual_id, amount)
         finally:
@@ -13946,6 +14190,10 @@ class MainWindow(QMainWindow):
             widget.set_passive_attack_per_resource(2)
             widget.set_show_attack_badge(True)
             widget.set_show_resource_badge(True)
+        if self._is_umbar_raider_card(card):
+            widget.set_passive_attack_per_resource(1)
+            widget.set_show_attack_badge(True)
+            widget.set_show_resource_badge(True)
         if self._is_raid_leader_card(card):
             if hasattr(widget, "set_passive_defense_per_resource"):
                 widget.set_passive_defense_per_resource(1)
@@ -13958,6 +14206,15 @@ class MainWindow(QMainWindow):
             widget.set_show_attack_badge(True)
             widget.set_show_defense_badge(True)
             widget.set_show_resource_badge(True)
+        if self._is_stormcaller_elite_enemy_face(card):
+            widget.set_passive_attack_per_resource(1)
+            if hasattr(widget, "set_passive_defense_per_resource"):
+                widget.set_passive_defense_per_resource(1)
+            widget.set_show_attack_badge(True)
+            widget.set_show_defense_badge(True)
+            widget.set_show_resource_badge(True)
+        if self._is_vicious_marauder_card(card):
+            widget.set_show_resource_badge(True)
 
     def _is_ufthak_card(self, card) -> bool:
         name = (getattr(card, "name", "") or "").strip()
@@ -13967,6 +14224,17 @@ class MainWindow(QMainWindow):
         if canonical in self.UFTHAK_NAMES:
             return True
         return "Chieftain Ufthak" in name or "Ufthak" in name
+
+    def _is_umbar_raider_card(self, card) -> bool:
+        base_id = self._card_octgn_base_id(card)
+        if base_id == "d03bdefa-cc39-43b6-9af9-feeb33858958":
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return name in {"昂巴掠夺者", "Umbar Raider"} or canonical in {
+            "昂巴掠夺者",
+            "Umbar Raider",
+        }
 
     def _is_raid_leader_card(self, card) -> bool:
         base_id = self._card_octgn_base_id(card)
@@ -13990,12 +14258,207 @@ class MainWindow(QMainWindow):
             "Cunning Pirate",
         }
 
+    def _is_vicious_marauder_card(self, card) -> bool:
+        base_id = self._card_octgn_base_id(card)
+        if base_id == self.VICIOUS_MARAUDER_OCTGN_BASE:
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return (
+            name in self.VICIOUS_MARAUDER_NAMES
+            or canonical in self.VICIOUS_MARAUDER_NAMES
+        )
+
+    def _is_corsair_infiltrator_card(self, card) -> bool:
+        if (getattr(card, "type", "") or "").strip() != "敌人":
+            return False
+        base_id = self._card_octgn_base_id(card)
+        if base_id == self.CORSAIR_INFILTRATOR_OCTGN_BASE:
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return (
+            name in self.CORSAIR_INFILTRATOR_NAMES
+            or canonical in self.CORSAIR_INFILTRATOR_NAMES
+        )
+
+    def _is_captain_sahir_enemy_card(self, card) -> bool:
+        if (getattr(card, "type", "") or "").strip() != "敌人":
+            return False
+        base_id = self._card_octgn_base_id(card)
+        if base_id == self.CAPTAIN_SAHIR_OCTGN_BASE:
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return (
+            name in self.CAPTAIN_SAHIR_NAMES
+            or canonical in self.CAPTAIN_SAHIR_NAMES
+        )
+
+    def _is_captain_sahir_objective_ally_card(self, card) -> bool:
+        if not self._is_objective_ally_type(card):
+            return False
+        base_id = self._card_octgn_base_id(card)
+        if base_id == self.CAPTAIN_SAHIR_OCTGN_BASE:
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return (
+            name in self.CAPTAIN_SAHIR_NAMES
+            or canonical in self.CAPTAIN_SAHIR_NAMES
+        )
+
+    def _is_naasiyah_objective_ally_card(self, card) -> bool:
+        if not self._is_objective_ally_type(card):
+            return False
+        base_id = self._card_octgn_base_id(card)
+        if base_id == "f0d30258-7122-4004-a689-9ff50a00b3af":
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return name in {"娜阿西雅", "Na'asiyah"} or canonical in {
+            "娜阿西雅",
+            "Na'asiyah",
+        }
+
+    def _is_servant_of_the_deceiver_card(self, card) -> bool:
+        base_id = self._card_octgn_base_id(card)
+        if base_id == self.SERVANT_OF_THE_DECEIVER_OCTGN_BASE:
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return (
+            name in self.SERVANT_OF_THE_DECEIVER_NAMES
+            or canonical in self.SERVANT_OF_THE_DECEIVER_NAMES
+        )
+
+    def _is_soulless_cadaver_card(self, card) -> bool:
+        base_id = self._card_octgn_base_id(card)
+        if base_id == self.SOULLESS_CADAVER_OCTGN_BASE:
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return (
+            name in self.SOULLESS_CADAVER_NAMES
+            or canonical in self.SOULLESS_CADAVER_NAMES
+        )
+
+    def _is_drowned_dead_card(self, card) -> bool:
+        base_id = self._card_octgn_base_id(card)
+        if base_id == self.DROWNED_DEAD_OCTGN_BASE:
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return (
+            name in self.DROWNED_DEAD_NAMES
+            or canonical in self.DROWNED_DEAD_NAMES
+        )
+
+    def _is_throngs_of_unfaithful_card(self, card) -> bool:
+        base_id = self._card_octgn_base_id(card)
+        if base_id == self.THRONGS_OF_UNFAITHFUL_OCTGN_BASE:
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return (
+            name in self.THRONGS_OF_UNFAITHFUL_NAMES
+            or canonical in self.THRONGS_OF_UNFAITHFUL_NAMES
+        )
+
+    def _player_deck_search_blocking_soulless_cadavers(
+        self, player_index: int
+    ) -> list:
+        return [
+            card
+            for card in self._engaged_enemies_for_player(player_index)
+            if self._is_soulless_cadaver_card(card)
+        ]
+
+    def _player_deck_search_blocked_by_soulless(
+        self, player_index: int
+    ) -> bool:
+        return bool(self._player_deck_search_blocking_soulless_cadavers(player_index))
+
+    def _player_deck_search_blocked_note(
+        self,
+        player_index: int,
+        *,
+        source: str = "",
+    ) -> str:
+        player_no = player_index + 1
+        blockers = self._player_deck_search_blocking_soulless_cadavers(player_index)
+        blocker_names = "、".join(getattr(card, "name", "无魂死尸") for card in blockers)
+        prefix = f"{source}：" if source else ""
+        return (
+            f"{prefix}玩家 {player_no} 正与「{blocker_names or '无魂死尸'}」交锋，"
+            "其牌组不能被搜寻。"
+        )
+
+    def _resolve_throngs_of_unfaithful_forced_when_destroyed(
+        self,
+        enemy_card,
+        engaged_player_index: int | None,
+    ) -> tuple[bool, list[str]]:
+        """成群的不忠者：消灭时弃除交锋玩家牌组底牌；费用≤2则返回遭遇牌组顶。"""
+        if not self._is_throngs_of_unfaithful_card(enemy_card):
+            return False, []
+        if engaged_player_index is None or not (0 <= engaged_player_index < self.PLAYER_COUNT):
+            note = (
+                f"强制 · 「{enemy_card.name}」被消灭：未找到交锋玩家，"
+                "未弃除牌组底牌"
+            )
+            print(f"强制（{enemy_card.name}）：{note}")
+            return False, [note]
+        drawer = self._player_drawer_for(engaged_player_index)
+        player_no = engaged_player_index + 1
+        if drawer is None:
+            note = (
+                f"强制 · 「{enemy_card.name}」被消灭：玩家 {player_no} "
+                "牌组未初始化，未弃除底牌"
+            )
+            print(f"强制（{enemy_card.name}）：{note}")
+            return False, [note]
+        if hasattr(drawer, "_ensure_deck_stack"):
+            drawer._ensure_deck_stack()
+        deck_stack = getattr(drawer, "deck_stack", [])
+        if not deck_stack:
+            note = (
+                f"强制 · 「{enemy_card.name}」被消灭：玩家 {player_no} "
+                "牌组为空，未弃除底牌"
+            )
+            print(f"强制（{enemy_card.name}）：{note}")
+            return False, [note]
+        bottom_card = deck_stack.pop()
+        self._players[engaged_player_index].discard_cards.append(bottom_card)
+        if engaged_player_index == self._active_player_index:
+            self._refresh_discard_pile()
+        printed_cost = _parse_card_cost(bottom_card)
+        return_to_top = printed_cost <= 2
+        note = (
+            f"强制 · 「{enemy_card.name}」被消灭：弃除玩家 {player_no} "
+            f"牌组底牌「{bottom_card.name}」（印刷费用 {printed_cost}）"
+        )
+        if return_to_top:
+            note += f"；费用为 2 或更低，「{enemy_card.name}」将返回遭遇牌组顶端"
+        else:
+            note += f"；费用高于 2，「{enemy_card.name}」照常离场"
+        print(f"强制（{enemy_card.name}）：{note}")
+        return return_to_top, [note]
+
     def _handle_enemy_destroyed(self, card):
         """敌人被消灭：从交战区/探查区移除，连同魔影一并置入遭遇弃牌堆。"""
         name = card.name
         card_id = card.id
+        engaged_player_index = self._engaged_enemy_owner_index(card)
+        return_to_deck_top, destroyed_forced_notes = (
+            self._resolve_throngs_of_unfaithful_forced_when_destroyed(
+                card,
+                engaged_player_index,
+            )
+        )
         shadow = self._shadow_cards.pop(card_id, None)
         extra_shadow = self._extra_shadow_cards.pop(card_id, None)
+        bonus_shadows = self._bonus_extra_shadow_cards.pop(card_id, [])
         self._shadow_revealed.discard(card_id)
         self._extra_shadow_revealed.discard(card_id)
         self._enemies_attacked_this_round.discard(card_id)
@@ -14055,6 +14518,11 @@ class MainWindow(QMainWindow):
                 f"  敌人「{name}」被消灭，加入胜利点展示区"
                 f"（{victory_vp} 胜利点，团队合计 {self._victory_display_vp}）"
             )
+        elif return_to_deck_top:
+            deck_note = self._return_encounter_card_to_deck_top(card)
+            destroy_note = (
+                f"  敌人「{name}」被消灭，因强制效果{deck_note}"
+            )
         else:
             self._to_encounter_discard_pile(card)
             destroy_note = f"  敌人「{name}」被消灭，置入遭遇弃牌堆"
@@ -14065,6 +14533,9 @@ class MainWindow(QMainWindow):
         if extra_shadow is not None:
             self._to_encounter_discard_pile(extra_shadow)
             shadow_notes.append(f"魔影「{extra_shadow.name}」")
+        for bonus_shadow in bonus_shadows:
+            self._to_encounter_discard_pile(bonus_shadow)
+            shadow_notes.append(f"魔影「{bonus_shadow.name}」")
         self._refresh_engagement_row()
         self._refresh_annuminas_guardian_defense_passives()
         self._refresh_fornost_bowman_attack_passives()
@@ -14076,6 +14547,8 @@ class MainWindow(QMainWindow):
             print(f"{destroy_note}，{'、'.join(shadow_notes)}一并弃置")
         else:
             print(destroy_note)
+        for note in destroyed_forced_notes:
+            print(f"  {note}")
         # 有来无回响应：非独有敌军被消灭后，将有来无回加入胜利点计数区以将该敌军加入胜利点计数区
         if not _is_unique_card(card):
             self._try_no_return_enemy_destroyed_response(card)
@@ -14085,7 +14558,9 @@ class MainWindow(QMainWindow):
         name = card.name
         card_id = card.id
         dream_destroyed = self._is_dream_chaser_ship_card(card)
+        dawn_star_destroyed = self._is_dawn_star_ship_card(card)
         narelenya_destroyed = self._is_narelenya_ship_card(card)
+        silver_wing_destroyed = self._is_silver_wing_ship_card(card)
         controller_idx = self._char_owner.get(card_id, -1)
         self._destroyed_enemies.add(card_id)
         self._enemies_attacked_this_round.discard(card_id)
@@ -14131,7 +14606,7 @@ class MainWindow(QMainWindow):
             )
             print("游戏失败：逐梦者号被消灭。")
         if (
-            narelenya_destroyed
+            (dawn_star_destroyed or narelenya_destroyed or silver_wing_destroyed)
             and 0 <= controller_idx < self.PLAYER_COUNT
             and controller_idx not in self._eliminated_players
         ):
@@ -14139,11 +14614,17 @@ class MainWindow(QMainWindow):
             if controller_idx == self.first_player_index:
                 self._pass_first_player_to_next_eligible()
             player_no = controller_idx + 1
+            if dawn_star_destroyed:
+                ship_name = "黎明之星号"
+            elif narelenya_destroyed:
+                ship_name = "纳瑞兰雅号"
+            else:
+                ship_name = "银翼号"
             self._warn(
                 "玩家淘汰",
-                f"纳瑞兰雅号被消灭，控制者玩家 {player_no} 被淘汰。",
+                f"{ship_name}被消灭，控制者玩家 {player_no} 被淘汰。",
             )
-            print(f"玩家淘汰：纳瑞兰雅号被消灭，玩家 {player_no} 被淘汰。")
+            print(f"玩家淘汰：{ship_name}被消灭，玩家 {player_no} 被淘汰。")
             if len(self._eliminated_players) >= self.PLAYER_COUNT:
                 self._trigger_team_defeat("所有玩家均已被淘汰。")
 
@@ -14257,6 +14738,9 @@ class MainWindow(QMainWindow):
                 self._try_imrahil_leave_play_response(
                     card, self._character_owner_index(char_id)
                 )
+                self._try_eomer_leave_play_response(
+                    card, self._character_owner_index(char_id)
+                )
                 self._try_the_end_comes_response(card)
             self._try_landroval_hero_destroyed_response(card, owner, name)
             self._after_character_left_play(char_id)
@@ -14272,6 +14756,7 @@ class MainWindow(QMainWindow):
                 self._after_character_left_play(char_id)
                 self._prune_questing_not_in_play()
                 return
+            self._record_ally_destroyed_during_enemy_attack(card, owner)
             state = self._players[owner]
             state.ally_cards = [a for a in state.ally_cards if a.id != char_id]
             self._sneak_attack_returns.pop(char_id, None)
@@ -14288,6 +14773,10 @@ class MainWindow(QMainWindow):
             removed_from_game = self._remove_encounter_keyword_player_card_from_game(
                 card, owner, reason="离场"
             )
+            if not removed_from_game:
+                removed_from_game = self._stormcaller_objective_ally_left_play(
+                    card, reason="被消灭"
+                )
             if not removed_from_game:
                 state.discard_cards.append(card)
             if owner == self._active_player_index and not removed_from_game:
@@ -14308,6 +14797,9 @@ class MainWindow(QMainWindow):
             self._try_imrahil_leave_play_response(
                 card, self._character_owner_index(char_id)
             )
+            self._try_eomer_leave_play_response(
+                card, self._character_owner_index(char_id)
+            )
             self._try_descendant_of_thorondor_staging_damage_response(
                 card, event="离场"
             )
@@ -14320,6 +14812,100 @@ class MainWindow(QMainWindow):
             self._try_the_end_comes_response(card)
         self._try_horn_of_gondor_responses(char_id, name)
         self._after_character_left_play(char_id)
+
+    def _record_ally_destroyed_during_enemy_attack(self, ally_card, owner_index: int) -> None:
+        ctx = self._enemy_attack_ctx
+        if ctx is None or ally_card is None:
+            return
+        if (getattr(ally_card, "type", "") or "").strip() != "盟友":
+            return
+        ally_id = getattr(ally_card, "id", "") or ""
+        if not ally_id:
+            return
+        destroyed_allies = ctx.setdefault("destroyed_ally_ids_this_attack", [])
+        if any(item.get("id") == ally_id for item in destroyed_allies):
+            return
+        destroyed_allies.append(
+            {
+                "id": ally_id,
+                "owner": owner_index,
+                "name": getattr(ally_card, "name", ally_id),
+            }
+        )
+
+    def _take_player_card_from_zones(self, card_id: str, owner_index: int):
+        if not (0 <= owner_index < self.PLAYER_COUNT):
+            return None, ""
+        state = self._players[owner_index]
+        zones = (
+            ("弃牌堆", state.discard_cards),
+            ("手牌", state.hand_cards),
+            ("场上盟友", state.ally_cards),
+        )
+        for zone_name, cards in zones:
+            for idx, card in enumerate(list(cards)):
+                if getattr(card, "id", "") != card_id:
+                    continue
+                try:
+                    cards.pop(idx)
+                except IndexError:
+                    return None, ""
+                return card, zone_name
+        return None, ""
+
+    def _move_destroyed_ally_to_owner_deck_bottom(
+        self,
+        ally_id: str,
+        owner_index: int,
+        *,
+        source: str,
+        cause_text: str = "被本次攻击消灭的盟友",
+    ) -> str:
+        card, from_zone = self._take_player_card_from_zones(ally_id, owner_index)
+        if card is None:
+            return ""
+        if (getattr(card, "type", "") or "").strip() != "盟友":
+            return ""
+        drawer = self._player_drawer_for(owner_index)
+        if drawer is None:
+            self._players[owner_index].discard_cards.append(card)
+            return f"{source}：无法找到玩家 {owner_index + 1} 牌组，未移动「{card.name}」。"
+        clear_marker_state_for_card(card)
+        self._destroyed_characters.discard(ally_id)
+        drawer.place_card_on_deck_bottom(card)
+        if owner_index == self._active_player_index:
+            self._refresh_hand_row(self._players[owner_index].hand_cards)
+            self._refresh_discard_pile()
+        self._refresh_ally_row()
+        return (
+            f"{source}：将{cause_text}「{card.name}」"
+            f"从{from_zone}放到玩家 {owner_index + 1} 的牌组底端。"
+        )
+
+    def _move_destroyed_attack_allies_to_owner_deck_bottom(
+        self,
+        *,
+        source: str,
+    ) -> list[str]:
+        ctx = self._enemy_attack_ctx
+        if ctx is None:
+            return []
+        moved_ids: set[str] = ctx.setdefault("drowned_dead_bottomed_ally_ids", set())
+        notes: list[str] = []
+        for item in list(ctx.get("destroyed_ally_ids_this_attack") or []):
+            ally_id = item.get("id", "")
+            if not ally_id or ally_id in moved_ids:
+                continue
+            owner_index = int(item.get("owner", -1))
+            note = self._move_destroyed_ally_to_owner_deck_bottom(
+                ally_id,
+                owner_index,
+                source=source,
+            )
+            if note:
+                moved_ids.add(ally_id)
+                notes.append(note)
+        return notes
 
     def _is_character_in_play(self, char_id: str) -> bool:
         """角色仍在场上且存活。"""
@@ -14346,7 +14932,10 @@ class MainWindow(QMainWindow):
         """6.4.2 翻开魔影卡牌（面朝上）。"""
         revealed = False
         if extra:
-            if enemy_id in self._extra_shadow_cards:
+            if (
+                enemy_id in self._extra_shadow_cards
+                or self._bonus_extra_shadow_cards.get(enemy_id)
+            ):
                 self._extra_shadow_revealed.add(enemy_id)
                 revealed = True
         elif enemy_id in self._shadow_cards:
@@ -14391,6 +14980,11 @@ class MainWindow(QMainWindow):
             or self._is_calm_waters_location(shadow_card)
             or self._is_rolling_seas_location(shadow_card)
             or self._is_rough_waters_location(shadow_card)
+            or self._is_fog_bank_location(shadow_card)
+            or self._is_winds_of_wrath_card(shadow_card)
+            or self._is_drowned_dead_card(shadow_card)
+            or self._is_curse_of_the_downfallen_card(shadow_card)
+            or self._is_lingering_malevolence_card(shadow_card)
         )
 
     def _collect_shadow_cancel_choices(
@@ -14668,7 +15262,8 @@ class MainWindow(QMainWindow):
         """弃除指定敌军上的全部魔影卡，不结算其效果。"""
         shadow = self._shadow_cards.pop(enemy_id, None)
         extra_shadow = self._extra_shadow_cards.pop(enemy_id, None)
-        if shadow is None and extra_shadow is None:
+        bonus_shadows = self._bonus_extra_shadow_cards.pop(enemy_id, [])
+        if shadow is None and extra_shadow is None and not bonus_shadows:
             return None
         revealed = (
             enemy_id in self._shadow_revealed
@@ -14683,6 +15278,10 @@ class MainWindow(QMainWindow):
         if extra_shadow is not None:
             self._to_encounter_discard_pile(extra_shadow)
             notes.append("额外魔影")
+        if bonus_shadows:
+            for bonus_shadow in bonus_shadows:
+                self._to_encounter_discard_pile(bonus_shadow)
+            notes.append(f"额外魔影x{len(bonus_shadows)}")
         enemy_name = self._enemy_display_name_by_id(enemy_id)
         state = "已翻开" if revealed else "面朝下"
         prefix = f"「{enemy_name}」" if enemy_name else ""
@@ -14697,6 +15296,7 @@ class MainWindow(QMainWindow):
         """6.6 敌人攻击过程结束：弃除未发动攻击的敌军魔影（不结算，FAQ 1.9）。"""
         enemy_ids: set[str] = set(self._shadow_cards.keys())
         enemy_ids.update(self._extra_shadow_cards.keys())
+        enemy_ids.update(self._bonus_extra_shadow_cards.keys())
         if not enemy_ids:
             return []
         attacked = self._enemies_attacked_this_round
@@ -14737,6 +15337,23 @@ class MainWindow(QMainWindow):
                 )
             )
             self._extra_shadow_revealed.discard(enemy_id)
+        bonus_kept: list = []
+        for idx, bonus_shadow in enumerate(self._bonus_extra_shadow_cards.get(enemy_id, [])):
+            if self._is_encounter_keyword_player_card(bonus_shadow):
+                discarded.append(
+                    (
+                        f"额外魔影{idx + 2}",
+                        bonus_shadow,
+                        enemy_id in self._extra_shadow_revealed,
+                    )
+                )
+            else:
+                bonus_kept.append(bonus_shadow)
+        if enemy_id in self._bonus_extra_shadow_cards:
+            if bonus_kept:
+                self._bonus_extra_shadow_cards[enemy_id] = bonus_kept
+            else:
+                self._bonus_extra_shadow_cards.pop(enemy_id, None)
         if not discarded:
             return None
         enemy_name = self._enemy_display_name_by_id(enemy_id)
@@ -14760,7 +15377,23 @@ class MainWindow(QMainWindow):
         self, enemy_id: str, slot: str, *, reason: str = ""
     ) -> str | None:
         """弃除单张未翻开的魔影卡，不结算其效果。"""
-        if slot == "extra":
+        if slot.startswith("bonus_extra:"):
+            if enemy_id in self._extra_shadow_revealed:
+                return None
+            try:
+                idx = int(slot.split(":", 1)[1])
+            except (TypeError, ValueError):
+                return None
+            shadows = self._bonus_extra_shadow_cards.get(enemy_id, [])
+            if idx < 0 or idx >= len(shadows):
+                return None
+            shadow = shadows.pop(idx)
+            if shadows:
+                self._bonus_extra_shadow_cards[enemy_id] = shadows
+            else:
+                self._bonus_extra_shadow_cards.pop(enemy_id, None)
+            kind = f"额外魔影{idx + 2}"
+        elif slot == "extra":
             if enemy_id in self._extra_shadow_revealed:
                 return None
             shadow = self._extra_shadow_cards.pop(enemy_id, None)
@@ -14790,7 +15423,22 @@ class MainWindow(QMainWindow):
         self, enemy_id: str, slot: str, *, reason: str = ""
     ) -> str | None:
         """弃除单张魔影卡，不论是否已翻开，均不结算其效果。"""
-        if slot == "extra":
+        if slot.startswith("bonus_extra:"):
+            try:
+                idx = int(slot.split(":", 1)[1])
+            except (TypeError, ValueError):
+                return None
+            shadows = self._bonus_extra_shadow_cards.get(enemy_id, [])
+            if idx < 0 or idx >= len(shadows):
+                return None
+            shadow = shadows.pop(idx)
+            if shadows:
+                self._bonus_extra_shadow_cards[enemy_id] = shadows
+            else:
+                self._bonus_extra_shadow_cards.pop(enemy_id, None)
+            revealed = enemy_id in self._extra_shadow_revealed
+            kind = f"额外魔影{idx + 2}"
+        elif slot == "extra":
             shadow = self._extra_shadow_cards.pop(enemy_id, None)
             if shadow is None:
                 return None
@@ -14830,6 +15478,16 @@ class MainWindow(QMainWindow):
                 continue
             self._extra_shadow_cards.pop(enemy_id, None)
             self._extra_shadow_revealed.discard(enemy_id)
+        for enemy_id, shadows in list(self._bonus_extra_shadow_cards.items()):
+            kept = [
+                card for card in shadows
+                if (getattr(card, "id", "") or "") != shadow_id
+            ]
+            if len(kept) != len(shadows):
+                if kept:
+                    self._bonus_extra_shadow_cards[enemy_id] = kept
+                else:
+                    self._bonus_extra_shadow_cards.pop(enemy_id, None)
 
     def _distribute_shadow_for_enemy(
         self,
@@ -14851,7 +15509,10 @@ class MainWindow(QMainWindow):
             return False
         clear_encounter_marker_state_for_card(shadow)
         if extra:
-            self._extra_shadow_cards[enemy_card.id] = shadow
+            if enemy_card.id in self._extra_shadow_cards:
+                self._bonus_extra_shadow_cards.setdefault(enemy_card.id, []).append(shadow)
+            else:
+                self._extra_shadow_cards[enemy_card.id] = shadow
         else:
             self._shadow_cards[enemy_card.id] = shadow
         self._shadow_revealed.discard(enemy_card.id)
@@ -14946,6 +15607,13 @@ class MainWindow(QMainWindow):
         """进入单次敌人攻击结算（6.4b 起，各子步骤间插入行动窗口）。"""
         if self._enemy_attack_ctx is not None:
             return
+        if self._fog_bank_blocks_ship_enemy_combat(enemy_card):
+            self._inform(
+                "雾角",
+                f"「雾角」处于激活地区，船敌军「{enemy_card.name}」不能攻击。",
+            )
+            print(f"雾角：船敌军「{enemy_card.name}」不能攻击")
+            return
         self._prepare_enemy_attack_shadow(
             enemy_card,
             player_index,
@@ -14957,6 +15625,11 @@ class MainWindow(QMainWindow):
         self._resolve_dol_guldur_beastmaster_forced_extra_shadow(
             enemy_card, player_index
         )
+        if self._is_corsair_infiltrator_card(enemy_card):
+            self._resolve_corsair_infiltrator_attack_shadows(
+                enemy_card,
+                player_index,
+            )
         atk = self._card_attack(enemy_card)
         self._enemy_attack_ctx = {
             "enemy_id": enemy_card.id,
@@ -14986,6 +15659,11 @@ class MainWindow(QMainWindow):
         )
         if naurlhug_note:
             forced_notes.append(naurlhug_note)
+        vicious_note = self._resolve_vicious_marauder_forced_when_attacks(
+            enemy_card, player_index
+        )
+        if vicious_note:
+            forced_notes.append(vicious_note)
         forced_note = "\n".join(forced_notes)
         self._enemy_attack_step_6_4b()
         forced_block = f"{forced_note}\n\n" if forced_note else ""
@@ -15083,6 +15761,44 @@ class MainWindow(QMainWindow):
                 prompt_prefix=(
                     f"「{enemy_card.name}」攻击时："
                     f"分配 {damage} 点伤害到你控制的角色上。"
+                ),
+            )
+        )
+        note = "\n".join(lines)
+        print(f"强制（{enemy_card.name}）：" + "；".join(lines))
+        return note
+
+    def _resolve_vicious_marauder_forced_when_attacks(
+        self, enemy_card, player_index: int
+    ) -> str:
+        """邪恶的掠夺者 · 强制：攻击时按其资源标记数量分配伤害。"""
+        if not self._is_vicious_marauder_card(enemy_card):
+            return ""
+        enemy_widget = self._encounter_widget_for_card(enemy_card)
+        resources = (
+            int(enemy_widget.resource_count())
+            if enemy_widget is not None and hasattr(enemy_widget, "resource_count")
+            else 0
+        )
+        player_tag = self._player_tag(player_index) or f"玩家 {player_index + 1}"
+        head = (
+            f"强制 · 「{enemy_card.name}」攻击{player_tag}："
+            f"向你控制的角色分配 {resources} 点伤害"
+            "（等同于其上资源标记数量）"
+        )
+        if resources <= 0:
+            note = head + "；资源标记为 0，未分配伤害"
+            print(f"强制（{enemy_card.name}）：{note}")
+            return note
+        lines = [head]
+        lines.extend(
+            self._assign_damage_to_player_characters(
+                player_index,
+                resources,
+                title=f"强制 · {enemy_card.name}",
+                prompt_prefix=(
+                    f"「{enemy_card.name}」攻击时："
+                    f"向你控制的角色分配 {resources} 点伤害。"
                 ),
             )
         )
@@ -15374,6 +16090,10 @@ class MainWindow(QMainWindow):
         extra = self._extra_shadow_cards.get(enemy_card.id)
         if extra is not None:
             shadow_specs.append(("额外魔影", extra))
+        for idx, bonus_shadow in enumerate(
+            self._bonus_extra_shadow_cards.get(enemy_card.id, [])
+        ):
+            shadow_specs.append((f"额外魔影{idx + 2}", bonus_shadow))
         if not shadow_specs:
             print('6.4.2 该敌军未分配魔影卡牌')
             return
@@ -15731,6 +16451,7 @@ class MainWindow(QMainWindow):
         destroyed = bool(ctx.get("destroyed"))
         out_of_combat = ctx["out_of_combat"]
         print(f"6.4.4 「{enemy_card.name}」敌人攻击结束（攻击力 {atk}）")
+        self._clear_naasiyah_ally_combat_bonus_from_ctx(ctx)
         shadow_discard_note = ""
         if out_of_combat:
             discarded = self._discard_shadows_for_enemy(
@@ -15769,6 +16490,12 @@ class MainWindow(QMainWindow):
         forced_notes.extend(
             self._after_enemy_attack(enemy_card, defending_player)
         )
+        if ctx.get("drowned_dead_shadow_bottom_destroyed_allies"):
+            forced_notes.extend(
+                self._move_destroyed_attack_allies_to_owner_deck_bottom(
+                    source="魔影 · 淹死鬼",
+                )
+            )
         if destroyed and ctx.get("covered_pit_return_to_staging_if_destroyed"):
             forced_notes.append(
                 self._return_engaged_enemy_to_staging_after_attack(
@@ -15992,6 +16719,12 @@ class MainWindow(QMainWindow):
             enemy_card = self._enemy_card_by_id(str(pending.get("enemy_id", "")))
             if enemy_card is None or enemy_card.id in self._destroyed_enemies:
                 continue
+            if self._fog_bank_blocks_ship_enemy_combat(enemy_card):
+                print(
+                    f"{pending.get('reason', '强制 · ')}「{enemy_card.name}」"
+                    "因「雾角」处于激活地区不能攻击，跳过"
+                )
+                continue
             player_index = int(pending.get("player_index", 0) or 0)
             if not (0 <= player_index < self.PLAYER_COUNT):
                 continue
@@ -16111,6 +16844,7 @@ class MainWindow(QMainWindow):
         return [
             card for card in self._engaged_enemies_for_player(player_index)
             if card.id not in attacked
+            and not self._enemy_cannot_be_attacked(card)
             and not self._player_cannot_attack_ship_enemy(player_index, card)
         ]
 
@@ -16149,6 +16883,8 @@ class MainWindow(QMainWindow):
                 if card.id in attacked or card.id in self._destroyed_enemies:
                     continue
                 if self._player_cannot_attack_ship_enemy(player_index, card):
+                    continue
+                if self._enemy_cannot_be_attacked(card):
                     continue
                 if self._is_old_stone_troll_card(card):
                     continue
@@ -16194,6 +16930,8 @@ class MainWindow(QMainWindow):
                     continue
                 if self._player_cannot_attack_ship_enemy(player_index, card):
                     continue
+                if self._enemy_cannot_be_attacked(card):
+                    continue
                 if self._is_old_stone_troll_card(card):
                     continue
                 if not self._enemy_has_ithilien_pit_attached(card):
@@ -16214,6 +16952,7 @@ class MainWindow(QMainWindow):
             if card.id not in attacked
             and card.id not in self._destroyed_enemies
             and not self._player_cannot_attack_ship_enemy(player_index, card)
+            and not self._enemy_cannot_be_attacked(card)
             and not self._is_old_stone_troll_card(card)
             and self._enemy_has_ithilien_pit_attached(card)
         ]
@@ -16227,6 +16966,7 @@ class MainWindow(QMainWindow):
             and card.id not in attacked
             and card.id not in self._destroyed_enemies
             and not self._player_cannot_attack_ship_enemy(player_index, card)
+            and not self._enemy_cannot_be_attacked(card)
         ]
 
     def _all_eligible_staging_attack_enemies(self, player_index: int) -> list:
@@ -16286,6 +17026,7 @@ class MainWindow(QMainWindow):
             if card.id not in attacked
             and card.id not in self._destroyed_enemies
             and not self._player_cannot_attack_ship_enemy(player_index, card)
+            and not self._enemy_cannot_be_attacked(card)
         ]
 
     def _player_has_pending_attacks(self, player_index: int) -> bool:
@@ -17089,7 +17830,7 @@ class MainWindow(QMainWindow):
                 host_card = self._character_card_by_id(host_id)
                 if host_card is None:
                     continue
-                if (getattr(host_card, "type", "") or "").strip() != '英雄':
+                if self._character_effective_type(host_card) != '英雄':
                     continue
                 if not self._is_hero_on_field(host_id):
                     continue
@@ -18090,6 +18831,11 @@ class MainWindow(QMainWindow):
         if drawer is None:
             print(f"响应（{ally_name}）：{owner_tag} 牌库不可用")
             return
+        if self._player_deck_search_blocked_by_soulless(owner_idx):
+            note = self._player_deck_search_blocked_note(owner_idx, source=ally_name)
+            print(f"响应（{ally_name}）：{note}")
+            self._inform(title, note)
+            return
         peek_count = min(5, len(drawer.peek_deck_top(5)))
         if peek_count <= 0:
             print(f"响应（{ally_name}）：{owner_tag} 牌库为空")
@@ -18748,6 +19494,81 @@ class MainWindow(QMainWindow):
             state.discard_cards.append(top_card)
             self._refresh_discard_pile()
 
+    def _is_galadhrim_healer_ally_card(self, card) -> bool:
+        """检查卡牌是否为「加拉兹医者」盟友。"""
+        if (getattr(card, "type", "") or "").strip() != '盟友':
+            return False
+        name = (getattr(card, "name", "") or "").strip()
+        if name in self.GALADHRIM_HEALER_ALLY_NAMES:
+            return True
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        if canonical in self.GALADHRIM_HEALER_ALLY_NAMES:
+            return True
+        text = (getattr(card, "Text_Effect", "") or "")
+        return (
+            "加拉兹" in text
+            and "医者" in text
+            and "进场" in text
+            and "英雄" in text
+            and "治疗" in text
+        )
+
+    def _has_galadhrim_healer_enter_response(self, card) -> bool:
+        """加拉兹医者：响应 - 在凯兰崔姆医者进场后，选择玩家，治疗其每名英雄 1 点伤害。"""
+        return self._is_galadhrim_healer_ally_card(card)
+
+    def _try_galadhrim_healer_enter_response(self, ally_card) -> None:
+        """加拉兹医者：进场后选择一名玩家，治疗其每名英雄 1 点伤害。"""
+        if not self._has_galadhrim_healer_enter_response(ally_card):
+            return
+        owner_idx = self._char_owner.get(ally_card.id, self._active_player_index)
+        if owner_idx < 0:
+            return
+        title = f"响应 · {ally_card.name}"
+        owner_tag = self._player_tag(owner_idx) or f"玩家 {owner_idx + 1}"
+        if (
+            self._question(
+                title,
+                f"是否触发响应？\n"
+                f"「{ally_card.name}」进场后（{owner_tag}），"
+                f"选择一名玩家，从该玩家控制的每名英雄上治疗 1 点伤害？",
+                default_yes=True,
+            )
+            != QMessageBox.Yes
+        ):
+            print(f"响应（{ally_card.name}）：未触发")
+            return
+        # 选择一位玩家
+        target_idx = self._pick_player_index(
+            title, "选择要治疗其英雄的玩家："
+        )
+        if target_idx is None:
+            return
+        target_tag = self._player_tag(target_idx) or f"玩家 {target_idx + 1}"
+        # 治疗该玩家控制的每名存活英雄 1 点伤害
+        heroes = self._heroes_controlled_by_player(target_idx)
+        healed_heroes: list[str] = []
+        for hero in heroes:
+            if not self._is_character_alive(hero.id):
+                continue
+            dmg_before = self._character_damage_count(hero.id)
+            if dmg_before <= 0:
+                continue
+            self._heal_character_damage(hero.id, 1, card_effect=True)
+            dmg_after = self._character_damage_count(hero.id)
+            healed_heroes.append(
+                f"「{hero.name}」（{dmg_before}→{dmg_after}）"
+            )
+        if healed_heroes:
+            note = (
+                f"响应：{ally_card.name}：{target_tag} 的英雄治疗 1 点伤害：\n"
+                + "；".join(healed_heroes)
+            )
+        else:
+            note = f"响应：{ally_card.name}：{target_tag} 的英雄无伤害可治疗。"
+        print(note)
+        self._inform(title, note)
+
     def _has_henamarth_peek_deck_action(self, card) -> bool:
         if not self._is_henamarth_riversong_ally_card(card):
             return False
@@ -19128,6 +19949,7 @@ class MainWindow(QMainWindow):
             ally_card, event='进场'
         )
         self._try_galadhrim_weaver_enter_response(ally_card)
+        self._try_galadhrim_healer_enter_response(ally_card)
         self._try_lindir_enter_response(ally_card)
 
     def _put_ally_from_hand_into_play(self, card) -> bool:
@@ -20183,6 +21005,13 @@ class MainWindow(QMainWindow):
         if ally_card not in state.ally_cards:
             return False
         char_id = ally_card.id
+        if self._is_calphon_objective_ally_card(ally_card) and not self._game_lost:
+            self._trigger_team_defeat(
+                f"「{ally_card.name}」离场。卡冯规则：如果卡冯离场，玩家游戏失败。"
+            )
+        stormcaller_removed = self._stormcaller_objective_ally_left_play(
+            ally_card, reason="离场"
+        )
         departed_attack = self._character_attack_before_leave(char_id)
         if self._try_misty_mountains_eagles_eagle_leave_response(
             ally_card, owner_index
@@ -20192,6 +21021,7 @@ class MainWindow(QMainWindow):
             self._try_eothain_rohan_ally_discard_response(ally_card, owner_index)
             self._try_citadel_squire_leave_response(ally_card, owner_index)
             self._try_imrahil_leave_play_response(ally_card, owner_index)
+            self._try_eomer_leave_play_response(ally_card, owner_index)
             self._try_descendant_of_thorondor_staging_damage_response(
                 ally_card, event="离场"
             )
@@ -20213,6 +21043,8 @@ class MainWindow(QMainWindow):
         removed_from_game = self._remove_encounter_keyword_player_card_from_game(
             ally_card, owner_index, reason="离场"
         )
+        if stormcaller_removed:
+            removed_from_game = True
         if not removed_from_game:
             rallied = self._try_rallying_call_return_to_hand(ally_card, owner_index)
             if not rallied:
@@ -20226,6 +21058,7 @@ class MainWindow(QMainWindow):
         self._try_eothain_rohan_ally_discard_response(ally_card, owner_index)
         self._try_citadel_squire_leave_response(ally_card, owner_index)
         self._try_imrahil_leave_play_response(ally_card, owner_index)
+        self._try_eomer_leave_play_response(ally_card, owner_index)
         self._try_descendant_of_thorondor_staging_damage_response(
             ally_card, event="离场"
         )
@@ -20267,6 +21100,7 @@ class MainWindow(QMainWindow):
             self._refresh_discard_pile()
         self._try_grave_cairn_response(hero_card, departed_attack)
         self._try_imrahil_leave_play_response(hero_card, owner_index)
+        self._try_eomer_leave_play_response(hero_card, owner_index)
         self._try_the_end_comes_response(hero_card)
         self._after_character_left_play(char_id)
         self._prune_questing_not_in_play()
@@ -20297,6 +21131,13 @@ class MainWindow(QMainWindow):
             owner_index = found_idx
             state = self._players[owner_index]
         char_id = ally_card.id
+        if self._is_calphon_objective_ally_card(ally_card) and not self._game_lost:
+            self._trigger_team_defeat(
+                f"「{ally_card.name}」离场。卡冯规则：如果卡冯离场，玩家游戏失败。"
+            )
+        stormcaller_removed = self._stormcaller_objective_ally_left_play(
+            ally_card, reason="离场"
+        )
         departed_attack = self._character_attack_before_leave(char_id)
         if self._try_misty_mountains_eagles_eagle_leave_response(
             ally_card, owner_index
@@ -20306,6 +21147,7 @@ class MainWindow(QMainWindow):
             self._try_eothain_rohan_ally_discard_response(ally_card, owner_index)
             self._try_citadel_squire_leave_response(ally_card, owner_index)
             self._try_imrahil_leave_play_response(ally_card, owner_index)
+            self._try_eomer_leave_play_response(ally_card, owner_index)
             self._try_descendant_of_thorondor_staging_damage_response(
                 ally_card, event="离场"
             )
@@ -20327,6 +21169,8 @@ class MainWindow(QMainWindow):
         removed_from_game = self._remove_encounter_keyword_player_card_from_game(
             ally_card, owner_index, reason="离场"
         )
+        if stormcaller_removed:
+            removed_from_game = True
         if owner_index == self._active_player_index and not removed_from_game:
             self._refresh_discard_pile()
         if not removed_from_game:
@@ -20337,6 +21181,7 @@ class MainWindow(QMainWindow):
         self._try_eomund_leaves_play_response(ally_card, owner_index)
         self._try_citadel_squire_leave_response(ally_card, owner_index)
         self._try_imrahil_leave_play_response(ally_card, owner_index)
+        self._try_eomer_leave_play_response(ally_card, owner_index)
         self._try_descendant_of_thorondor_staging_damage_response(
             ally_card, event="离场"
         )
@@ -20807,6 +21652,10 @@ class MainWindow(QMainWindow):
             and '手牌' in text
         )
 
+    def _has_calphon_deck_bottom_swap_action(self, card) -> bool:
+        """卡冯：横置 → 查看牌库底牌，可与 1 张手牌互换。"""
+        return self._is_calphon_objective_ally_card(card)
+
     def _is_imladris_stargazer_ally_card(self, card) -> bool:
         if (getattr(card, "type", "") or "").strip() != "盟友":
             return False
@@ -21064,6 +21913,7 @@ class MainWindow(QMainWindow):
         self._try_eomund_leaves_play_response(ally_card, owner_index)
         self._try_citadel_squire_leave_response(ally_card, owner_index)
         self._try_imrahil_leave_play_response(ally_card, owner_index)
+        self._try_eomer_leave_play_response(ally_card, owner_index)
         self._try_descendant_of_thorondor_staging_damage_response(
             ally_card, event="离场"
         )
@@ -21150,6 +22000,9 @@ class MainWindow(QMainWindow):
             ally_card, self._character_owner_index(char_id)
         )
         self._try_imrahil_leave_play_response(
+            ally_card, self._character_owner_index(char_id)
+        )
+        self._try_eomer_leave_play_response(
             ally_card, self._character_owner_index(char_id)
         )
         self._try_descendant_of_thorondor_staging_damage_response(
@@ -23215,7 +24068,7 @@ class MainWindow(QMainWindow):
     def _facedown_shadow_slots_for_enemy(
         self, enemy_id: str
     ) -> list[tuple[str, object]]:
-        """敌军上可弃除的面朝下暗影槽位：primary/extra。"""
+        """敌军上可弃除的面朝下暗影槽位：primary/extra/bonus_extra:*。"""
         slots: list[tuple[str, object]] = []
         if (
             enemy_id in self._shadow_cards
@@ -23227,17 +24080,24 @@ class MainWindow(QMainWindow):
             and enemy_id not in self._extra_shadow_revealed
         ):
             slots.append(("extra", self._extra_shadow_cards[enemy_id]))
+        if enemy_id not in self._extra_shadow_revealed:
+            for idx, shadow in enumerate(
+                self._bonus_extra_shadow_cards.get(enemy_id, [])
+            ):
+                slots.append((f"bonus_extra:{idx}", shadow))
         return slots
 
     def _all_shadow_slots_for_enemy(
         self, enemy_id: str
     ) -> list[tuple[str, object]]:
-        """敌军已分配的暗影槽位（primary/extra），含已翻开的暗影。"""
+        """敌军已分配的暗影槽位（primary/extra/bonus_extra:*），含已翻开的暗影。"""
         slots: list[tuple[str, object]] = []
         if enemy_id in self._shadow_cards:
             slots.append(("primary", self._shadow_cards[enemy_id]))
         if enemy_id in self._extra_shadow_cards:
             slots.append(("extra", self._extra_shadow_cards[enemy_id]))
+        for idx, shadow in enumerate(self._bonus_extra_shadow_cards.get(enemy_id, [])):
+            slots.append((f"bonus_extra:{idx}", shadow))
         return slots
 
     def _engaged_enemies_with_facedown_shadow_for_player(
@@ -23553,6 +24413,7 @@ class MainWindow(QMainWindow):
         self._remove_engagement_card(enemy_id)
         shadow = self._shadow_cards.pop(enemy_id, None)
         extra_shadow = self._extra_shadow_cards.pop(enemy_id, None)
+        bonus_shadows = self._bonus_extra_shadow_cards.pop(enemy_id, [])
         self._shadow_revealed.discard(enemy_id)
         self._extra_shadow_revealed.discard(enemy_id)
         self._enemies_attacked_this_round.discard(enemy_id)
@@ -23563,7 +24424,10 @@ class MainWindow(QMainWindow):
         if extra_shadow is not None:
             self._to_encounter_discard_pile(extra_shadow)
             shadow_note += f"（「{extra_shadow.name}」已弃置）"
-        if shadow is not None or extra_shadow is not None:
+        for bonus_shadow in bonus_shadows:
+            self._to_encounter_discard_pile(bonus_shadow)
+            shadow_note += f"（「{bonus_shadow.name}」已弃置）"
+        if shadow is not None or extra_shadow is not None or bonus_shadows:
             self._refresh_encounter_discard_pile()
         returned_to_staging = enemy_card not in self.staging_cards
         if returned_to_staging:
@@ -23665,6 +24529,7 @@ class MainWindow(QMainWindow):
         self._remove_engagement_card(enemy_id)
         shadow = self._shadow_cards.pop(enemy_id, None)
         extra_shadow = self._extra_shadow_cards.pop(enemy_id, None)
+        bonus_shadows = self._bonus_extra_shadow_cards.pop(enemy_id, [])
         self._shadow_revealed.discard(enemy_id)
         self._extra_shadow_revealed.discard(enemy_id)
         self._enemies_attacked_this_round.discard(enemy_id)
@@ -23675,7 +24540,10 @@ class MainWindow(QMainWindow):
         if extra_shadow is not None:
             self._to_encounter_discard_pile(extra_shadow)
             shadow_note += f"（「{extra_shadow.name}」已弃置）"
-        if shadow is not None or extra_shadow is not None:
+        for bonus_shadow in bonus_shadows:
+            self._to_encounter_discard_pile(bonus_shadow)
+            shadow_note += f"（「{bonus_shadow.name}」已弃置）"
+        if shadow is not None or extra_shadow is not None or bonus_shadows:
             self._refresh_encounter_discard_pile()
         self.staging_cards = [
             c for c in self.staging_cards if c.id != enemy_id
@@ -25197,7 +26065,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != '英雄'
+            or self._character_effective_type(host_card) != '英雄'
             or not self._is_character_in_play(host_id)
         ):
             self._inform(title, '须附属在存活【战术】英雄上。')
@@ -25409,7 +26277,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != '英雄'
+            or self._character_effective_type(host_card) != '英雄'
             or not self._is_character_in_play(host_id)
         ):
             self._inform(title, '须附属在存活【精神】英雄上。')
@@ -25632,7 +26500,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != '英雄'
+            or self._character_effective_type(host_card) != '英雄'
             or not self._is_character_in_play(host_id)
         ):
             self._inform(title, "须附属在存活【领导】英雄上。")
@@ -25812,6 +26680,43 @@ class MainWindow(QMainWindow):
             and "英雄" in text
             and "伤害" in text
             and "横置" in text
+        )
+
+    def _is_weather_stained_cloak_attachment(self, card) -> bool:
+        """风吹雨淋的斗篷：附属到游侠角色上，任务时横置取消 1 点伤害。"""
+        if (getattr(card, "type", "") or "").strip() != "附属":
+            return False
+        name = (getattr(card, "name", "") or "").strip()
+        if name in self.WEATHER_STAINED_CLOAK_ATTACHMENT_NAMES:
+            return True
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        if canonical in self.WEATHER_STAINED_CLOAK_ATTACHMENT_NAMES:
+            return True
+        text = (getattr(card, "Text_Effect", "") or "")
+        return (
+            "附属" in text
+            and "游侠" in text
+            and "破旧的衣物" in text
+            and "伤害" in text
+            and "横置" in text
+        )
+
+    def _is_sword_bearer_attachment(self, card) -> bool:
+        """佩剑侍从：附属到独有盟友上，使其成为英雄。"""
+        if (getattr(card, "type", "") or "").strip() != "附属":
+            return False
+        name = (getattr(card, "name", "") or "").strip()
+        if name in self.SWORD_BEARER_ATTACHMENT_NAMES:
+            return True
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        if canonical in self.SWORD_BEARER_ATTACHMENT_NAMES:
+            return True
+        text = (getattr(card, "Text_Effect", "") or "")
+        return (
+            "附属" in text
+            and "独有盟友" in text
+            and "失去盟友" in text
+            and "获得英雄" in text
         )
 
     def _is_dwarf_axe_attachment(self, card) -> bool:
@@ -26485,6 +27390,14 @@ class MainWindow(QMainWindow):
             if drawer is None or not drawer.deck_stack:
                 print(f"响应（{quest_name}）：{tag} 牌库为空，跳过")
                 continue
+            if self._player_deck_search_blocked_by_soulless(player_idx):
+                note = self._player_deck_search_blocked_note(
+                    player_idx,
+                    source=quest_name,
+                )
+                print(f"响应（{quest_name}）：{note}")
+                lines.append(f"{tag}：{note}")
+                continue
             # 询问玩家是否搜寻
             if (
                 self._question(
@@ -27024,6 +27937,7 @@ class MainWindow(QMainWindow):
         hon_boromir_atk = self._hon_boromir_gondor_ally_attack_bonus_for(host_card)
         faramir_atk = self._faramir_hero_staging_attack_bonus_for(host_card)
         fornost_atk = self._fornost_bowman_attack_bonus_for(host_card)
+        silver_wing_atk = self._silver_wing_hero_attack_bonus_for(host_card)
         outlands_atk = self._outlands_attack_aura_bonus_for(host_card)
         outlands_def = self._outlands_defense_aura_bonus_for(host_card)
         warden_def = self._warden_of_the_havens_defense_bonus_for(host_card)
@@ -27055,6 +27969,7 @@ class MainWindow(QMainWindow):
         host_widget.set_passive_attack_bonus(
             atk + dain_atk + eagles_atk + twin_atk + ebm_atk + mithlond_atk
             + hon_boromir_atk + outlands_atk + faramir_atk + fornost_atk
+            + silver_wing_atk
             + osgiliath_bonus
         )
         host_widget.set_passive_defense_bonus(
@@ -27757,6 +28672,11 @@ class MainWindow(QMainWindow):
             drawer = self._player_drawer_for(player_index)
             if drawer is None:
                 return "找不到你的牌组。"
+            if self._player_deck_search_blocked_by_soulless(player_index):
+                return self._player_deck_search_blocked_note(
+                    player_index,
+                    source="重燃希望",
+                )
             from 玩家卡抽取 import lookup_card_row_by_name_any_series
             # 获取牌组顶端10张
             top_n = drawer.deck_stack[:10]
@@ -27849,6 +28769,214 @@ class MainWindow(QMainWindow):
                 f"{player_tag}使用重燃希望（英勇行动），"
                 f"从牌组顶端10张中搜寻到「{chosen_name}」并加入手牌。牌组已洗牌。"
             )
+
+    def _is_tale_of_tinuviel_event(self, card) -> bool:
+        """检查卡牌是否为「缇努维尔的传说」事件。"""
+        if (getattr(card, "type", "") or "").strip() != '事件':
+            return False
+        name = (getattr(card, "name", "") or "").strip()
+        if name in self.TALE_OF_TINUVIEL_EVENT_NAMES:
+            return True
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return canonical in self.TALE_OF_TINUVIEL_EVENT_NAMES
+
+    def _is_noldor_character(self, card) -> bool:
+        """检查玩家角色是否具有诺多精灵属性。"""
+        trait_text = self._player_race_and_traits_text(card)
+        return "诺多精灵" in trait_text or "Noldor" in trait_text
+
+    def _is_dunedain_character(self, card) -> bool:
+        """检查玩家角色是否具有登丹人/杜内丹人属性。"""
+        trait_text = self._player_race_and_traits_text(card)
+        return (
+            "登丹人" in trait_text
+            or "杜内丹" in trait_text
+            or "Dúnedain" in trait_text
+            or "Dunedain" in trait_text
+        )
+
+    def _tale_of_tinuviel_source_options(
+        self, trait: str
+    ) -> list:
+        """返回可横置的角色选项（诺多精灵 或 登丹人，必须重整）。"""
+        options: list = []
+        is_noldor = (trait == "noldor")
+        for char_id, base_label, card in self._characters_on_field():
+            if not self._is_character_alive(char_id):
+                continue
+            widget = self._field_widgets.get(char_id)
+            if widget is None or widget.is_exhausted():
+                continue  # 必须是重整状态才能横置
+            if is_noldor and not self._is_noldor_character(card):
+                continue
+            if not is_noldor and not self._is_dunedain_character(card):
+                continue
+            options.append(
+                CharacterPickOption(
+                    char_id=char_id,
+                    label=base_label,
+                    image_path=getattr(card, "image_path", "") or "",
+                    attack=_parse_threat(getattr(card, "Attack", "")),
+                    defense=_parse_threat(getattr(card, "Defense", "")),
+                    health=_parse_threat(getattr(card, "Willpower", "")),
+                )
+            )
+        return options
+
+    def _tale_of_tinuviel_target_options(
+        self, trait: str
+    ) -> list:
+        """返回可重置的角色选项（诺多精灵 或 登丹人，必须横置）。"""
+        options: list = []
+        is_noldor = (trait == "noldor")
+        for char_id, base_label, card in self._characters_on_field():
+            if not self._is_character_alive(char_id):
+                continue
+            widget = self._field_widgets.get(char_id)
+            if widget is None or not widget.is_exhausted():
+                continue  # 必须是横置状态才能重置
+            if is_noldor and not self._is_noldor_character(card):
+                continue
+            if not is_noldor and not self._is_dunedain_character(card):
+                continue
+            options.append(
+                CharacterPickOption(
+                    char_id=char_id,
+                    label=base_label,
+                    image_path=getattr(card, "image_path", "") or "",
+                    attack=_parse_threat(getattr(card, "Attack", "")),
+                    defense=_parse_threat(getattr(card, "Defense", "")),
+                    health=_parse_threat(getattr(card, "Willpower", "")),
+                )
+            )
+        return options
+
+    def _try_tale_of_tinuviel_play_action(self, player_index: int) -> bool:
+        """缇努维尔的传说：横置诺多→重置登丹人（或反之），印刷属性加成至阶段结束。"""
+        hand = self._players[player_index].hand_cards
+        cards = [c for c in hand if self._is_tale_of_tinuviel_event(c)]
+        if not cards:
+            return False
+        event_card = cards[0]
+        title = "行动 · 缇努维尔的传说"
+        # 第一步：选择方向
+        choice = self._question_with_options(
+            title,
+            "选择行动方向：",
+            [
+                ("noldor_to_dunedain", "横置一名诺多精灵 → 重置一名登丹人"),
+                ("dunedain_to_noldor", "横置一名登丹人 → 重置一名诺多精灵"),
+            ],
+        )
+        if choice is None:
+            return True
+        # 第二步：选择来源（要横置的角色）
+        source_trait = "noldor" if choice == "noldor_to_dunedain" else "dunedain"
+        target_trait = "dunedain" if choice == "noldor_to_dunedain" else "noldor"
+        source_trait_label = "诺多精灵" if source_trait == "noldor" else "登丹人"
+        target_trait_label = "登丹人" if target_trait == "noldor" else "诺多精灵"
+
+        source_options = self._tale_of_tinuviel_source_options(source_trait)
+        if not source_options:
+            self._inform(title, f"场上没有重整的{source_trait_label}角色。")
+            return True
+
+        dlg = CharacterImagePickDialog(
+            self,
+            title,
+            f"选择一名重整的{source_trait_label}角色（将被横置）：",
+            source_options,
+            mode="single",
+            highlight_stat="health",
+        )
+        if dlg.exec_() != QDialog.Accepted:
+            return True
+        source_id = dlg.selected_id()
+        if not source_id:
+            return True
+        source_card = self._character_card_by_id(source_id)
+        if source_card is None:
+            self._inform(title, "所选角色已离场。")
+            return True
+
+        # 第三步：选择目标（要重置的角色）
+        target_options = self._tale_of_tinuviel_target_options(target_trait)
+        if not target_options:
+            self._inform(title, f"场上没有横置的{target_trait_label}角色。")
+            return True
+
+        dlg2 = CharacterImagePickDialog(
+            self,
+            title,
+            f"选择一名横置的{target_trait_label}角色（将被重置）：",
+            target_options,
+            mode="single",
+            highlight_stat="health",
+        )
+        if dlg2.exec_() != QDialog.Accepted:
+            return True
+        target_id = dlg2.selected_id()
+        if not target_id:
+            return True
+        target_card = self._character_card_by_id(target_id)
+        if target_card is None:
+            self._inform(title, "所选角色已离场。")
+            return True
+
+        # 第四步：支付费用
+        payment = self._pay_for_hand_card(
+            event_card,
+            title=title,
+            player_index=player_index,
+        )
+        if payment is None:
+            # 用户取消或无法支付
+            self._inform(title, "无法支付费用，未打出。")
+            return True
+
+        # 第五步：从手牌移除事件
+        hand_idx = next(
+            (i for i, c in enumerate(hand) if c.id == event_card.id), -1
+        )
+        if hand_idx >= 0:
+            hand.pop(hand_idx)
+            self._refresh_hand_row(hand)
+
+        # 第六步：执行横置/重置
+        self._set_host_exhausted(source_id, True)
+        self._set_host_exhausted(target_id, False)
+
+        # 第七步：印刷属性加成（来源→目标，至本阶段结束）
+        wp = _parse_threat(getattr(source_card, "Willpower", ""))
+        atk = _parse_threat(getattr(source_card, "Attack", ""))
+        df = _parse_threat(getattr(source_card, "Defense", ""))
+        if wp > 0:
+            self._apply_phase_willpower_bonus(target_id, wp)
+        if atk > 0:
+            self._apply_phase_attack_bonus(target_id, atk)
+        if df > 0:
+            self._apply_phase_defense_bonus(target_id, df)
+
+        source_name = self._character_display_name(source_id)
+        target_name = self._character_display_name(target_id)
+        player_tag = self._player_tag(player_index) or f"玩家 {player_index + 1}"
+        stat_parts = []
+        if wp > 0:
+            stat_parts.append(f"+{wp} 【意志力】")
+        if atk > 0:
+            stat_parts.append(f"+{atk} 【攻击力】")
+        if df > 0:
+            stat_parts.append(f"+{df} 【防御力】")
+        stats_str = "、".join(stat_parts) if stat_parts else "无加成属性"
+
+        note = (
+            f"{player_tag}打出缇努维尔的传说：\n"
+            f"横置「{source_name}」→ 重置「{target_name}」。\n"
+            f"「{target_name}」获得 {stats_str} 直到本阶段结束。"
+        )
+        print(f"行动（缇努维尔的传说）：{note}")
+        self._inform(title, note)
+        return True
 
     def _try_galdor_havens_ally_discard_response(
         self, discarded_card, owner_idx: int
@@ -28543,7 +29671,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != '英雄'
+            or self._character_effective_type(host_card) != '英雄'
             or not self._is_character_in_play(host_id)
         ):
             self._inform(action_title, "未找到所附属的贵族英雄。")
@@ -30191,6 +31319,77 @@ class MainWindow(QMainWindow):
         print(note)
         self._inform(title, f"「{imrahil_card.name}」（本回合无法再次触发）")
 
+    def _is_eomer_hero_card(self, card) -> bool:
+        """伊奥梅尔（英雄）"""
+        if (getattr(card, "type", "") or "").strip() != '英雄':
+            return False
+        name = (getattr(card, "name", "") or "").strip()
+        if name in self.EOMER_HERO_NAMES:
+            return True
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return canonical in self.EOMER_HERO_NAMES
+
+    def _has_eomer_leave_play_response(self, card) -> bool:
+        if not self._is_eomer_hero_card(card):
+            return False
+        text = (getattr(card, "Text_Effect", "") or "")
+        return '响应' in text and "离场" in text and '攻击力' in text
+
+    def _try_eomer_leave_play_response(
+        self, departed_card, controller_index: int
+    ) -> None:
+        """伊奥梅尔：任一角色离场后，伊奥梅尔获得+2【攻击力】直到本回合结束（每回合限1次）。"""
+        if self._eomer_response_used_this_round:
+            for _char_id, _label, card in self._characters_on_field():
+                if card is not None and self._has_eomer_leave_play_response(card):
+                    print(
+                        f"响应（{card.name}）：本回合已触发过，无法再次使用"
+                    )
+                    return
+            return
+        # 寻找在场的伊奥梅尔
+        eomer_char_id: str | None = None
+        eomer_card = None
+        for char_id, _label, card in self._characters_on_field():
+            if card is not None and self._has_eomer_leave_play_response(card):
+                eomer_char_id = char_id
+                eomer_card = card
+                break
+        if eomer_char_id is None or eomer_card is None:
+            return
+        # 检查伊奥梅尔是否存活
+        if not self._is_character_alive(eomer_char_id):
+            return
+        title = f"响应 · {eomer_card.name}"
+        departed_name = getattr(departed_card, "name", "未知角色") if departed_card else "未知角色"
+        print(
+            f"响应（{eomer_card.name}）："
+            f"「{departed_name}」离场，可获得+2【攻击力】（每回合限 1 次）"
+        )
+        if (
+            self._question(
+                title,
+                f"「{departed_name}」离场后，是否触发「{eomer_card.name}」的响应？\n\n"
+                f"「{eomer_card.name}」获得+2【攻击力】直到本回合结束。\n"
+                "（每回合限 1 次）",
+                default_yes=False,
+            )
+            != QMessageBox.Yes
+        ):
+            print(f"响应（{eomer_card.name}）：未触发")
+            return
+        self._apply_round_attack_bonus(eomer_char_id, 2)
+        self._eomer_response_used_this_round = True
+        owner_idx = self._character_owner_index(eomer_char_id)
+        note = (
+            f"响应（{eomer_card.name}）："
+            f"「{departed_name}」离场后，{eomer_card.name}获得+2【攻击力】直到本回合结束"
+        )
+        if owner_idx >= 0:
+            note += f"（玩家{owner_idx + 1}）"
+        print(note)
+        self._inform(title, f"「{eomer_card.name}」获得+2【攻击力】直到本回合结束（本回合无法再次触发）")
+
     def _is_eomund_ally_card(self, card) -> bool:
         if (getattr(card, "type", "") or "").strip() != "盟友":
             return False
@@ -30856,6 +32055,7 @@ class MainWindow(QMainWindow):
                 CharacterPickOption(
                     char_id=char_id,
                     label=base_label,
+                    image_path=getattr(card, "image_path", "") or "",
                     attack=0,
                     defense=0,
                     health=0,
@@ -31933,6 +33133,12 @@ class MainWindow(QMainWindow):
         """从玩家牌库搜寻并选择一张卡牌（不洗牌，不移除）。"""
         drawer = self._player_drawer_for(player_index)
         if drawer is None or not drawer.deck_stack:
+            return None
+        if self._player_deck_search_blocked_by_soulless(player_index):
+            self._inform(
+                title,
+                self._player_deck_search_blocked_note(player_index, source=title),
+            )
             return None
         deck_cards = list(drawer.deck_stack)
         if len(deck_cards) == 1:
@@ -33126,6 +34332,116 @@ class MainWindow(QMainWindow):
             + "、".join(noldor_names)
         )
 
+    def _is_elven_light_event(self, card) -> bool:
+        """检查卡牌是否为「精灵之光/Elven-light」事件。"""
+        if (getattr(card, "type", "") or "").strip() != '事件':
+            return False
+        name = (getattr(card, "name", "") or "").strip()
+        if name in self.ELVEN_LIGHT_EVENT_NAMES:
+            return True
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        if canonical in self.ELVEN_LIGHT_EVENT_NAMES:
+            return True
+        text = (getattr(card, "Text_Effect", "") or "")
+        return (
+            "精灵的光芒" in text
+            and "弃牌堆" in text
+            and "返回你的手牌" in text
+            and "补一张卡牌" in text
+        )
+
+    def _try_elven_light_play_action(self, player_index: int) -> bool:
+        """精灵之光：从弃牌堆返回手牌，然后补一张卡牌。"""
+        state = self._players[player_index]
+        discard = state.discard_cards
+        cards = [c for c in discard if self._is_elven_light_event(c)]
+        if not cards:
+            return False
+        event_card = cards[0]
+        title = "行动 · 精灵之光"
+        player_tag = self._player_tag(player_index) or f"玩家 {player_index + 1}"
+        if (
+            self._question(
+                title,
+                f"是否将「精灵之光」从{player_tag}弃牌堆返回手牌，"
+                f"然后补一张卡牌？",
+                default_yes=True,
+            )
+            != QMessageBox.Yes
+        ):
+            print(f"行动（精灵之光）：未触发")
+            return True
+        # 从弃牌堆移除
+        discard.remove(event_card)
+        self._refresh_discard_pile()
+        # 返回手牌
+        state.hand_cards.append(event_card)
+        self._refresh_hand_row(state.hand_cards)
+        # 补一张卡牌
+        drawn = self._draw_cards(player_index, 1)
+        draw_note = f"补 {drawn} 张卡牌" if drawn > 0 else "牌库已空，未补到卡牌"
+        note = (
+            f"{player_tag}将精灵之光从弃牌堆返回手牌。{draw_note}。"
+        )
+        print(f"行动（精灵之光）：{note}")
+        return note
+
+    def _on_elven_light_discard_btn(self):
+        """弃牌堆区域「打出精灵之光」按钮的槽函数。"""
+        player_index = self._active_player_index
+        result = self._try_elven_light_play_action(player_index)
+        if isinstance(result, str):
+            self._inform("精灵之光", result)
+        elif result is False:
+            self._inform("精灵之光", "弃牌堆中没有精灵之光。")
+
+    def _discard_playable_cards(self, player_index: int) -> list:
+        """返回弃牌堆中所有可在当前窗口打出的卡牌。"""
+        result = []
+        for card in self._players[player_index].discard_cards:
+            if self._is_elven_light_event(card):
+                result.append(card)
+        return result
+
+    def _on_discard_play_card_action(self):
+        """弃牌堆弹窗「打出弃牌堆的卡牌」→ 选择一张可打出卡牌。"""
+        player_index = self._active_player_index
+        cards = self._discard_playable_cards(player_index)
+        if not cards:
+            self._inform("打出卡牌", "弃牌堆中没有可在当前窗口打出的卡牌。")
+            return
+        options = [
+            CharacterPickOption(
+                char_id=getattr(c, "id", "") or str(i),
+                label=getattr(c, "name", "?"),
+                image_path=getattr(c, "image_path", "") or "",
+                attack=0,
+                defense=0,
+                health=0,
+            )
+            for i, c in enumerate(cards)
+        ]
+        dlg = CharacterImagePickDialog(
+            self,
+            "打出弃牌堆的卡牌",
+            "从弃牌堆选择一张可打出的卡牌：",
+            options,
+            mode="single",
+        )
+        if dlg.exec_() != QDialog.Accepted:
+            return
+        picked_id = dlg.selected_id()
+        card = next(
+            (c for c in cards if getattr(c, "id", "") == picked_id), None
+        )
+        if card is None:
+            return
+        if self._is_elven_light_event(card):
+            result = self._try_elven_light_play_action(player_index)
+            if isinstance(result, str):
+                self._inform("精灵之光", result)
+        # 后续可扩展其他可从弃牌堆打出的卡牌
+
     def _apply_heir_of_mardil_effect(self, player_index: int) -> str:
         """列王的后嗣：重置X名你控制的登丹人角色。X等于与你交锋的敌军数量。"""
         engaged_count = len(self._engaged_enemies_for_player(player_index))
@@ -33157,19 +34473,24 @@ class MainWindow(QMainWindow):
         )
 
     def _heroes_controlled_by_player(self, player_index: int) -> list:
-        """指定玩家控制的、场上存活英雄。"""
+        """指定玩家控制的、场上存活英雄（含佩剑侍从提升的盟友）。"""
         drawer = self._player_drawer_for(player_index)
-        if not drawer:
-            return []
         heroes: list = []
-        for hero in drawer.deck_heroes:
-            if not self._is_hero_on_field(hero.id):
-                continue
-            if not self._is_character_alive(hero.id):
-                continue
-            if self._character_owner_index(hero.id) != player_index:
-                continue
-            heroes.append(hero)
+        if drawer:
+            for hero in drawer.deck_heroes:
+                if not self._is_hero_on_field(hero.id):
+                    continue
+                if not self._is_character_alive(hero.id):
+                    continue
+                if self._character_owner_index(hero.id) != player_index:
+                    continue
+                heroes.append(hero)
+        # 佩剑侍从：提升的盟友也计入英雄
+        for ally in self._players[player_index].ally_cards:
+            if ally.id in self._promoted_ally_ids:
+                if self._is_character_alive(ally.id):
+                    if self._character_owner_index(ally.id) == player_index:
+                        heroes.append(ally)
         return heroes
 
     def _can_play_strength_of_arms(self, player_index: int) -> bool:
@@ -33792,7 +35113,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != "英雄"
+            or self._character_effective_type(host_card) != "英雄"
             or not self._is_character_in_play(host_id)
         ):
             self._inform(title, "须附属在一名存活英雄上。")
@@ -34704,6 +36025,11 @@ class MainWindow(QMainWindow):
         drawer = self._player_drawer_for(player_index)
         if drawer is None:
             return '牌库不可用'
+        if self._player_deck_search_blocked_by_soulless(player_index):
+            return self._player_deck_search_blocked_note(
+                player_index,
+                source="甘道夫的查阅",
+            )
         peek_count = min(x, len(drawer.peek_deck_top(x)))
         taken = drawer.take_deck_top(peek_count)
         if not taken:
@@ -34743,6 +36069,11 @@ class MainWindow(QMainWindow):
         tag = self._player_tag(player_index) or f"玩家{player_index + 1}"
         if drawer is None:
             return f"{tag}：牌库不可用"
+        if self._player_deck_search_blocked_by_soulless(player_index):
+            return self._player_deck_search_blocked_note(
+                player_index,
+                source="大鹰来了",
+            )
         taken = drawer.take_deck_top(5)
         if not taken:
             return f"{tag}：牌库为空"
@@ -34812,6 +36143,11 @@ class MainWindow(QMainWindow):
         tag = self._player_tag(player_index) or f"玩家{player_index + 1}"
         if drawer is None:
             return f"{tag}：牌库不可用"
+        if self._player_deck_search_blocked_by_soulless(player_index):
+            return self._player_deck_search_blocked_note(
+                player_index,
+                source="洛汗集结",
+            )
         taken = drawer.take_deck_top(10)
         if not taken:
             return f"{tag}：牌库为空"
@@ -36812,6 +38148,9 @@ class MainWindow(QMainWindow):
         """对敌人造成伤害；返回是否因而被消灭。"""
         if amount <= 0 or card.id in self._destroyed_enemies:
             return False
+        if self._enemy_cannot_be_damaged(card):
+            print(f"「{card.name}」不受伤害，未放置伤害标记")
+            return False
         if self._is_naurlhug_card(card) and self._naurlhug_cannot_be_damaged():
             print(
                 f"「{card.name}」不受伤害，未放置伤害标记"
@@ -36824,6 +38163,16 @@ class MainWindow(QMainWindow):
         if widget is None:
             return False
         card_type = (getattr(card, "type", "") or "").strip()
+        if self._is_captain_sahir_enemy_card(card):
+            amount, cancel_note = self._cancel_captain_sahir_damage_with_resources(
+                card,
+                amount,
+                widget=widget,
+            )
+            if cancel_note:
+                print(cancel_note)
+            if amount <= 0:
+                return False
         if self._is_lurker_of_the_depths_card(card):
             taken = int(self._lurker_damage_this_round.get(card.id, 0) or 0)
             remaining = max(0, 4 - taken)
@@ -38342,6 +39691,13 @@ class MainWindow(QMainWindow):
         """意志的考验：取消刚展示遭遇牌的展示后效果（关键词仍会结算）。"""
         if not self._encounter_card_has_when_revealed_effect(encounter_card):
             return False, ""
+        if self._when_revealed_effect_cannot_be_cancelled(encounter_card):
+            note = (
+                f"  「{encounter_card.name}」：当前为最差航向，"
+                "本展示后效果不能被取消。"
+            )
+            print(note.strip())
+            return False, note
         for offset in range(self.PLAYER_COUNT):
             player_idx = (self.first_player_index + offset) % self.PLAYER_COUNT
             if player_idx in self._eliminated_players:
@@ -38858,6 +40214,8 @@ class MainWindow(QMainWindow):
         notes = self._try_ranger_spikes_auto_attach(enemy_card)
         notes += self._try_ithilien_pit_auto_attach(enemy_card)
         notes += self._try_poisoned_stakes_auto_attach(enemy_card)
+        notes += self._resolve_captain_sahir_engages_first_player(enemy_card)
+        notes += self._resolve_naasiyah_engages_last_player(enemy_card)
         notes += self._try_fresh_tracks_enemy_enter_responses(enemy_card)
         tracker_notes = self._try_ithilien_tracker_enemy_enter_effect(enemy_card)
         for note in tracker_notes:
@@ -38992,7 +40350,7 @@ class MainWindow(QMainWindow):
         state = self._players[player_index]
         for host_id, attachments in state.attachments.items():
             host_card = self._character_card_by_id(host_id)
-            if (getattr(host_card, "type", "") or "").strip() != '英雄':
+            if self._character_effective_type(host_card) != '英雄':
                 continue
             if self._character_owner_index(host_id) != player_index:
                 continue
@@ -39240,6 +40598,16 @@ class MainWindow(QMainWindow):
             )
             if forced_note:
                 notes.append(forced_note)
+        dawn_star = self._dawn_star_ship_for_player(player_index)
+        if dawn_star is not None:
+            extra = self._draw_cards_for_player(player_index, 1)
+            if extra:
+                drawn.extend(extra)
+                notes.append(f"「{dawn_star.name}」额外补：{extra[0].name}")
+            elif self._player_draw_blocked_reason():
+                notes.append(f"「{dawn_star.name}」额外补牌被阻止")
+            else:
+                notes.append(f"「{dawn_star.name}」额外补牌：牌库已空")
         return drawn, notes
 
     def _erestor_hero_for_player(self, player_index: int):
@@ -39490,11 +40858,51 @@ class MainWindow(QMainWindow):
                     player_index,
                 )
             )
+        if self._is_vicious_marauder_card(enemy_card):
+            notes.extend(
+                self._resolve_vicious_marauder_forced_after_engage(
+                    enemy_card,
+                    player_index,
+                )
+            )
+        if self._is_stormcaller_elite_enemy_face(enemy_card):
+            notes.extend(
+                self._resolve_naasiyah_forced_after_engage(
+                    enemy_card,
+                    player_index,
+                )
+            )
+        if self._is_servant_of_the_deceiver_card(enemy_card):
+            notes.extend(
+                self._resolve_servant_of_the_deceiver_forced_after_engage(
+                    enemy_card,
+                    player_index,
+                )
+            )
+        if self._is_soulless_cadaver_card(enemy_card):
+            notes.extend(
+                self._resolve_soulless_cadaver_forced_after_engage(
+                    enemy_card,
+                    player_index,
+                )
+            )
         if self._is_umbar_captain_card(enemy_card):
             notes.append(
                 f"昂巴船长：玩家 {player_index + 1} 与其交锋时，"
                 "该玩家控制的角色不能攻击船敌军。"
             )
+        if self._is_southron_sailor_card(enemy_card):
+            ship_enemies = [
+                card.name
+                for card in self._engaged_enemies_for_player(player_index)
+                if self._is_ship_enemy_card(card)
+            ]
+            if ship_enemies:
+                notes.append(
+                    "南方的水手："
+                    f"玩家 {player_index + 1} 当前与船敌军"
+                    f"「{'、'.join(ship_enemies)}」交锋，这些敌军的威胁计入场景区总威胁。"
+                )
         notes.extend(
             self._try_pippin_after_engage_response(enemy_card, player_index)
         )
@@ -39511,6 +40919,21 @@ class MainWindow(QMainWindow):
     ) -> list[str]:
         """敌军攻击结束后：强制效果与可打出响应："""
         notes: list[str] = []
+        if self._is_captain_sahir_enemy_card(enemy_card):
+            notes.extend(
+                self._resolve_captain_sahir_forced_after_attack(enemy_card)
+            )
+        if self._is_stormcaller_elite_enemy_face(enemy_card):
+            notes.extend(
+                self._resolve_naasiyah_forced_after_attack(enemy_card)
+            )
+        if self._is_umbar_raider_card(enemy_card):
+            notes.extend(
+                self._resolve_umbar_raider_forced_after_attack(
+                    enemy_card,
+                    defending_player_index,
+                )
+            )
         if self._is_ufthak_card(enemy_card):
             notes.extend(self._resolve_ufthak_forced_after_attack(enemy_card))
         if self._is_wargs_card(enemy_card):
@@ -39519,6 +40942,12 @@ class MainWindow(QMainWindow):
             notes.extend(
                 self._resolve_misty_mountains_orc_forced_after_attack(
                     enemy_card
+                )
+            )
+        if self._is_drowned_dead_card(enemy_card):
+            notes.extend(
+                self._move_destroyed_attack_allies_to_owner_deck_bottom(
+                    source=f"强制 · {enemy_card.name}",
                 )
             )
         if self._is_naurlhug_card(enemy_card):
@@ -39536,6 +40965,18 @@ class MainWindow(QMainWindow):
         )
         notes.extend(
             self._resolve_spawn_of_thangorodrim_shadow_after_attack(
+                enemy_card,
+                defending_player_index,
+            )
+        )
+        notes.extend(
+            self._resolve_fog_bank_shadow_after_attack(
+                enemy_card,
+                defending_player_index,
+            )
+        )
+        notes.extend(
+            self._resolve_curse_of_the_downfallen_shadow_after_attack(
                 enemy_card,
                 defending_player_index,
             )
@@ -39603,6 +41044,69 @@ class MainWindow(QMainWindow):
                 "未进行额外攻击"
             ]
         reason = "魔影 · 安戈洛坠姆的末裔："
+        self._queue_forced_enemy_attack(
+            enemy_card,
+            target_player,
+            reason=reason,
+            out_of_combat=False,
+            extra_attack=True,
+            priority_front=True,
+        )
+        return [
+            f"{reason}本次攻击后，「{enemy_card.name}」对玩家 "
+            f"{target_player + 1} 额外进行一次攻击"
+        ]
+
+    def _resolve_fog_bank_shadow_after_attack(
+        self, enemy_card, defending_player_index: int
+    ) -> list[str]:
+        ctx = self._enemy_attack_ctx
+        if not ctx or not ctx.get("fog_bank_shadow_followup"):
+            return []
+        if enemy_card is None or enemy_card.id in self._destroyed_enemies:
+            return []
+        target_player = int(
+            ctx.get("fog_bank_shadow_player", defending_player_index)
+        )
+        if not (0 <= target_player < self.PLAYER_COUNT):
+            return []
+        if target_player in self._eliminated_players:
+            return ["魔影 · 雾角：防御玩家已退场，未进行额外攻击"]
+        if self._fog_bank_blocks_ship_enemy_combat(enemy_card):
+            return [
+                "魔影 · 雾角：「雾角」处于激活地区，船敌军不能攻击，"
+                "未进行额外攻击"
+            ]
+        reason = "魔影 · 雾角："
+        self._queue_forced_enemy_attack(
+            enemy_card,
+            target_player,
+            reason=reason,
+            out_of_combat=False,
+            extra_attack=True,
+            priority_front=True,
+        )
+        return [
+            f"{reason}本次攻击后，「{enemy_card.name}」对玩家 "
+            f"{target_player + 1} 额外进行一次攻击"
+        ]
+
+    def _resolve_curse_of_the_downfallen_shadow_after_attack(
+        self, enemy_card, defending_player_index: int
+    ) -> list[str]:
+        ctx = self._enemy_attack_ctx
+        if not ctx or not ctx.get("curse_of_the_downfallen_shadow_followup"):
+            return []
+        if enemy_card is None or enemy_card.id in self._destroyed_enemies:
+            return []
+        target_player = int(
+            ctx.get("curse_of_the_downfallen_shadow_player", defending_player_index)
+        )
+        if not (0 <= target_player < self.PLAYER_COUNT):
+            return []
+        if target_player in self._eliminated_players:
+            return ["魔影 · 堕落者的诅咒：防御玩家已退场，未进行额外攻击"]
+        reason = "魔影 · 堕落者的诅咒："
         self._queue_forced_enemy_attack(
             enemy_card,
             target_player,
@@ -39684,6 +41188,186 @@ class MainWindow(QMainWindow):
             "（本次攻击不分配暗影牌）"
         ]
 
+    def _captain_sahir_resource_count(self, enemy_card, *, widget=None) -> int:
+        if widget is None:
+            widget = self._encounter_widget_for_card(enemy_card)
+        if widget is None or not hasattr(widget, "resource_count"):
+            return 0
+        return max(0, int(widget.resource_count()))
+
+    def _enemy_resource_count(self, enemy_card, *, widget=None) -> int:
+        if widget is None:
+            widget = self._encounter_widget_for_card(enemy_card)
+        if widget is None or not hasattr(widget, "resource_count"):
+            return 0
+        return max(0, int(widget.resource_count()))
+
+    def _set_enemy_resource_count(
+        self,
+        enemy_card,
+        count: int,
+        *,
+        widget=None,
+        attack_per_resource: int = 0,
+        defense_per_resource: int = 0,
+    ) -> None:
+        if widget is None:
+            widget = self._encounter_widget_for_card(enemy_card)
+        if widget is None:
+            return
+        if attack_per_resource > 0 and hasattr(widget, "set_passive_attack_per_resource"):
+            widget.set_passive_attack_per_resource(attack_per_resource)
+        if hasattr(widget, "set_show_attack_badge") and attack_per_resource > 0:
+            widget.set_show_attack_badge(True)
+        if defense_per_resource > 0 and hasattr(widget, "set_passive_defense_per_resource"):
+            widget.set_passive_defense_per_resource(defense_per_resource)
+        if hasattr(widget, "set_show_defense_badge") and defense_per_resource > 0:
+            widget.set_show_defense_badge(True)
+        if hasattr(widget, "set_show_resource_badge"):
+            widget.set_show_resource_badge(True)
+        if hasattr(widget, "set_resource_count"):
+            widget.set_resource_count(max(0, int(count)))
+
+    def _engaged_enemy_cards_matching(
+        self,
+        player_index: int,
+        predicate,
+    ) -> list:
+        if not (0 <= player_index < self.PLAYER_COUNT):
+            return []
+        return [
+            card
+            for card in self._engaged_enemies_for_player(player_index)
+            if predicate(card)
+        ]
+
+    def _set_captain_sahir_resource_count(
+        self,
+        enemy_card,
+        count: int,
+        *,
+        widget=None,
+    ) -> None:
+        if widget is None:
+            widget = self._encounter_widget_for_card(enemy_card)
+        if widget is None:
+            return
+        if hasattr(widget, "set_show_resource_badge"):
+            widget.set_show_resource_badge(True)
+        if hasattr(widget, "set_resource_count"):
+            widget.set_resource_count(max(0, int(count)))
+
+    def _resolve_captain_sahir_engages_first_player(self, enemy_card) -> list[str]:
+        """萨伊尔船长：进入探查区后立即与起始玩家交锋。"""
+        if not self._is_captain_sahir_enemy_card(enemy_card):
+            return []
+        player_index = int(getattr(self, "first_player_index", 0) or 0)
+        if not (0 <= player_index < self.PLAYER_COUNT):
+            player_index = 0
+        if player_index in self._eliminated_players:
+            next_player = self._next_player_index_in_turn_order(player_index)
+            if next_player is None:
+                note = (
+                    f"强制 · 「{enemy_card.name}」：未找到有效起始玩家，"
+                    "未进行交锋"
+                )
+                print(note)
+                return [note]
+            player_index = next_player
+        notes = self._move_enemy_to_player_engagement(
+            enemy_card,
+            player_index,
+            reason="强制 · 萨伊尔船长：",
+        )
+        self._set_captain_sahir_resource_count(enemy_card, 0)
+        return notes
+
+    def _last_player_or_previous_eligible(self) -> int:
+        player_index = self._last_player_index()
+        if 0 <= player_index < self.PLAYER_COUNT and player_index not in self._eliminated_players:
+            return player_index
+        for offset in range(1, self.PLAYER_COUNT + 1):
+            idx = (player_index - offset) % max(self.PLAYER_COUNT, 1)
+            if idx not in self._eliminated_players:
+                return idx
+        return player_index
+
+    def _resolve_naasiyah_engages_last_player(self, enemy_card) -> list[str]:
+        """娜阿西雅：进入探查区后立即与末位玩家交锋。"""
+        if not self._is_stormcaller_elite_enemy_face(enemy_card):
+            return []
+        player_index = self._last_player_or_previous_eligible()
+        if not (0 <= player_index < self.PLAYER_COUNT):
+            return []
+        notes = self._move_enemy_to_player_engagement(
+            enemy_card,
+            player_index,
+            reason="强制 · 娜阿西雅：",
+        )
+        self._set_enemy_resource_count(
+            enemy_card,
+            self._enemy_resource_count(enemy_card),
+            attack_per_resource=1,
+            defense_per_resource=1,
+        )
+        return notes
+
+    def _cancel_captain_sahir_damage_with_resources(
+        self,
+        enemy_card,
+        amount: int,
+        *,
+        widget=None,
+    ) -> tuple[int, str]:
+        """萨伊尔船长：每将受到 1 点伤害，弃除 1 资源并取消该伤害。"""
+        amount = max(0, int(amount))
+        if amount <= 0:
+            return 0, ""
+        before = self._captain_sahir_resource_count(enemy_card, widget=widget)
+        cancel = min(before, amount)
+        if cancel <= 0:
+            return amount, ""
+        after = before - cancel
+        remaining = amount - cancel
+        self._set_captain_sahir_resource_count(
+            enemy_card,
+            after,
+            widget=widget,
+        )
+        note = (
+            f"萨伊尔船长：弃除 {cancel} 枚资源标记取消 {cancel} 点伤害"
+            f"（资源 {before} → {after}"
+        )
+        if remaining > 0:
+            note += f"，剩余 {remaining} 点伤害"
+        else:
+            note += "，本次伤害全部取消"
+        note += "）"
+        return remaining, note
+
+    def _resolve_captain_sahir_forced_after_attack(self, enemy_card) -> list[str]:
+        """萨伊尔船长 · 强制：攻击后放置 2 资源；若消灭角色则改为 4。"""
+        ctx = self._enemy_attack_ctx or {}
+        destroyed = bool(ctx.get("destroyed"))
+        target_id = str(ctx.get("target_id", "") or "")
+        destroyed_character = destroyed and target_id in self._destroyed_characters
+        add_count = 4 if destroyed_character else 2
+        widget = self._encounter_widget_for_card(enemy_card)
+        before = self._captain_sahir_resource_count(enemy_card, widget=widget)
+        after = before + add_count
+        self._set_captain_sahir_resource_count(
+            enemy_card,
+            after,
+            widget=widget,
+        )
+        kill_note = "（本次攻击消灭了一名角色）" if destroyed_character else ""
+        note = (
+            f"强制 · 「{enemy_card.name}」攻击后放置 {add_count} 枚资源标记"
+            f"{kill_note}（{before} → {after}）"
+        )
+        print(f"强制（{enemy_card.name}）：{note}")
+        return [note]
+
     def _resolve_ufthak_forced_after_attack(self, enemy_card) -> list[str]:
         """乌夫沙克首领 · 强制：攻击后在其上放置 1 枚资源标记。"""
         widget = self._encounter_widget_for_card(enemy_card)
@@ -39698,6 +41382,281 @@ class MainWindow(QMainWindow):
         note = (
             f"强制 · 「{enemy_card.name}」攻击后放置 1 资源"
             f"（{before} → {after}，当前攻击 {atk}）"
+        )
+        print(f"强制（{enemy_card.name}）：{note}")
+        return [note]
+
+    def _umbar_raider_hero_resource_options(
+        self, player_index: int
+    ) -> list[CharacterPickOption]:
+        options: list[CharacterPickOption] = []
+        for char_id, base_label, card in self._characters_on_field():
+            if self._character_owner_index(char_id) != player_index:
+                continue
+            if (getattr(card, "type", "") or "").strip() != "英雄":
+                continue
+            widget = self._field_widgets.get(char_id)
+            if widget is None:
+                continue
+            info = widget.get_card_info()
+            if int(info.get("health", 0)) <= 0:
+                continue
+            resources = int(widget.resource_count())
+            if resources < 1:
+                continue
+            options.append(
+                CharacterPickOption(
+                    char_id=char_id,
+                    label=f"{base_label}（{resources} 资源）",
+                    image_path=getattr(card, "image_path", "") or "",
+                    attack=int(info.get("attack", 0)),
+                    defense=int(info.get("defense", 0)),
+                    health=int(info.get("health", 0)),
+                )
+            )
+        return options
+
+    def _resolve_umbar_raider_forced_after_attack(
+        self, enemy_card, defending_player_index: int
+    ) -> list[str]:
+        """昂巴掠夺者 · 强制：攻击后将 1 资源从所选英雄转移到其上。"""
+        player_no = defending_player_index + 1
+        options = self._umbar_raider_hero_resource_options(defending_player_index)
+        if not options:
+            note = (
+                f"强制 · 玩家 {player_no}：没有可转移资源的英雄，"
+                f"未向「{enemy_card.name}」放置资源标记"
+            )
+            print(f"强制（{enemy_card.name}）：{note}")
+            return [note]
+        if len(options) == 1:
+            hero_id = options[0].char_id
+        else:
+            dlg = CharacterImagePickDialog(
+                self,
+                f"强制 · {enemy_card.name}",
+                (
+                    f"玩家 {player_no}：「{enemy_card.name}」攻击你后，\n"
+                    "必须选择你的一名具有至少 1 资源的英雄，"
+                    "将 1 枚资源标记从该英雄转移到本敌军上。"
+                ),
+                options,
+                mode="single",
+                highlight_stat="attack",
+                mandatory=True,
+            )
+            dlg.exec_()
+            hero_id = dlg.selected_id() or options[0].char_id
+        hero_card = self._character_card_by_id(hero_id)
+        hero_name = getattr(hero_card, "name", hero_id)
+        hero_widget = self._field_widgets.get(hero_id)
+        enemy_widget = self._encounter_widget_for_card(enemy_card)
+        if hero_widget is None or enemy_widget is None:
+            note = (
+                f"强制 · 玩家 {player_no}：未找到资源转移所需卡图，"
+                f"无法将资源转移到「{enemy_card.name}」"
+            )
+            print(f"强制（{enemy_card.name}）：{note}")
+            return [note]
+        before_hero = int(hero_widget.resource_count())
+        if before_hero < 1:
+            note = (
+                f"强制 · 玩家 {player_no}：英雄「{hero_name}」当前无资源，"
+                f"未向「{enemy_card.name}」放置资源标记"
+            )
+            print(f"强制（{enemy_card.name}）：{note}")
+            return [note]
+        before_enemy = int(enemy_widget.resource_count())
+        hero_widget.set_resource_count(before_hero - 1)
+        enemy_widget.set_passive_attack_per_resource(1)
+        if hasattr(enemy_widget, "set_show_attack_badge"):
+            enemy_widget.set_show_attack_badge(True)
+        if hasattr(enemy_widget, "set_show_resource_badge"):
+            enemy_widget.set_show_resource_badge(True)
+        enemy_widget.set_resource_count(before_enemy + 1)
+        self._players[defending_player_index].hero_resources[hero_id] = hero_widget.resource_count()
+        self._sync_hero_resources_from_widgets()
+        self._refresh_engagement_row()
+        atk = self._card_attack(enemy_card)
+        note = (
+            f"强制 · 玩家 {player_no}：将 1 枚资源标记从英雄「{hero_name}」"
+            f"转移到「{enemy_card.name}」上（英雄 {before_hero} → {hero_widget.resource_count()}；"
+            f"敌军 {before_enemy} → {enemy_widget.resource_count()}；当前攻击 {atk}）"
+        )
+        print(f"强制（{enemy_card.name}）：{note}")
+        return [note]
+
+    def _resolve_corsair_infiltrator_attack_shadows(
+        self,
+        enemy_card,
+        player_index: int,
+    ) -> list[str]:
+        """海盗潜入者 · 强制：攻击时，其上每有 1 资源就额外分发 1 张暗影牌。"""
+        widget = self._encounter_widget_for_card(enemy_card)
+        resource_count = self._enemy_resource_count(enemy_card, widget=widget)
+        if resource_count <= 0:
+            return []
+        distributed = 0
+        failed = 0
+        for _ in range(resource_count):
+            if self._distribute_shadow_for_enemy(
+                enemy_card,
+                player_index,
+                extra=True,
+                log_prefix="强制",
+            ):
+                distributed += 1
+            else:
+                failed += 1
+        if distributed <= 0 and failed <= 0:
+            return []
+        player_no = player_index + 1
+        note = (
+            f"强制 · 玩家 {player_no}：「{enemy_card.name}」攻击时，其上有 "
+            f"{resource_count} 枚资源标记，额外分发 {distributed} 张暗影牌"
+        )
+        if failed > 0:
+            note += f"（遭遇牌库耗尽，另有 {failed} 张未能分发）"
+        print(f"强制（{enemy_card.name}）：{note}")
+        return [note]
+
+    def _resolve_corsair_infiltrator_resource_phase_forced(
+        self,
+        player_index: int,
+    ) -> list[str]:
+        """海盗潜入者 · 强制：交锋玩家收资源后，将 1 资源从其一名英雄转移到本敌军。"""
+        infiltrators = self._engaged_enemy_cards_matching(
+            player_index,
+            self._is_corsair_infiltrator_card,
+        )
+        if not infiltrators:
+            return []
+        notes: list[str] = []
+        player_no = player_index + 1
+        options = self._umbar_raider_hero_resource_options(player_index)
+        for enemy_card in infiltrators:
+            if not options:
+                note = (
+                    f"强制 · 玩家 {player_no}：没有可转移资源的英雄，"
+                    f"未向「{enemy_card.name}」放置资源标记"
+                )
+                print(f"强制（{enemy_card.name}）：{note}")
+                notes.append(note)
+                continue
+            if len(options) == 1:
+                hero_id = options[0].char_id
+            else:
+                dlg = CharacterImagePickDialog(
+                    self,
+                    f"强制 · {enemy_card.name}",
+                    (
+                        f"玩家 {player_no}：「{enemy_card.name}」与你交锋。\n"
+                        "在资源阶段开始时收集资源标记后，必须选择你的一名具有至少 1 资源的英雄，"
+                        "将 1 枚资源标记从该英雄的资源池中移到本敌军上。"
+                    ),
+                    options,
+                    mode="single",
+                    highlight_stat="attack",
+                    mandatory=True,
+                )
+                dlg.exec_()
+                hero_id = dlg.selected_id() or options[0].char_id
+            hero_card = self._character_card_by_id(hero_id)
+            hero_name = getattr(hero_card, "name", hero_id)
+            hero_widget = self._field_widgets.get(hero_id)
+            enemy_widget = self._encounter_widget_for_card(enemy_card)
+            if hero_widget is None or enemy_widget is None:
+                note = (
+                    f"强制 · 玩家 {player_no}：未找到资源转移所需卡图，"
+                    f"无法将资源转移到「{enemy_card.name}」"
+                )
+                print(f"强制（{enemy_card.name}）：{note}")
+                notes.append(note)
+                continue
+            before_hero = int(hero_widget.resource_count())
+            if before_hero < 1:
+                note = (
+                    f"强制 · 玩家 {player_no}：英雄「{hero_name}」当前无资源，"
+                    f"未向「{enemy_card.name}」放置资源标记"
+                )
+                print(f"强制（{enemy_card.name}）：{note}")
+                notes.append(note)
+                options = self._umbar_raider_hero_resource_options(player_index)
+                continue
+            before_enemy = self._enemy_resource_count(enemy_card, widget=enemy_widget)
+            hero_widget.set_resource_count(before_hero - 1)
+            self._set_enemy_resource_count(
+                enemy_card,
+                before_enemy + 1,
+                widget=enemy_widget,
+            )
+            self._players[player_index].hero_resources[hero_id] = hero_widget.resource_count()
+            self._sync_hero_resources_from_widgets()
+            self._refresh_engagement_row()
+            note = (
+                f"强制 · 玩家 {player_no}：将 1 枚资源标记从英雄「{hero_name}」"
+                f"移到「{enemy_card.name}」上（英雄 {before_hero} → {hero_widget.resource_count()}；"
+                f"敌军 {before_enemy} → {enemy_widget.resource_count()}）"
+            )
+            print(f"强制（{enemy_card.name}）：{note}")
+            notes.append(note)
+            options = self._umbar_raider_hero_resource_options(player_index)
+        return notes
+
+    def _resolve_naasiyah_forced_after_engage(
+        self,
+        enemy_card,
+        player_index: int,
+    ) -> list[str]:
+        """娜阿西雅 · 强制：交锋时弃事件牌，并按弃牌数放资源。"""
+        player_no = player_index + 1
+        discarded_names = self._discard_events_from_player_hand(player_index)
+        if not discarded_names:
+            note = (
+                f"强制 · 玩家 {player_no}：与你交锋时，"
+                f"手牌中没有事件牌，未向「{enemy_card.name}」放置资源标记"
+            )
+            print(f"强制（{enemy_card.name}）：{note}")
+            return [note]
+        widget = self._encounter_widget_for_card(enemy_card)
+        before = self._enemy_resource_count(enemy_card, widget=widget)
+        after = before + len(discarded_names)
+        self._set_enemy_resource_count(
+            enemy_card,
+            after,
+            widget=widget,
+            attack_per_resource=1,
+            defense_per_resource=1,
+        )
+        self._update_player_controlled_captions()
+        note = (
+            f"强制 · 玩家 {player_no}：与你交锋时弃除 {len(discarded_names)} 张事件牌"
+            f"（{'、'.join(discarded_names)}），在「{enemy_card.name}」上放置 "
+            f"{len(discarded_names)} 枚资源标记（{before} → {after}）"
+        )
+        print(f"强制（{enemy_card.name}）：{note}")
+        return [note]
+
+    def _resolve_naasiyah_forced_after_attack(self, enemy_card) -> list[str]:
+        """娜阿西雅 · 强制：本次攻击后弃除 1 枚资源标记。"""
+        widget = self._encounter_widget_for_card(enemy_card)
+        before = self._enemy_resource_count(enemy_card, widget=widget)
+        if before <= 0:
+            note = f"强制 · 「{enemy_card.name}」攻击后其上无资源标记可弃除"
+            print(f"强制（{enemy_card.name}）：{note}")
+            return [note]
+        after = before - 1
+        self._set_enemy_resource_count(
+            enemy_card,
+            after,
+            widget=widget,
+            attack_per_resource=1,
+            defense_per_resource=1,
+        )
+        self._refresh_engagement_row()
+        note = (
+            f"强制 · 「{enemy_card.name}」本次攻击后弃除 1 枚资源标记"
+            f"（{before} → {after}）"
         )
         print(f"强制（{enemy_card.name}）：{note}")
         return [note]
@@ -40067,6 +42026,121 @@ class MainWindow(QMainWindow):
         print(f"强制（{enemy_card.name}）：{note}")
         return [note]
 
+    def _resolve_vicious_marauder_forced_after_engage(
+        self, enemy_card, player_index: int
+    ) -> list[str]:
+        """邪恶的掠夺者 · 强制：交锋时随机弃手牌，并按其印刷费用放资源。"""
+        player_no = player_index + 1
+        state = self._players[player_index]
+        if not state.hand_cards:
+            note = f"强制 · 玩家 {player_no}：手牌为空，未放置资源标记"
+            print(f"强制（{enemy_card.name}）：{note}")
+            return [note]
+        discard_idx = random.randrange(len(state.hand_cards))
+        discarded = self._discard_hand_card_at(discard_idx, player_index)
+        printed_cost = _parse_card_cost(discarded)
+        enemy_widget = self._encounter_widget_for_card(enemy_card)
+        before = (
+            int(enemy_widget.resource_count())
+            if enemy_widget is not None and hasattr(enemy_widget, "resource_count")
+            else 0
+        )
+        after = before + printed_cost
+        if enemy_widget is not None:
+            if hasattr(enemy_widget, "set_show_resource_badge"):
+                enemy_widget.set_show_resource_badge(True)
+            if hasattr(enemy_widget, "set_resource_count"):
+                enemy_widget.set_resource_count(after)
+        self._refresh_engagement_row()
+        note = (
+            f"强制 · 玩家 {player_no}：随机弃除手牌「{discarded.name}」"
+            f"（印刷费用 {printed_cost}），在「{enemy_card.name}」上放置 "
+            f"{printed_cost} 枚资源标记（{before} → {after}）"
+        )
+        print(f"强制（{enemy_card.name}）：{note}")
+        return [note]
+
+    def _resolve_servant_of_the_deceiver_forced_after_engage(
+        self, enemy_card, player_index: int
+    ) -> list[str]:
+        """欺诈者的仆从 · 强制：交锋时查看玩家牌库顶，低费则放底并 +2 攻击至回合结束。"""
+        player_no = player_index + 1
+        drawer = self._player_drawer_for(player_index)
+        if drawer is None:
+            note = f"强制 · 玩家 {player_no}：无玩家牌库，未结算「{enemy_card.name}」"
+            print(f"强制（{enemy_card.name}）：{note}")
+            return [note]
+        top_cards = drawer.peek_deck_top(1)
+        if not top_cards:
+            note = f"强制 · 玩家 {player_no}：牌库顶无牌，未结算「{enemy_card.name}」"
+            print(f"强制（{enemy_card.name}）：{note}")
+            return [note]
+        top_card = top_cards[0]
+        printed_cost = _parse_card_cost(top_card)
+        top_name = getattr(top_card, "name", "牌库顶牌")
+        if printed_cost <= 2:
+            taken = drawer.take_deck_top(1)
+            moved_card = taken[0] if taken else top_card
+            drawer.place_card_on_deck_bottom(moved_card)
+            self._apply_encounter_attack_bonus(enemy_card.id, 2, until_round=True)
+            self._refresh_engagement_row()
+            atk = self._effective_encounter_attack(enemy_card)
+            note = (
+                f"强制 · 玩家 {player_no}：查看牌库顶「{top_name}」"
+                f"（印刷费用 {printed_cost}），将其放到牌库底；"
+                f"「{enemy_card.name}」获得 +2 攻击力直到本回合结束"
+                f"（当前攻击 {atk}）"
+            )
+        else:
+            note = (
+                f"强制 · 玩家 {player_no}：查看牌库顶「{top_name}」"
+                f"（印刷费用 {printed_cost}），费用高于 2，留在牌库顶；"
+                f"「{enemy_card.name}」未获得攻击加成"
+            )
+        print(f"强制（{enemy_card.name}）：{note}")
+        return [note]
+
+    def _resolve_soulless_cadaver_forced_after_engage(
+        self, enemy_card, player_index: int
+    ) -> list[str]:
+        """无魂死尸 · 强制：交锋时将印刷费用 ≤2 的每张手牌放到牌组底。"""
+        player_no = player_index + 1
+        drawer = self._player_drawer_for(player_index)
+        if drawer is None:
+            note = f"强制 · 玩家 {player_no}：无玩家牌库，未结算「{enemy_card.name}」"
+            print(f"强制（{enemy_card.name}）：{note}")
+            return [note]
+        state = self._players[player_index]
+        low_cost_cards = [
+            card for card in list(state.hand_cards) if _parse_card_cost(card) <= 2
+        ]
+        if not low_cost_cards:
+            note = (
+                f"强制 · 玩家 {player_no}：手牌中没有印刷费用为 2 或更低的卡牌；"
+                f"只适用「{enemy_card.name}」的牌组不能被搜寻限制"
+            )
+            print(f"强制（{enemy_card.name}）：{note}")
+            return [note]
+        moved_details: list[str] = []
+        moved_object_ids = {id(card) for card in low_cost_cards}
+        state.hand_cards = [
+            card
+            for card in state.hand_cards
+            if id(card) not in moved_object_ids
+        ]
+        for card in low_cost_cards:
+            drawer.place_card_on_deck_bottom(card)
+            moved_details.append(f"{card.name}（费用 {_parse_card_cost(card)}）")
+        if player_index == self._active_player_index:
+            self._refresh_hand_row(state.hand_cards)
+        note = (
+            f"强制 · 玩家 {player_no}：将 {len(low_cost_cards)} 张印刷费用为 2 或更低的"
+            f"手牌放到牌组底：{'、'.join(moved_details)}；"
+            f"只要仍与「{enemy_card.name}」交锋，其牌组不能被搜寻"
+        )
+        print(f"强制（{enemy_card.name}）：{note}")
+        return [note]
+
     def _resolve_hummerhorns_forced_after_engage(
         self, enemy_card, player_index: int
     ) -> list[str]:
@@ -40256,6 +42330,18 @@ class MainWindow(QMainWindow):
             self._enemy_attack_ctx = saved_ctx
         if damage_note:
             lines.append(f"  {damage_note}")
+        if wolf_ctx.get("drowned_dead_shadow_bottom_destroyed_allies"):
+            saved_ctx = self._enemy_attack_ctx
+            self._enemy_attack_ctx = wolf_ctx
+            try:
+                lines.extend(
+                    "  " + note
+                    for note in self._move_destroyed_attack_allies_to_owner_deck_bottom(
+                        source="魔影 · 淹死鬼",
+                    )
+                )
+            finally:
+                self._enemy_attack_ctx = saved_ctx
         parent_ctx["shadow_effect_summary"] = "\n".join(lines)
         print(f"魔影「{shadow_card.name}」：" + '、'.join(lines[1:]))
         return lines
@@ -40947,6 +43033,54 @@ class MainWindow(QMainWindow):
     def _is_ship_enemy_card(self, card) -> bool:
         return (getattr(card, "type", "") or "").strip() == "敌人" and self._encounter_card_is_ship(card)
 
+    def _is_corsair_warship_card(self, card) -> bool:
+        base_id = self._card_octgn_base_id(card)
+        if base_id == self.CORSAIR_WARSHIP_OCTGN_BASE:
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return (
+            name in self.CORSAIR_WARSHIP_NAMES
+            or canonical in self.CORSAIR_WARSHIP_NAMES
+        )
+
+    def _is_southron_sailor_card(self, card) -> bool:
+        base_id = self._card_octgn_base_id(card)
+        if base_id == "b171f1fa-a603-43ab-97c9-f950ee3b3599":
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return name in {"南方的水手", "Southron Sailor"} or canonical in {
+            "南方的水手",
+            "Southron Sailor",
+        }
+
+    def _southron_sailor_extra_staging_threat(self) -> int:
+        """南方的水手：与其交锋时，与你交锋的每个船敌军威胁计入场景区总威胁。"""
+        total = 0
+        for player_idx in range(self.PLAYER_COUNT):
+            enemies = self._engaged_enemies_for_player(player_idx)
+            if not any(self._is_southron_sailor_card(card) for card in enemies):
+                continue
+            for enemy_card in enemies:
+                if not self._is_ship_enemy_card(enemy_card):
+                    continue
+                host = self._engagement_host_widgets.get(enemy_card.id)
+                total += self._card_threat_value(enemy_card, host)
+        return total
+
+    def _corsair_warship_in_staging(self, card) -> bool:
+        if card is None or not self._is_corsair_warship_card(card):
+            return False
+        card_id = getattr(card, "id", "")
+        return any(
+            getattr(staging_card, "id", "") == card_id
+            for staging_card in getattr(self, "staging_cards", []) or []
+        )
+
+    def _enemy_cannot_be_damaged(self, card) -> bool:
+        return self._corsair_warship_in_staging(card)
+
     def _is_umbar_captain_card(self, card) -> bool:
         base_id = self._card_octgn_base_id(card)
         if base_id == "27bdece4-dfac-438e-87cd-1dc653eab8d6":
@@ -40989,6 +43123,14 @@ class MainWindow(QMainWindow):
         canonical = CARD_NAME_ALIASES.get(name, "")
         return name in self.DREAM_CHASER_SHIP_NAMES or canonical in self.DREAM_CHASER_SHIP_NAMES
 
+    def _is_dawn_star_ship_card(self, card) -> bool:
+        base_id = self._card_octgn_base_id(card)
+        if base_id == self.DAWN_STAR_SHIP_OCTGN_BASE:
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return name in self.DAWN_STAR_SHIP_NAMES or canonical in self.DAWN_STAR_SHIP_NAMES
+
     def _is_narelenya_ship_card(self, card) -> bool:
         base_id = self._card_octgn_base_id(card)
         if base_id == self.NARELENYA_SHIP_OCTGN_BASE:
@@ -40997,6 +43139,17 @@ class MainWindow(QMainWindow):
         canonical = CARD_NAME_ALIASES.get(name, "")
         return name in self.NARELENYA_SHIP_NAMES or canonical in self.NARELENYA_SHIP_NAMES
 
+    def _is_silver_wing_ship_card(self, card) -> bool:
+        base_id = self._card_octgn_base_id(card)
+        if base_id == "c9139d8c-0d9d-4d34-bfb5-8d40ca455bfc":
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return name in {"银翼号", "Silver Wing"} or canonical in {
+            "银翼号",
+            "Silver Wing",
+        }
+
     def _player_controls_narelenya(self, player_index: int) -> bool:
         if not (0 <= player_index < self.PLAYER_COUNT):
             return False
@@ -41004,6 +43157,39 @@ class MainWindow(QMainWindow):
             self._is_narelenya_ship_card(card)
             for card in getattr(self._players[player_index], "ally_cards", []) or []
         )
+
+    def _player_controls_dawn_star(self, player_index: int) -> bool:
+        if not (0 <= player_index < self.PLAYER_COUNT):
+            return False
+        return any(
+            self._is_dawn_star_ship_card(card)
+            for card in getattr(self._players[player_index], "ally_cards", []) or []
+        )
+
+    def _player_controls_silver_wing(self, player_index: int) -> bool:
+        if not (0 <= player_index < self.PLAYER_COUNT):
+            return False
+        return any(
+            self._is_silver_wing_ship_card(card)
+            for card in getattr(self._players[player_index], "ally_cards", []) or []
+        )
+
+    def _dawn_star_ship_for_player(self, player_index: int):
+        if not (0 <= player_index < self.PLAYER_COUNT):
+            return None
+        for card in getattr(self._players[player_index], "ally_cards", []) or []:
+            if self._is_dawn_star_ship_card(card):
+                return card
+        return None
+
+    def _silver_wing_hero_attack_bonus_for(self, card) -> int:
+        char_id = getattr(card, "id", "") or ""
+        if not char_id or not self._is_hero_on_field(char_id):
+            return 0
+        owner_idx = self._character_owner_index(char_id)
+        if owner_idx < 0:
+            return 0
+        return 1 if self._player_controls_silver_wing(owner_idx) else 0
 
     def _player_fleet_sort_key(self, card) -> int:
         name = (getattr(card, "name", "") or "").strip()
@@ -41275,6 +43461,17 @@ class MainWindow(QMainWindow):
         printed = int(match.group(1)) if match else 0
         return printed + self._voyage_stars_guidance_ship_enemy_boarding_bonus_for(card)
 
+    def _is_light_cruiser_card(self, card) -> bool:
+        base_id = self._card_octgn_base_id(card)
+        if base_id == "c1273c2f-a616-45ee-804d-a16c28b6e63d":
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return name in {"轻型巡洋舰", "Light Cruiser"} or canonical in {
+            "轻型巡洋舰",
+            "Light Cruiser",
+        }
+
     def _voyage_stars_guidance_ship_enemy_boarding_bonus_for(self, card) -> int:
         """卡冯的预言 2B：偏离航向时，每个船敌军获得登船 1。"""
         if self._current_heading() <= 1:
@@ -41322,6 +43519,31 @@ class MainWindow(QMainWindow):
             )
         if engaged:
             self._refresh_engagement_row()
+            if self._is_light_cruiser_card(ship_enemy):
+                for pirate in engaged:
+                    if not self._is_marauder_enemy(pirate):
+                        continue
+                    widget = self._encounter_widget_for_card(pirate)
+                    if widget is None:
+                        notes.append(
+                            f"  「{pirate.name}」因轻型巡洋舰的登船效果进场，"
+                            "但未找到其控件，未放置资源标记"
+                        )
+                        continue
+                    before = (
+                        int(widget.resource_count())
+                        if hasattr(widget, "resource_count")
+                        else 0
+                    )
+                    after = before + 1
+                    if hasattr(widget, "set_show_resource_badge"):
+                        widget.set_show_resource_badge(True)
+                    if hasattr(widget, "set_resource_count"):
+                        widget.set_resource_count(after)
+                    notes.append(
+                        f"  掠夺者「{pirate.name}」因轻型巡洋舰的登船效果进场，"
+                        f"获得 1 枚资源标记（{before} → {after}）"
+                    )
         print("；".join(note.strip() for note in notes))
         return notes
 
@@ -41486,6 +43708,10 @@ class MainWindow(QMainWindow):
         total = 0
         sources: list[str] = []
         for card in self._encounter_cards_in_play():
+            if self._corsair_warship_in_staging(card):
+                total += 4
+                sources.append(f"「{card.name}」4")
+                continue
             value = self._encounter_archery_value(card)
             if value <= 0:
                 continue
@@ -42093,6 +44319,18 @@ class MainWindow(QMainWindow):
         canonical = CARD_NAME_ALIASES.get(name, "")
         return canonical in self.BOARDING_PARTY_NAMES
 
+    def _is_winds_of_wrath_card(self, card) -> bool:
+        if self._card_octgn_base_id(card) == self.WINDS_OF_WRATH_OCTGN_BASE:
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        if name in self.WINDS_OF_WRATH_NAMES:
+            return True
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return canonical in self.WINDS_OF_WRATH_NAMES
+
+    def _when_revealed_effect_cannot_be_cancelled(self, card) -> bool:
+        return self._is_winds_of_wrath_card(card) and self._current_heading() >= 4
+
     def _is_despair_card(self, card) -> bool:
         name = (getattr(card, "name", "") or "").strip()
         if name in self.DESPAIR_NAMES:
@@ -42164,6 +44402,47 @@ class MainWindow(QMainWindow):
             self._refresh_engagement_row()
         note = "\n".join(lines)
         print(note)
+        return note
+
+    def _resolve_winds_of_wrath_when_revealed(self, card) -> str:
+        """愤怒之风 · 展示后：偏离航向时，在场每名角色受 1 点伤害。"""
+        heading = self._current_heading()
+        lines = [f"  「{card.name}」展示后："]
+        if heading <= 1:
+            lines.append(
+                f"  当前航向 Heading{heading or '?'}（正确航向），未造成伤害。"
+            )
+            note = "\n".join(lines)
+            print(note)
+            return note
+        if heading >= 4:
+            lines.append("  当前为最差航向 Heading4，本展示后效果不能被取消。")
+        else:
+            lines.append(
+                f"  当前航向 Heading{heading}（偏离航向），"
+                "对在场的每名角色造成 1 点伤害。"
+            )
+        damaged_any = False
+        for player_idx in range(self.PLAYER_COUNT):
+            if player_idx in self._eliminated_players:
+                continue
+            player_tag = self._player_tag(player_idx) or f"玩家 {player_idx + 1}"
+            chars = self._characters_controlled_by_player(player_idx)
+            if not chars:
+                lines.append(f"  {player_tag}：无存活角色")
+                continue
+            for char_id, _label, _card in chars:
+                damaged_any = True
+                name = self._character_display_name(char_id)
+                destroyed = self._apply_combat_damage(char_id, 1)
+                if destroyed:
+                    lines.append(f"  {player_tag}「{name}」受 1 点伤害并被消灭")
+                else:
+                    lines.append(f"  {player_tag}「{name}」受 1 点伤害")
+        if not damaged_any:
+            lines.append("  场上没有可受伤害的角色。")
+        note = "\n".join(lines)
+        print(f"展示后（{card.name}）：" + "、".join(lines[1:]))
         return note
 
     def _resolve_despair_when_revealed(self, card) -> str:
@@ -42272,6 +44551,10 @@ class MainWindow(QMainWindow):
 
     def _encounter_card_has_surge(self, card) -> bool:
         """遭遇卡是否带有「涌动/出现/Surge」关键词。"""
+        card_id = getattr(card, "id", "") or ""
+        if card_id and card_id in getattr(self, "_temporary_surge_card_ids", set()):
+            self._temporary_surge_card_ids.discard(card_id)
+            return True
         if self._is_eastern_crows_card(card):
             return True
         if self._is_misty_mountain_goblins_card(card):
@@ -42669,6 +44952,23 @@ class MainWindow(QMainWindow):
             self._despair_no_defense_char_ids = set(defender_ids)
         ctx["shadow_effect_summary"] = "\n".join(lines)
         print(f"魔影「{shadow_card.name}」：" + "、".join(lines[1:]))
+        return lines
+
+    def _resolve_drowned_dead_shadow(
+        self, shadow_card, attacking_enemy
+    ) -> list[str]:
+        """淹死鬼 · 魔影：若本次攻击消灭盟友，将该盟友放到其拥有者牌组底。"""
+        ctx = self._enemy_attack_ctx
+        if ctx is None:
+            return []
+        _ = attacking_enemy
+        ctx["drowned_dead_shadow_bottom_destroyed_allies"] = True
+        lines = [
+            f"  牌「{shadow_card.name}」：如果本次攻击消灭了一名盟友，"
+            "将该盟友放到其拥有者牌组底端。"
+        ]
+        ctx["shadow_effect_summary"] = "\n".join(lines)
+        print(f"魔影「{shadow_card.name}」：{lines[0].strip()}")
         return lines
 
     def _discard_all_player_character_attachments(
@@ -43098,6 +45398,84 @@ class MainWindow(QMainWindow):
         print(f"魔影「{shadow_card.name}」：{lines[1]}")
         return lines
 
+    def _resolve_starlit_sea_shadow(
+        self, shadow_card, attacking_enemy
+    ) -> list[str]:
+        """星辰大海 · 魔影：攻击敌军 +1；若处于偏离航向则改为 +2。"""
+        ctx = self._enemy_attack_ctx
+        if ctx is None:
+            return []
+        heading = self._current_heading()
+        enemy_name = getattr(attacking_enemy, "name", "攻击敌军")
+        amount = 1 if heading == 1 else 2
+        self._apply_encounter_attack_bonus(attacking_enemy.id, amount)
+        new_atk = self._sync_enemy_attack_ctx_atk()
+        if amount == 1:
+            head = (
+                f"  牌「{shadow_card.name}」："
+                f"攻击敌军「{enemy_name}」获得 +1 攻击力"
+            )
+        else:
+            head = (
+                f"  牌「{shadow_card.name}」：你处于偏离航向，"
+                f"攻击敌军「{enemy_name}」获得 +2 攻击力"
+            )
+        lines = [
+            head,
+            f"  「{enemy_name}」攻击力临时 +{amount}（本次攻击 {new_atk}）",
+        ]
+        ctx["shadow_effect_summary"] = "\n".join(lines)
+        print(f"魔影「{shadow_card.name}」：{lines[1]}")
+        return lines
+
+    def _resolve_winds_of_wrath_shadow(
+        self, shadow_card, attacking_enemy
+    ) -> list[str]:
+        """愤怒之风 · 魔影：航向改偏，或本次攻击视为无人防御。"""
+        ctx = self._enemy_attack_ctx
+        if ctx is None:
+            return []
+        enemy_name = getattr(attacking_enemy, "name", "攻击敌军")
+        can_deviate = self._current_heading() < 4
+        choose_deviate = False
+        if can_deviate:
+            choose_deviate = (
+                self._question(
+                    f"魔影 · {shadow_card.name}",
+                    f"「{shadow_card.name}」魔影：\n\n"
+                    "选择「是」：将你的航向改偏。\n"
+                    f"选择「否」：本次「{enemy_name}」攻击视为无人防御。",
+                    default_yes=True,
+                )
+                == QMessageBox.Yes
+            )
+        lines = [f"  牌「{shadow_card.name}」："]
+        if choose_deviate:
+            before = self._current_heading()
+            if self._deviate_heading(f"魔影 · {shadow_card.name}"):
+                after = self._current_heading()
+                lines.append(
+                    f"  选择航向改偏：Heading{before} → Heading{after}。"
+                )
+            else:
+                choose_deviate = False
+                lines.append("  航向已无法继续改偏，改为本次攻击视为无人防御。")
+        if not choose_deviate:
+            had_defenders = bool(ctx.get("defender_ids"))
+            ctx["defender_ids"] = []
+            ctx["vigilant"] = False
+            ctx["winds_of_wrath_shadow_undefended"] = True
+            if had_defenders:
+                lines.append(
+                    f"  本次「{enemy_name}」攻击视为无人防御；"
+                    "已宣告的防御者不再计算防御。"
+                )
+            else:
+                lines.append(f"  本次「{enemy_name}」攻击已经无人防御。")
+        ctx["shadow_effect_summary"] = "\n".join(lines)
+        print(f"魔影「{shadow_card.name}」：" + "、".join(lines[1:]))
+        return lines
+
     def _controlled_loot_attachment_options_for_player(
         self, player_index: int
     ) -> list[CharacterPickOption]:
@@ -43107,7 +45485,7 @@ class MainWindow(QMainWindow):
         state = self._players[player_index]
         for host_id, attachments in state.attachments.items():
             host_card = self._character_card_by_id(host_id)
-            if (getattr(host_card, "type", "") or "").strip() != '英雄':
+            if self._character_effective_type(host_card) != '英雄':
                 continue
             if self._character_owner_index(host_id) != player_index:
                 continue
@@ -43278,6 +45656,114 @@ class MainWindow(QMainWindow):
         print(f"魔影「{shadow_card.name}」：" + "、".join(lines[1:]))
         return lines
 
+    def _resolve_fog_bank_shadow(
+        self, shadow_card, attacking_enemy
+    ) -> list[str]:
+        """雾角 · 魔影：最差航向时，攻击敌军攻击结束后额外攻击一次。"""
+        ctx = self._enemy_attack_ctx
+        if ctx is None:
+            return []
+        heading = self._current_heading()
+        enemy_name = getattr(attacking_enemy, "name", "攻击敌军")
+        player_index = int(ctx.get("player_index", self._active_player_index))
+        lines = [f"  牌「{shadow_card.name}」："]
+        if heading != 4:
+            lines.append(
+                f"  当前航向 Heading{heading}，并非最差航向，魔影没有效果。"
+            )
+            ctx["shadow_effect_summary"] = "\n".join(lines)
+            print(f"魔影「{shadow_card.name}」：非最差航向，无效果")
+            return lines
+        lines.append(
+            f"  你的航向处于最差状态，攻击敌军「{enemy_name}」"
+            "在本次攻击结束后立即额外进行一次攻击。"
+        )
+        ctx["fog_bank_shadow_followup"] = True
+        ctx["fog_bank_shadow_player"] = player_index
+        ctx["shadow_effect_summary"] = "\n".join(lines)
+        print(f"魔影「{shadow_card.name}」：" + "、".join(lines[1:]))
+        return lines
+
+    def _resolve_curse_of_the_downfallen_shadow(
+        self, shadow_card, attacking_enemy
+    ) -> list[str]:
+        """堕落者的诅咒 · 魔影：弃防御玩家牌组底牌；费用≤2则攻击后额外攻击。"""
+        ctx = self._enemy_attack_ctx
+        if ctx is None:
+            return []
+        player_index = int(ctx.get("player_index", self._active_player_index))
+        player_no = player_index + 1
+        enemy_name = getattr(attacking_enemy, "name", "攻击敌军")
+        lines = [f"  牌「{shadow_card.name}」："]
+        if not (0 <= player_index < self.PLAYER_COUNT):
+            lines.append("  未找到防御玩家，未弃除牌组底牌。")
+            ctx["shadow_effect_summary"] = "\n".join(lines)
+            return lines
+        drawer = self._player_drawer_for(player_index)
+        if drawer is None:
+            lines.append(f"  玩家 {player_no} 牌组未初始化，未弃除底牌。")
+            ctx["shadow_effect_summary"] = "\n".join(lines)
+            return lines
+        if hasattr(drawer, "_ensure_deck_stack"):
+            drawer._ensure_deck_stack()
+        deck_stack = getattr(drawer, "deck_stack", [])
+        if not deck_stack:
+            lines.append(f"  玩家 {player_no} 牌组为空，未弃除底牌。")
+            ctx["shadow_effect_summary"] = "\n".join(lines)
+            return lines
+        bottom_card = deck_stack.pop()
+        self._players[player_index].discard_cards.append(bottom_card)
+        if player_index == self._active_player_index:
+            self._refresh_discard_pile()
+        printed_cost = _parse_card_cost(bottom_card)
+        lines.append(
+            f"  弃除玩家 {player_no} 牌组底牌「{bottom_card.name}」"
+            f"（印刷费用 {printed_cost}）。"
+        )
+        if printed_cost <= 2:
+            lines.append(
+                f"  费用为 2 或更低，「{enemy_name}」将在本次攻击结束后"
+                "立即额外进行一次攻击。"
+            )
+            ctx["curse_of_the_downfallen_shadow_followup"] = True
+            ctx["curse_of_the_downfallen_shadow_player"] = player_index
+        else:
+            lines.append("  费用高于 2，攻击敌军不会因此额外攻击。")
+        ctx["shadow_effect_summary"] = "\n".join(lines)
+        print(f"魔影「{shadow_card.name}」：" + "、".join(lines[1:]))
+        return lines
+
+    def _resolve_lingering_malevolence_shadow(
+        self, shadow_card, attacking_enemy
+    ) -> list[str]:
+        """挥之不去的恶意 · 魔影：弃防御玩家牌组底牌；费用≤2则攻击敌军+2攻击。"""
+        ctx = self._enemy_attack_ctx
+        if ctx is None:
+            return []
+        player_index = int(ctx.get("player_index", self._active_player_index))
+        enemy_name = getattr(attacking_enemy, "name", "攻击敌军")
+        lines = [f"  牌「{shadow_card.name}」："]
+        bottom_card, bottom_note = self._discard_player_deck_bottom_card(
+            player_index,
+            source=f"魔影 · {shadow_card.name}",
+        )
+        lines.append("  " + bottom_note)
+        if bottom_card is not None:
+            printed_cost = _parse_card_cost(bottom_card)
+            if printed_cost <= 2:
+                enemy_id = getattr(attacking_enemy, "id", "")
+                self._apply_encounter_attack_bonus(enemy_id, 2)
+                new_atk = self._sync_enemy_attack_ctx_atk()
+                lines.append(
+                    f"  费用为 2 或更低，「{enemy_name}」获得 +2 攻击力"
+                    f"（本次攻击 {new_atk}）。"
+                )
+            else:
+                lines.append("  费用高于 2，攻击敌军不会因此获得攻击加成。")
+        ctx["shadow_effect_summary"] = "\n".join(lines)
+        print(f"魔影「{shadow_card.name}」：" + "、".join(lines[1:]))
+        return lines
+
     def _resolve_echoes_in_the_dark_when_revealed(self, card) -> str:
         """黑暗中的回声 · 展示后：起始玩家每控制一名角色，场景区总威胁 +1。"""
         first_player = self.first_player_index
@@ -43333,6 +45819,40 @@ class MainWindow(QMainWindow):
             lines.append("  被弃除卡牌不是事件，攻击力不增加。")
         ctx["shadow_effect_summary"] = "\n".join(lines)
         print(f"魔影「{shadow_card.name}」：" + "、".join(lines[1:]))
+        return lines
+
+    def _resolve_battle_hardened_shadow(
+        self, shadow_card, attacking_enemy
+    ) -> list[str]:
+        """老练战士 · 魔影：若攻击敌军是掠夺者，则在其上放置 2 枚资源标记。"""
+        ctx = self._enemy_attack_ctx
+        enemy_name = getattr(attacking_enemy, "name", "攻击敌军")
+        lines = [f"  牌「{shadow_card.name}」："]
+        if not self._is_marauder_enemy(attacking_enemy):
+            lines.append(f"  「{enemy_name}」不是掠夺者，魔影无效果。")
+            if ctx is not None:
+                ctx["shadow_effect_summary"] = "\n".join(lines)
+            print(f"魔影「{shadow_card.name}」：{lines[1]}")
+            return lines
+        widget = self._encounter_widget_for_card(attacking_enemy)
+        if widget is None:
+            lines.append(f"  未找到「{enemy_name}」的在场控件，无法放置资源标记。")
+            if ctx is not None:
+                ctx["shadow_effect_summary"] = "\n".join(lines)
+            print(f"魔影「{shadow_card.name}」：{lines[1]}")
+            return lines
+        before = int(widget.resource_count()) if hasattr(widget, "resource_count") else 0
+        after = before + 2
+        if hasattr(widget, "set_show_resource_badge"):
+            widget.set_show_resource_badge(True)
+        if hasattr(widget, "set_resource_count"):
+            widget.set_resource_count(after)
+        lines.append(
+            f"  在掠夺者「{enemy_name}」上放置 2 枚资源标记（{before} → {after}）。"
+        )
+        if ctx is not None:
+            ctx["shadow_effect_summary"] = "\n".join(lines)
+        print(f"魔影「{shadow_card.name}」：{lines[1]}")
         return lines
 
     def _resolve_sunken_treasury_shadow(
@@ -43438,8 +45958,32 @@ class MainWindow(QMainWindow):
             return self._resolve_rolling_seas_shadow(
                 shadow_card, attacking_enemy
             )
+        if self._is_starlit_sea_location(shadow_card):
+            return self._resolve_starlit_sea_shadow(
+                shadow_card, attacking_enemy
+            )
         if self._is_rough_waters_location(shadow_card):
             return self._resolve_rough_waters_shadow(
+                shadow_card, attacking_enemy
+            )
+        if self._is_fog_bank_location(shadow_card):
+            return self._resolve_fog_bank_shadow(
+                shadow_card, attacking_enemy
+            )
+        if self._is_winds_of_wrath_card(shadow_card):
+            return self._resolve_winds_of_wrath_shadow(
+                shadow_card, attacking_enemy
+            )
+        if self._is_drowned_dead_card(shadow_card):
+            return self._resolve_drowned_dead_shadow(
+                shadow_card, attacking_enemy
+            )
+        if self._is_curse_of_the_downfallen_card(shadow_card):
+            return self._resolve_curse_of_the_downfallen_shadow(
+                shadow_card, attacking_enemy
+            )
+        if self._is_lingering_malevolence_card(shadow_card):
+            return self._resolve_lingering_malevolence_shadow(
                 shadow_card, attacking_enemy
             )
         if self._is_boarding_party_card(shadow_card):
@@ -43452,6 +45996,10 @@ class MainWindow(QMainWindow):
             )
         if self._is_echoes_in_the_dark_card(shadow_card):
             return self._resolve_echoes_in_the_dark_shadow(
+                shadow_card, attacking_enemy
+            )
+        if self._is_battle_hardened_card(shadow_card):
+            return self._resolve_battle_hardened_shadow(
                 shadow_card, attacking_enemy
             )
         if self._is_sunken_treasury_location(shadow_card):
@@ -43542,6 +46090,9 @@ class MainWindow(QMainWindow):
         if self._is_boarding_party_card(card):
             note = self._resolve_boarding_party_when_revealed(card)
             return note, False
+        if self._is_winds_of_wrath_card(card):
+            note = self._resolve_winds_of_wrath_when_revealed(card)
+            return note, False
         if self._is_despair_card(card):
             note = self._resolve_despair_when_revealed(card)
             return note, False
@@ -43562,6 +46113,15 @@ class MainWindow(QMainWindow):
             return note, False
         if self._is_echoes_in_the_dark_card(card):
             note = self._resolve_echoes_in_the_dark_when_revealed(card)
+            return note, False
+        if self._is_battle_hardened_card(card):
+            note = self._resolve_battle_hardened_when_revealed(card)
+            return note, False
+        if self._is_curse_of_the_downfallen_card(card):
+            note = self._resolve_curse_of_the_downfallen_when_revealed(card)
+            return note, False
+        if self._is_lingering_malevolence_card(card):
+            note = self._resolve_lingering_malevolence_when_revealed(card)
             return note, False
         text = self._encounter_card_rules_text(card)
         if not self._rules_text_has_when_revealed(text):
@@ -44210,6 +46770,8 @@ class MainWindow(QMainWindow):
         """询问并执行埃尔隆德横置、弃除阴谋（不含替换展示）。返回 (是否触发, 日志)。"""
         if (card.type or "").strip() not in self.TREACHERY_TYPES:
             return False, ""
+        if self._when_revealed_effect_cannot_be_cancelled(card):
+            return False, ""
         eleanor_id = self._find_ready_eleanor_on_field()
         if not eleanor_id:
             return False, ""
@@ -44292,9 +46854,12 @@ class MainWindow(QMainWindow):
             self._preview_staging_card_zoom(card, player_no)
 
         # 休想得逞！响应：在一张遭遇牌从遭遇牌组展示后，如果其具有和胜利点计数区一张卡牌相同名称，取消其效果并弃除它
-        not_this_time_cancelled = self._try_not_this_time_response(
-            card, player_no - 1
-        )
+        if self._when_revealed_effect_cannot_be_cancelled(card):
+            not_this_time_cancelled = False
+        else:
+            not_this_time_cancelled = self._try_not_this_time_response(
+                card, player_no - 1
+            )
         if not_this_time_cancelled:
             # 卡牌效果被取消并弃除
             self._to_encounter_discard_pile(card)
@@ -44553,8 +47118,31 @@ class MainWindow(QMainWindow):
         else:
             striders_used = False
             striders_note = ""
+            # 卡冯：目标盟友，展示后由起始玩家控制
+            if self._is_calphon_objective_ally_card(card):
+                dest = self._handle_calphon_revealed(
+                    card, player_no, extra_notes
+                )
+                self._finish_staging_reveal_surge(
+                    card, player_no, depth=depth, extra_notes=extra_notes
+                )
+            # 萨伊尔船长背面：目标盟友，起始玩家获得控制权
+            elif self._is_captain_sahir_objective_ally_card(card):
+                dest = self._handle_captain_sahir_ally_revealed(
+                    card, player_no, extra_notes
+                )
+                self._finish_staging_reveal_surge(
+                    card, player_no, depth=depth, extra_notes=extra_notes
+                )
+            elif self._is_naasiyah_objective_ally_card(card):
+                dest = self._handle_naasiyah_ally_revealed(
+                    card, player_no, extra_notes
+                )
+                self._finish_staging_reveal_surge(
+                    card, player_no, depth=depth, extra_notes=extra_notes
+                )
             # 北方的游民：遭遇玩家盟友，展示后进入玩家控制
-            if self._is_northern_wanderer_ally(card):
+            elif self._is_northern_wanderer_ally(card):
                 dest = self._handle_northern_wanderer_revealed(
                     card, player_no, extra_notes
                 )
@@ -44887,7 +47475,11 @@ class MainWindow(QMainWindow):
             return True
         if self._is_dream_chaser_ship_card(card):
             return True
+        if self._is_dawn_star_ship_card(card):
+            return True
         if self._is_narelenya_ship_card(card):
+            return True
+        if self._is_silver_wing_ship_card(card):
             return True
         texts = [
             (getattr(card, "Text_Effect", "") or ""),
@@ -45699,6 +48291,87 @@ class MainWindow(QMainWindow):
                     continue
                 self._set_attachment_exhausted(att_id, True)
                 healed = self._heal_character_damage(char_id, 1, card_effect=True)
+                if healed > 0:
+                    remaining_assigned -= healed
+                    print(
+                        f"响应（{att_card.name}）：横置，"
+                        f"取消「{char_name}」{healed} 点伤害"
+                        f"（本次分配尚可取消 {remaining_assigned} 点）"
+                    )
+        finally:
+            if self.PLAYER_COUNT > 1:
+                self._set_active_player(prev_active)
+
+    def _find_weather_stained_cloak_on_field(
+        self, *, include_exhausted: bool = True
+    ):
+        """在场上查找风吹雨淋的斗篷，返回 (att_id, att_card, host_id, owner_idx)。"""
+        results = []
+        for player_idx in range(self.PLAYER_COUNT):
+            if player_idx in self._eliminated_players:
+                continue
+            state = self._players[player_idx]
+            for host_id, atts in state.attachments.items():
+                for att in atts:
+                    if not self._is_weather_stained_cloak_attachment(att):
+                        continue
+                    att_id = (getattr(att, "id", "") or "").strip()
+                    if not att_id:
+                        continue
+                    att_widget = self._attachment_widgets.get(att_id)
+                    if att_widget is None:
+                        continue
+                    if not include_exhausted and att_widget.is_exhausted():
+                        continue
+                    results.append((att_id, att, host_id, player_idx))
+        return results
+
+    def _try_weather_stained_cloak_damage_cancel_response(
+        self, char_id: str, assigned_amount: int
+    ) -> None:
+        """风吹雨淋的斗篷：任务时横置取消所附属角色 1 点伤害。"""
+        if assigned_amount <= 0:
+            return
+        if not self._is_character_in_play(char_id):
+            return
+        # 只有角色在执行任务时才能触发
+        if char_id not in self._questing_ids:
+            return
+        cloaks = self._find_weather_stained_cloak_on_field(
+            include_exhausted=False
+        )
+        relevant = [
+            (att_id, att, host_id, owner_idx)
+            for att_id, att, host_id, owner_idx in cloaks
+            if host_id == char_id
+        ]
+        if not relevant:
+            return
+        char_name = self._character_display_name(char_id)
+        title = '响应 · 风吹雨淋的斗篷'
+        prev_active = self._active_player_index
+        remaining_assigned = assigned_amount
+        try:
+            for att_id, att_card, _host_id, owner_idx in relevant:
+                if remaining_assigned <= 0:
+                    break
+                damage_now = self._character_damage_count(char_id)
+                if damage_now <= 0:
+                    break
+                player_no = owner_idx + 1
+                if self._question(
+                    title,
+                    f"是否横置「{att_card.name}」以取消"
+                    f"「{char_name}」的 1 点伤害？\n"
+                    f"（本次分配剩余可取消 {remaining_assigned} 点）",
+                    default_yes=False,
+                ) != QMessageBox.Yes:
+                    print(f"响应（{att_card.name}）：未触发")
+                    continue
+                self._set_attachment_exhausted(att_id, True)
+                healed = self._heal_character_damage(
+                    char_id, 1, card_effect=True
+                )
                 if healed > 0:
                     remaining_assigned -= healed
                     print(
@@ -47131,6 +49804,81 @@ class MainWindow(QMainWindow):
         self._inform(title, note)
         return True
 
+    def _try_calphon_deck_bottom_swap_action(self, char_id: str) -> bool:
+        """卡冯：横置 → 查看牌库底牌，可与手牌互换。"""
+        card = self._character_card_by_id(char_id)
+        if card is None or not self._has_calphon_deck_bottom_swap_action(card):
+            return False
+        if not self._is_character_in_play(char_id):
+            return False
+        title = '行动 · 卡冯'
+        card_name = getattr(card, "name", "卡冯")
+        widget = self._field_widgets.get(char_id)
+        if widget is None:
+            return True
+        if widget.is_exhausted():
+            self._inform(title, f"「{card_name}」已横置，无法触发行动。")
+            return True
+        owner_idx = self._character_owner_index(char_id)
+        if owner_idx < 0:
+            self._inform(title, '无法识别卡冯的控制者。')
+            return True
+        drawer = self._player_drawer_for(owner_idx)
+        if drawer is None:
+            self._inform(title, '牌库不可用。')
+            return True
+        if hasattr(drawer, "_ensure_deck_stack"):
+            drawer._ensure_deck_stack()
+        deck_stack = getattr(drawer, "deck_stack", [])
+        if not deck_stack:
+            self._inform(title, '牌库为空，无法查看牌库底。')
+            return True
+        owner_tag = self._player_tag(owner_idx) or f"玩家{owner_idx + 1}"
+        bottom_card = deck_stack[-1]
+        if (
+            self._question(
+                title,
+                f"横置「{card_name}」，查看{owner_tag}牌库底牌。\n\n"
+                f"牌库底牌：「{bottom_card.name}」。\n\n"
+                "然后，你可以将该牌与你的一张手牌互换。",
+                default_yes=False,
+            )
+            != QMessageBox.Yes
+        ):
+            print(f"行动（{card_name}）：未触发")
+            return True
+        self._set_host_exhausted(char_id, True)
+        state = self._players[owner_idx]
+        swap_note = "未互换"
+        if state.hand_cards and (
+            self._question(
+                title,
+                f"是否将牌库底牌「{bottom_card.name}」与你的一张手牌互换？",
+                default_yes=False,
+            )
+            == QMessageBox.Yes
+        ):
+            hand_idx = self._pick_hand_card_index(
+                title,
+                '选择要与牌库底牌互换的手牌。',
+                player_index=owner_idx,
+                mandatory=True,
+            )
+            if hand_idx is not None:
+                hand_card = state.hand_cards[hand_idx]
+                state.hand_cards[hand_idx] = bottom_card
+                drawer.deck_stack[-1] = hand_card
+                swap_note = f"「{bottom_card.name}」与「{hand_card.name}」互换"
+        elif not state.hand_cards:
+            swap_note = "无手牌可互换"
+        if owner_idx == self._active_player_index:
+            self._refresh_hand_row(state.hand_cards)
+        self._update_player_controlled_captions()
+        note = f"查看牌库底「{bottom_card.name}」；{swap_note}"
+        print(f"行动（{card_name}）：{note}")
+        self._inform(title, note)
+        return True
+
     def _try_gildor_inglorion_action(self, char_id: str) -> bool:
         """吉尔多·英格罗瑞安：横置 → 查看牌库顶 3 张，与手牌互换，任意顺序放回。"""
         card = self._character_card_by_id(char_id)
@@ -48375,6 +51123,8 @@ class MainWindow(QMainWindow):
         drawer = self._player_drawer_for(player_index)
         if drawer is None or not drawer.deck_stack:
             return False
+        if self._player_deck_search_blocked_by_soulless(player_index):
+            return False
         side_quest_in_deck = any(
             (getattr(c, "type", "") or "").strip() in ("任务", "Side Quest")
             for c in drawer.deck_stack
@@ -48400,6 +51150,11 @@ class MainWindow(QMainWindow):
         drawer = self._player_drawer_for(player_index)
         if drawer is None or not drawer.deck_stack:
             return "牌组为空，无法搜寻。"
+        if self._player_deck_search_blocked_by_soulless(player_index):
+            return self._player_deck_search_blocked_note(
+                player_index,
+                source="杜内丹人的口信",
+            )
         # 筛选支线任务
         side_quests = [
             c for c in drawer.deck_stack
@@ -48942,14 +51697,13 @@ class MainWindow(QMainWindow):
             return 0
         drawn = 0
         for _ in range(count):
-            card = drawer.draw_card()
+            card = drawer._pick_random_card()
             if card is None:
                 break
             self._players[player_index].hand_cards.append(card)
             drawn += 1
         if drawn > 0:
             self._refresh_hand_row(self._players[player_index].hand_cards)
-            self._refresh_player_deck_display(player_index)
         return drawn
 
     def _try_longbeard_mapmaker_willpower_action(self, char_id: str) -> bool:
@@ -49464,7 +52218,7 @@ class MainWindow(QMainWindow):
         host_card = self._character_card_by_id(host_id)
         if host_card is None:
             return
-        if (getattr(host_card, "type", "") or "").strip() != '英雄':
+        if self._character_effective_type(host_card) != '英雄':
             return
         events = self._renewed_friendship_cards_in_hand(host_owner)
         if not events:
@@ -49590,7 +52344,7 @@ class MainWindow(QMainWindow):
                 host_card = self._character_card_by_id(host_id)
                 if host_card is None:
                     continue
-                if (getattr(host_card, "type", "") or "").strip() != '英雄':
+                if self._character_effective_type(host_card) != '英雄':
                     continue
                 if not self._is_hero_on_field(host_id) or not self._is_character_alive(host_id):
                     continue
@@ -50733,7 +53487,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != "英雄"
+            or self._character_effective_type(host_card) != "英雄"
             or not self._is_character_in_play(host_id)
         ):
             self._inform(title, "须附属在一名存活英雄上。")
@@ -50805,7 +53559,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != "英雄"
+            or self._character_effective_type(host_card) != "英雄"
             or not self._is_character_in_play(host_id)
         ):
             self._inform(title, "须附属在一名存活英雄上。")
@@ -50887,7 +53641,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != "英雄"
+            or self._character_effective_type(host_card) != "英雄"
             or not self._is_character_in_play(host_id)
         ):
             self._inform(title, "须附属在一名存活英雄上。")
@@ -51026,7 +53780,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != "英雄"
+            or self._character_effective_type(host_card) != "英雄"
             or not self._is_character_in_play(host_id)
         ):
             self._inform(title, "须附属在一名存活英雄上。")
@@ -51068,7 +53822,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != "英雄"
+            or self._character_effective_type(host_card) != "英雄"
             or not self._is_character_in_play(host_id)
         ):
             self._inform(title, "须附属在一名存活英雄上。")
@@ -51178,9 +53932,252 @@ class MainWindow(QMainWindow):
                 att_id, player_idx, auto_prompt=False
             )
 
+    def _captain_sahir_hero_resource_options(
+        self, owner_index: int
+    ) -> list[CharacterPickOption]:
+        options: list[CharacterPickOption] = []
+        for char_id, base_label, card in self._characters_on_field():
+            if self._character_owner_index(char_id) != owner_index:
+                continue
+            if (getattr(card, "type", "") or "").strip() != "英雄":
+                continue
+            widget = self._field_widgets.get(char_id)
+            if widget is None:
+                continue
+            info = widget.get_card_info()
+            if int(info.get("health", 0)) <= 0:
+                continue
+            resources = int(widget.resource_count())
+            if resources < 1:
+                continue
+            options.append(
+                CharacterPickOption(
+                    char_id=char_id,
+                    label=f"{base_label}（{resources} 资源）",
+                    image_path=getattr(card, "image_path", "") or "",
+                    attack=int(info.get("attack", 0)),
+                    defense=int(info.get("defense", 0)),
+                    health=int(info.get("health", 0)),
+                )
+            )
+        return options
+
+    def _try_captain_sahir_ally_resource_action(self, char_id: str) -> bool:
+        card = self._character_card_by_id(char_id)
+        if card is None or not self._is_captain_sahir_objective_ally_card(card):
+            return False
+        owner_idx = self._character_owner_index(char_id)
+        if owner_idx < 0 or owner_idx in self._eliminated_players:
+            self._inform("行动 · 萨伊尔船长", "未找到萨伊尔船长的控制者。")
+            return True
+        current_round = int(getattr(self, "round_number", 0) or 0)
+        used_round = int(
+            self._captain_sahir_ally_action_used_rounds.get(char_id, 0) or 0
+        )
+        if used_round == current_round and current_round > 0:
+            self._inform(
+                "行动 · 萨伊尔船长",
+                "萨伊尔船长的资源行动本回合已经使用过。",
+            )
+            return True
+        sahir_widget = self._field_widgets.get(char_id)
+        if sahir_widget is None:
+            self._inform("行动 · 萨伊尔船长", "未找到萨伊尔船长的场上卡图。")
+            return True
+        options = self._captain_sahir_hero_resource_options(owner_idx)
+        if not options:
+            self._inform(
+                "行动 · 萨伊尔船长",
+                "你控制的英雄没有可花费的资源。",
+            )
+            return True
+        if len(options) == 1:
+            hero_id = options[0].char_id
+        else:
+            dlg = CharacterImagePickDialog(
+                self,
+                "行动 · 萨伊尔船长",
+                "选择你控制的一名英雄，花费 1 枚资源标记：",
+                options,
+                mode="single",
+                highlight_stat="health",
+            )
+            if dlg.exec_() != QDialog.Accepted:
+                return True
+            hero_id = dlg.selected_id() or ""
+        hero_widget = self._field_widgets.get(hero_id)
+        if hero_widget is None or int(hero_widget.resource_count()) < 1:
+            self._inform("行动 · 萨伊尔船长", "所选英雄资源不足。")
+            return True
+        before_hero = int(hero_widget.resource_count())
+        before_sahir = int(sahir_widget.resource_count())
+        hero_widget.set_resource_count(before_hero - 1)
+        sahir_widget.set_resource_count(before_sahir + 1)
+        self._players[owner_idx].hero_resources[hero_id] = hero_widget.resource_count()
+        self._players[owner_idx].hero_resources[char_id] = sahir_widget.resource_count()
+        self._captain_sahir_ally_action_used_rounds[char_id] = current_round
+        self._refresh_captain_sahir_ally_bonus(card)
+        hero_name = self._character_display_name(hero_id)
+        bonus = self._captain_sahir_ally_bonus(card)
+        self._inform(
+            "行动 · 萨伊尔船长",
+            f"从「{hero_name}」花费 1 枚资源标记，"
+            f"放置 1 枚资源标记到「{card.name}」上。\n\n"
+            f"萨伊尔船长资源：{before_sahir} → {sahir_widget.resource_count()}；"
+            f"当前获得 +{bonus} 意志、+{bonus} 攻击（最多 +6）。",
+        )
+        print(
+            f"行动（{card.name}）：{hero_name} 资源 {before_hero} → "
+            f"{hero_widget.resource_count()}；{card.name} 资源 {before_sahir} → "
+            f"{sahir_widget.resource_count()}（当前 +{bonus} 意志/+{bonus} 攻击）"
+        )
+        return True
+
+    def _naasiyah_ally_is_current_attacker(self, char_id: str) -> bool:
+        ctx = self._player_attack_ctx or {}
+        return char_id in set(ctx.get("attacker_ids") or [])
+
+    def _naasiyah_ally_is_current_defender(self, char_id: str) -> bool:
+        ctx = self._enemy_attack_ctx or {}
+        return char_id in set(ctx.get("defender_ids") or [])
+
+    def _try_naasiyah_ally_resource_action(self, char_id: str) -> bool:
+        card = self._character_card_by_id(char_id)
+        if card is None or not self._is_naasiyah_objective_ally_card(card):
+            return False
+        owner_idx = self._character_owner_index(char_id)
+        if owner_idx < 0 or owner_idx in self._eliminated_players:
+            self._inform("行动 · 娜阿西雅", "未找到娜阿西雅的控制者。")
+            return True
+        current_round = int(getattr(self, "round_number", 0) or 0)
+        used_round = int(
+            self._naasiyah_ally_action_used_rounds.get(char_id, 0) or 0
+        )
+        if used_round == current_round and current_round > 0:
+            self._inform(
+                "行动 · 娜阿西雅",
+                "娜阿西雅的资源行动本回合已经使用过。",
+            )
+            return True
+        naasiyah_widget = self._field_widgets.get(char_id)
+        if naasiyah_widget is None:
+            self._inform("行动 · 娜阿西雅", "未找到娜阿西雅的场上卡图。")
+            return True
+        options = self._captain_sahir_hero_resource_options(owner_idx)
+        if not options:
+            self._inform(
+                "行动 · 娜阿西雅",
+                "你控制的英雄没有可花费的资源。",
+            )
+            return True
+        if len(options) == 1:
+            hero_id = options[0].char_id
+        else:
+            dlg = CharacterImagePickDialog(
+                self,
+                "行动 · 娜阿西雅",
+                "选择你控制的一名英雄，花费 1 枚资源标记：",
+                options,
+                mode="single",
+                highlight_stat="health",
+            )
+            if dlg.exec_() != QDialog.Accepted:
+                return True
+            hero_id = dlg.selected_id() or ""
+        hero_widget = self._field_widgets.get(hero_id)
+        if hero_widget is None or int(hero_widget.resource_count()) < 1:
+            self._inform("行动 · 娜阿西雅", "所选英雄资源不足。")
+            return True
+        before_hero = int(hero_widget.resource_count())
+        before_naasiyah = int(naasiyah_widget.resource_count())
+        hero_widget.set_resource_count(before_hero - 1)
+        naasiyah_widget.set_resource_count(before_naasiyah + 1)
+        self._players[owner_idx].hero_resources[hero_id] = hero_widget.resource_count()
+        self._players[owner_idx].hero_resources[char_id] = naasiyah_widget.resource_count()
+        self._naasiyah_ally_action_used_rounds[char_id] = current_round
+        hero_name = self._character_display_name(hero_id)
+        self._inform(
+            "行动 · 娜阿西雅",
+            f"从「{hero_name}」花费 1 枚资源标记，"
+            f"放置 1 枚资源标记到「{card.name}」上。\n\n"
+            f"英雄资源：{before_hero} → {hero_widget.resource_count()}；"
+            f"娜阿西雅资源：{before_naasiyah} → {naasiyah_widget.resource_count()}。",
+        )
+        print(
+            f"行动（{card.name}）：{hero_name} 资源 {before_hero} → "
+            f"{hero_widget.resource_count()}；{card.name} 资源 {before_naasiyah} → "
+            f"{naasiyah_widget.resource_count()}（每回合限制 1 次）"
+        )
+        return True
+
+    def _try_naasiyah_ally_combat_resource_action(self, char_id: str) -> bool:
+        card = self._character_card_by_id(char_id)
+        if card is None or not self._is_naasiyah_objective_ally_card(card):
+            return False
+        owner_idx = self._character_owner_index(char_id)
+        if owner_idx != self._active_player_index:
+            return False
+        is_attacker = self._naasiyah_ally_is_current_attacker(char_id)
+        is_defender = self._naasiyah_ally_is_current_defender(char_id)
+        if not is_attacker and not is_defender:
+            return False
+        widget = self._field_widgets.get(char_id)
+        if widget is None or int(widget.resource_count()) < 1:
+            self._inform("行动 · 娜阿西雅", "娜阿西雅上没有可花费的资源标记。")
+            return True
+        if is_attacker and not is_defender:
+            mode = "attack"
+        elif is_defender and not is_attacker:
+            mode = "defense"
+        else:
+            mode, ok = QInputDialog.getItem(
+                self,
+                "行动 · 娜阿西雅",
+                "选择本次攻击要获得的加成：",
+                ["攻击 +2", "防御 +2"],
+                0,
+                False,
+            )
+            if not ok:
+                return True
+            mode = "attack" if "攻击" in mode else "defense"
+        before = int(widget.resource_count())
+        widget.set_resource_count(before - 1)
+        self._players[owner_idx].hero_resources[char_id] = widget.resource_count()
+        target_ctx = self._player_attack_ctx if is_attacker else self._enemy_attack_ctx
+        if target_ctx is None:
+            return True
+        attack_map = target_ctx.setdefault("naasiyah_ally_attack_bonus", {})
+        defense_map = target_ctx.setdefault("naasiyah_ally_defense_bonus", {})
+        if mode == "attack":
+            attack_map[char_id] = int(attack_map.get(char_id, 0) or 0) + 2
+        else:
+            defense_map[char_id] = int(defense_map.get(char_id, 0) or 0) + 2
+        self._refresh_naasiyah_ally_combat_bonus(card)
+        attack_bonus, defense_bonus = self._naasiyah_ally_combat_bonus(char_id)
+        stat_text = "+2攻击" if mode == "attack" else "+2防御"
+        self._inform(
+            "行动 · 娜阿西雅",
+            f"花费 1 枚资源标记，令「{card.name}」在本次攻击中获得 {stat_text}。\n\n"
+            f"资源：{before} → {widget.resource_count()}；"
+            f"当前本次攻击加成：攻击 +{attack_bonus} / 防御 +{defense_bonus}。",
+        )
+        print(
+            f"行动（{card.name}）：花费 1 资源，"
+            f"本次攻击获得 {stat_text}（资源 {before} → {widget.resource_count()}；"
+            f"本次攻击加成 攻击 +{attack_bonus} / 防御 +{defense_bonus}）"
+        )
+        return True
+
     def _on_field_hero_action_requested(self, char_id: str):
         """玩家行动窗口：双击场上英雄/盟友触发其「行动」异能。"""
         if not self._is_player_action_window_active():
+            return
+        if self._try_captain_sahir_ally_resource_action(char_id):
+            return
+        if self._try_naasiyah_ally_combat_resource_action(char_id):
+            return
+        if self._try_naasiyah_ally_resource_action(char_id):
             return
         if self._try_aragorn_refresh_action(char_id):
             return
@@ -51237,6 +54234,8 @@ class MainWindow(QMainWindow):
         if self._try_riddermarks_finest_action(char_id):
             return
         if self._try_ravenhill_scout_action(char_id):
+            return
+        if self._try_calphon_deck_bottom_swap_action(char_id):
             return
         if self._try_gildor_inglorion_action(char_id):
             return
@@ -51339,7 +54338,7 @@ class MainWindow(QMainWindow):
             self._inform(title, "未找到所附属的盟友。")
             return True
         host_card = self._character_card_by_id(host_id)
-        if host_card is None or (getattr(host_card, "type", "") or "").strip() != "盟友":
+        if host_card is None or self._character_effective_type(host_card) != "盟友":
             self._inform(title, "所附属的不是盟友，无法触发该行动。")
             return True
         ally_card, owner_idx = self._ally_on_field_by_id(host_id)
@@ -51378,7 +54377,7 @@ class MainWindow(QMainWindow):
             self._inform(title, "未找到所附属的英雄。")
             return True
         host_card = self._character_card_by_id(host_id)
-        if host_card is None or (getattr(host_card, "type", "") or "").strip() != '英雄':
+        if host_card is None or self._character_effective_type(host_card) != '英雄':
             self._inform(title, "所附属的不是英雄，无法触发该行动。")
             return True
         if not self._character_has_hobbit_trait(host_card):
@@ -51444,7 +54443,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != '英雄'
+            or self._character_effective_type(host_card) != '英雄'
             or not self._is_character_in_play(host_id)
         ):
             self._inform(action_title, "未找到所附属的登丹人英雄。")
@@ -51591,7 +54590,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != '英雄'
+            or self._character_effective_type(host_card) != '英雄'
             or not self._is_character_in_play(host_id)
         ):
             self._inform(title, "未找到所附属的英雄。")
@@ -52123,7 +55122,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != '英雄'
+            or self._character_effective_type(host_card) != '英雄'
         ):
             self._inform(action_title, "未找到所附属的英雄。")
             return True
@@ -52296,7 +55295,7 @@ class MainWindow(QMainWindow):
             self._inform(f"行动 · {att_name}", "未找到所附属的英雄。")
             return True
         host_card = self._character_card_by_id(host_id)
-        if host_card is None or (getattr(host_card, "type", "") or "").strip() != '英雄':
+        if host_card is None or self._character_effective_type(host_card) != '英雄':
             self._inform(f"行动 · {att_name}", "所附属的不是英雄。")
             return True
         if not self._is_character_alive(host_id):
@@ -52408,7 +55407,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != '英雄'
+            or self._character_effective_type(host_card) != '英雄'
         ):
             self._inform(f"行动 · {att_name}", "未找到所附属的英雄。")
             return True
@@ -52460,7 +55459,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != '英雄'
+            or self._character_effective_type(host_card) != '英雄'
         ):
             self._inform(f"任务行动 · {att_name}", "未找到所附属的英雄。")
             return True
@@ -52631,7 +55630,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != '英雄'
+            or self._character_effective_type(host_card) != '英雄'
             or not self._is_character_in_play(host_id)
         ):
             self._inform(action_title, "未找到所附属的【精神】英雄。")
@@ -52716,7 +55715,7 @@ class MainWindow(QMainWindow):
         ):
             self._inform(action_title, "未找到所附属的角色。")
             return True
-        host_type = (getattr(host_card, "type", "") or "").strip()
+        host_type = self._character_effective_type(host_card)
         if host_type not in ('英雄', '盟友'):
             self._inform(action_title, "所附属的不是角色卡。")
             return True
@@ -52863,7 +55862,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip()
+            or self._character_effective_type(host_card)
             not in ('英雄', "盟友")
             or not self._is_character_in_play(host_id)
         ):
@@ -52953,7 +55952,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip()
+            or self._character_effective_type(host_card)
             not in ('英雄', "盟友")
             or not self._is_character_in_play(host_id)
         ):
@@ -53051,7 +56050,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != '英雄'
+            or self._character_effective_type(host_card) != '英雄'
             or not self._is_character_in_play(host_id)
         ):
             self._inform(action_title, "未找到所附属的塞西尔·伊西利安精灵英雄。")
@@ -53140,7 +56139,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != '英雄'
+            or self._character_effective_type(host_card) != '英雄'
             or not self._is_character_in_play(host_id)
         ):
             self._inform(action_title, "未找到所附属的英雄。")
@@ -53207,7 +56206,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != '英雄'
+            or self._character_effective_type(host_card) != '英雄'
             or not self._is_character_in_play(host_id)
         ):
             self._inform(action_title, "未找到所附属的英雄。")
@@ -53307,7 +56306,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != '英雄'
+            or self._character_effective_type(host_card) != '英雄'
         ):
             self._inform(action_title, "未找到所附属的英雄。")
             return True
@@ -53390,7 +56389,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != '英雄'
+            or self._character_effective_type(host_card) != '英雄'
         ):
             self._inform(action_title, "未找到所附属的英雄。")
             return True
@@ -53462,7 +56461,7 @@ class MainWindow(QMainWindow):
         if (
             not host_id
             or host_card is None
-            or (getattr(host_card, "type", "") or "").strip() != '英雄'
+            or self._character_effective_type(host_card) != '英雄'
         ):
             self._inform(action_title, "未找到所附属的英雄。")
             return True
@@ -55228,6 +58227,197 @@ class MainWindow(QMainWindow):
             return True
         return False
 
+    def _handle_calphon_revealed(
+        self, card, player_no: int, extra_notes: list[str]
+    ) -> str:
+        """卡冯：展示后/进场时起始玩家获得控制权。"""
+        _ = player_no
+        card_name = getattr(card, "name", "卡冯")
+        controller_idx = self.first_player_index
+        if controller_idx in self._eliminated_players:
+            for offset in range(self.PLAYER_COUNT):
+                idx = (self.first_player_index + offset) % self.PLAYER_COUNT
+                if idx not in self._eliminated_players:
+                    controller_idx = idx
+                    break
+        ctrl_tag = self._player_tag(controller_idx) or f"玩家{controller_idx + 1}"
+        clear_marker_state_for_card(card)
+        state = self._players[controller_idx]
+        if all(getattr(ally, "id", "") != getattr(card, "id", "") for ally in state.ally_cards):
+            state.ally_cards.append(card)
+        self._char_owner[card.id] = controller_idx
+        self._refresh_ally_row()
+        self._trigger_ally_enter_play_responses(card)
+        self._update_player_controlled_captions()
+        note = f"  {card_name} · 起始玩家 {ctrl_tag} 获得控制权"
+        extra_notes.append(note)
+        print(f"展示后：{card_name} → {ctrl_tag} 控制")
+        return "玩家控制"
+
+    def _captain_sahir_ally_bonus(self, card) -> int:
+        if not self._is_captain_sahir_objective_ally_card(card):
+            return 0
+        card_id = (getattr(card, "id", "") or "").strip()
+        if not card_id:
+            return 0
+        widget = self._field_widgets.get(card_id)
+        if widget is not None and hasattr(widget, "resource_count"):
+            return min(6, max(0, int(widget.resource_count())))
+        owner = self._char_owner.get(card_id, -1)
+        if 0 <= owner < self.PLAYER_COUNT:
+            return min(6, max(0, int(self._players[owner].hero_resources.get(card_id, 0))))
+        return 0
+
+    def _refresh_captain_sahir_ally_bonus(self, card) -> None:
+        if not self._is_captain_sahir_objective_ally_card(card):
+            return
+        widget = self._field_widgets.get(getattr(card, "id", "") or "")
+        if widget is None:
+            return
+        bonus = self._captain_sahir_ally_bonus(card)
+        if hasattr(widget, "set_passive_willpower_bonus"):
+            widget.set_passive_willpower_bonus(bonus)
+        if hasattr(widget, "set_passive_attack_bonus"):
+            widget.set_passive_attack_bonus(bonus)
+        self._sync_hero_resources_from_widgets()
+        self._update_quest_dial_badges()
+
+    def _naasiyah_ally_combat_bonus(self, char_id: str) -> tuple[int, int]:
+        attack_bonus = 0
+        defense_bonus = 0
+        enemy_ctx = self._enemy_attack_ctx or {}
+        player_ctx = self._player_attack_ctx or {}
+        attack_bonus += int(
+            (enemy_ctx.get("naasiyah_ally_attack_bonus") or {}).get(char_id, 0) or 0
+        )
+        defense_bonus += int(
+            (enemy_ctx.get("naasiyah_ally_defense_bonus") or {}).get(char_id, 0) or 0
+        )
+        attack_bonus += int(
+            (player_ctx.get("naasiyah_ally_attack_bonus") or {}).get(char_id, 0) or 0
+        )
+        defense_bonus += int(
+            (player_ctx.get("naasiyah_ally_defense_bonus") or {}).get(char_id, 0) or 0
+        )
+        return max(0, attack_bonus), max(0, defense_bonus)
+
+    def _refresh_naasiyah_ally_combat_bonus(self, card) -> None:
+        if not self._is_naasiyah_objective_ally_card(card):
+            return
+        char_id = (getattr(card, "id", "") or "").strip()
+        if not char_id:
+            return
+        widget = self._field_widgets.get(char_id)
+        if widget is None:
+            return
+        attack_bonus, defense_bonus = self._naasiyah_ally_combat_bonus(char_id)
+        if hasattr(widget, "set_passive_attack_bonus"):
+            widget.set_passive_attack_bonus(attack_bonus)
+        if hasattr(widget, "set_passive_defense_bonus"):
+            widget.set_passive_defense_bonus(defense_bonus)
+
+    def _clear_naasiyah_ally_combat_bonus_from_ctx(self, ctx) -> None:
+        if not ctx:
+            return
+        affected_ids: set[str] = set()
+        for key in ("naasiyah_ally_attack_bonus", "naasiyah_ally_defense_bonus"):
+            bonus_map = ctx.get(key) or {}
+            affected_ids.update(str(char_id) for char_id in bonus_map.keys())
+            ctx[key] = {}
+        for char_id in affected_ids:
+            card = self._character_card_by_id(char_id)
+            if card is not None and self._is_naasiyah_objective_ally_card(card):
+                self._refresh_naasiyah_ally_combat_bonus(card)
+
+    def _starting_player_or_next_eligible(self) -> int:
+        controller_idx = int(getattr(self, "first_player_index", 0) or 0)
+        if not (0 <= controller_idx < self.PLAYER_COUNT):
+            controller_idx = 0
+        if controller_idx not in self._eliminated_players:
+            return controller_idx
+        for offset in range(self.PLAYER_COUNT):
+            idx = (controller_idx + offset) % self.PLAYER_COUNT
+            if idx not in self._eliminated_players:
+                return idx
+        return controller_idx
+
+    def _handle_captain_sahir_ally_revealed(
+        self, card, player_no: int, extra_notes: list[str]
+    ) -> str:
+        """萨伊尔船长（目标盟友）：起始玩家获得控制权。"""
+        _ = player_no
+        card_name = getattr(card, "name", "萨伊尔船长")
+        controller_idx = self._starting_player_or_next_eligible()
+        ctrl_tag = self._player_tag(controller_idx) or f"玩家{controller_idx + 1}"
+        clear_marker_state_for_card(card)
+        clear_encounter_marker_state_for_card(card)
+        if card in self.staging_cards:
+            self.staging_cards = [
+                c for c in self.staging_cards if getattr(c, "id", "") != getattr(card, "id", "")
+            ]
+        if card in getattr(self, "encounter_set_aside_cards", []):
+            self.encounter_set_aside_cards.remove(card)
+            self._refresh_set_aside_button()
+        state = self._players[controller_idx]
+        if all(getattr(ally, "id", "") != getattr(card, "id", "") for ally in state.ally_cards):
+            state.ally_cards.append(card)
+        self._char_owner[card.id] = controller_idx
+        state.hero_resources.setdefault(card.id, 0)
+        self._refresh_ally_row()
+        self._trigger_ally_enter_play_responses(card)
+        self._update_player_controlled_captions()
+        note = f"  {card_name} · 起始玩家 {ctrl_tag} 获得控制权"
+        extra_notes.append(note)
+        print(f"展示后：{card_name} → {ctrl_tag} 控制")
+        return "玩家控制"
+
+    def _handle_naasiyah_ally_revealed(
+        self, card, player_no: int, extra_notes: list[str]
+    ) -> str:
+        """娜阿西雅（目标盟友）：末位玩家获得控制权。"""
+        _ = player_no
+        card_name = getattr(card, "name", "娜阿西雅")
+        controller_idx = self._last_player_or_previous_eligible()
+        ctrl_tag = self._player_tag(controller_idx) or f"玩家{controller_idx + 1}"
+        clear_marker_state_for_card(card)
+        clear_encounter_marker_state_for_card(card)
+        if card in self.staging_cards:
+            self.staging_cards = [
+                c for c in self.staging_cards
+                if getattr(c, "id", "") != getattr(card, "id", "")
+            ]
+        if card in getattr(self, "encounter_set_aside_cards", []):
+            self.encounter_set_aside_cards.remove(card)
+            self._refresh_set_aside_button()
+        state = self._players[controller_idx]
+        if all(
+            getattr(ally, "id", "") != getattr(card, "id", "")
+            for ally in state.ally_cards
+        ):
+            state.ally_cards.append(card)
+        self._char_owner[card.id] = controller_idx
+        state.hero_resources.setdefault(card.id, 0)
+        self._refresh_ally_row()
+        self._trigger_ally_enter_play_responses(card)
+        self._update_player_controlled_captions()
+        note = f"  {card_name} · 末位玩家 {ctrl_tag} 获得控制权"
+        extra_notes.append(note)
+        print(f"展示后：{card_name} → {ctrl_tag} 控制")
+        return "玩家控制"
+
+    def _stormcaller_objective_ally_left_play(self, card, *, reason: str) -> bool:
+        if card is None or not self._is_stormcaller_elite_objective_ally_face(card):
+            return False
+        if not self._game_lost:
+            self._trigger_team_defeat(
+                f"「{card.name}」作为目标盟友{reason}。"
+                "风暴召唤者精英规则：如果本角色离场，玩家游戏失败。"
+            )
+        clear_marker_state_for_card(card)
+        clear_encounter_marker_state_for_card(card)
+        print(f"风暴召唤者精英：目标盟友「{card.name}」{reason}，已从游戏中移除")
+        return True
+
     def _handle_northern_wanderer_revealed(
         self, card, player_no: int, extra_notes: list[str]
     ) -> str:
@@ -55870,6 +59060,8 @@ class MainWindow(QMainWindow):
             and self._player_cannot_attack_ship_enemy(player_index, enemy_card)
         ):
             return []
+        if enemy_card is not None and self._enemy_cannot_be_attacked(enemy_card):
+            return []
         options = self._ready_character_pick_options(player_index)
         if enemy_card is not None:
             options = [
@@ -56005,6 +59197,12 @@ class MainWindow(QMainWindow):
     ):
         """进入单次玩家攻击结算（6.8b 起，各子步骤间插入行动窗口）。"""
         if self._player_attack_ctx is not None:
+            return
+        if self._enemy_cannot_be_attacked(enemy_card):
+            self._inform(
+                "6.8b 雾角",
+                f"「雾角」处于激活地区，船敌军「{enemy_card.name}」不能被攻击。",
+            )
             return
         if self._player_cannot_attack_ship_enemy(player_index, enemy_card):
             self._inform(
@@ -56308,6 +59506,14 @@ class MainWindow(QMainWindow):
         was_alive = enemy_card.id not in self._destroyed_enemies
         if (
             dmg > 0
+            and self._enemy_cannot_be_damaged(enemy_card)
+        ):
+            damage_desc += (
+                f"\n「{enemy_card.name}」不受伤害，未放置伤害标记"
+            )
+            dmg = 0
+        if (
+            dmg > 0
             and self._is_naurlhug_card(enemy_card)
             and self._naurlhug_cannot_be_damaged()
         ):
@@ -56524,6 +59730,7 @@ class MainWindow(QMainWindow):
     def _finish_player_attack_resolution(self):
         ctx = self._player_attack_ctx
         player_idx = int(ctx["player_index"]) if ctx else self._player_attack_player_index
+        self._clear_naasiyah_ally_combat_bonus_from_ctx(ctx)
         self._player_attack_ctx = None
         self._player_attack_substep_window_active = False
         self._update_phase_flow_bar()
@@ -56613,7 +59820,12 @@ class MainWindow(QMainWindow):
         if card not in eligible:
             attacked = self._player_attacked_by.setdefault(player_idx, set())
             owner = self._engaged_enemy_owner_index(card)
-            if self._player_cannot_attack_ship_enemy(player_idx, card):
+            if self._enemy_cannot_be_attacked(card):
+                self._inform(
+                    "6.8a 雾角",
+                    f"「雾角」处于激活地区，船敌军「{card.name}」不能被攻击。",
+                )
+            elif self._player_cannot_attack_ship_enemy(player_idx, card):
                 self._inform(
                     "6.8a 昂巴船长",
                     f"玩家 {player_idx + 1} 正与「昂巴船长」交锋。\n\n"
@@ -56799,6 +60011,11 @@ class MainWindow(QMainWindow):
                     '6.8a 探查区攻击',
                     f"「{card.name}」本回合你已对该敌人宣告过攻击。",
                 )
+            elif self._enemy_cannot_be_attacked(card):
+                self._inform(
+                    "6.8a 雾角",
+                    f"「雾角」处于激活地区，船敌军「{card.name}」不能被攻击。",
+                )
             elif self._enemy_has_ithilien_pit_attached(card):
                 self._inform(
                     "6.8a 伊西立安陷阱",
@@ -56983,9 +60200,27 @@ class MainWindow(QMainWindow):
             print(
                 f"6.4 魔影：{prefix}{shadow.name}（{state}，不结算效果）"
             )
+        for enemy_id, shadows in self._bonus_extra_shadow_cards.items():
+            enemy_name = ""
+            for card in self._all_engagement_cards():
+                if card.id == enemy_id:
+                    enemy_name = card.name
+                    break
+            revealed = enemy_id in self._extra_shadow_revealed
+            state = '已翻开' if revealed else '面朝下'
+            prefix = f"「{enemy_name}」" if enemy_name else ""
+            for shadow in shadows:
+                lines.append(
+                    f"· {prefix}魔影「{shadow.name}」（{state}，不结算效果）"
+                )
+                self._to_encounter_discard_pile(shadow)
+                print(
+                    f"6.4 魔影：{prefix}{shadow.name}（{state}，不结算效果）"
+                )
         count = len(lines)
         self._shadow_cards.clear()
         self._extra_shadow_cards.clear()
+        self._bonus_extra_shadow_cards.clear()
         self._shadow_revealed.clear()
         self._extra_shadow_revealed.clear()
         if count:
@@ -57243,6 +60478,7 @@ class MainWindow(QMainWindow):
         self._questing_readied.clear()
         self._questing_ids_this_player.clear()
         blocked_heroes = self._heroes_blocked_from_readying_by_caught_in_web()
+        blocked_by_cursed_temple = []
         count = 0
         readyed_char_ids = []
         readyed_char_names = []
@@ -57251,6 +60487,9 @@ class MainWindow(QMainWindow):
             if not widget.is_exhausted():
                 continue
             if char_id in blocked_heroes:
+                continue
+            if self._cursed_temple_blocks_readying(char_id, widget):
+                blocked_by_cursed_temple.append(self._character_display_name(char_id))
                 continue
             self._set_host_exhausted(char_id, False)
             readyed_char_ids.append(char_id)
@@ -57270,6 +60509,11 @@ class MainWindow(QMainWindow):
             print("7.2 重整角色：" + "、".join(readyed_char_names))
         else:
             print("7.2 重整角色：无横置角色")
+        if blocked_by_cursed_temple:
+            print(
+                "7.2 被诅咒的神庙：意志 2 或以下的角色不能重整："
+                + "、".join(blocked_by_cursed_temple)
+            )
         if readyed_att_names:
             print("7.2 重整附属：" + "、".join(readyed_att_names))
         else:
@@ -57623,6 +60867,19 @@ class MainWindow(QMainWindow):
             )
             extra_widget.bind_game_card(extra_shadow)
             group.add_attachment(extra_widget)
+        for bonus_shadow in self._bonus_extra_shadow_cards.get(enemy_card.id, []):
+            bonus_revealed = enemy_card.id in self._extra_shadow_revealed
+            bonus_widget = EncounterCardWidget(
+                card_name=bonus_shadow.name,
+                series=series,
+                show_threat_badge=False,
+                max_height=self.FIELD_CARD_HEIGHT,
+                show_name_label=False,
+                face_down=not bonus_revealed,
+                restore_markers=False,
+            )
+            bonus_widget.bind_game_card(bonus_shadow)
+            group.add_attachment(bonus_widget)
         return group, host_widget
 
     def _update_encounter_phase_label(self):
@@ -57907,6 +61164,14 @@ class MainWindow(QMainWindow):
             drawer = self._player_drawer_for(player_idx)
             if drawer is None:
                 print(f"响应（{quest_name}）：{tag} 牌库不可用，跳过")
+                continue
+            if self._player_deck_search_blocked_by_soulless(player_idx):
+                note = self._player_deck_search_blocked_note(
+                    player_idx,
+                    source=quest_name,
+                )
+                print(f"响应（{quest_name}）：{note}")
+                self._inform(title, note)
                 continue
             if not drawer.deck_stack:
                 print(f"响应（{quest_name}）：{tag} 牌库为空，跳过")
@@ -59183,7 +62448,8 @@ class MainWindow(QMainWindow):
                     state.hero_resources[hero.id] = widget.resource_count()
             for ally in state.ally_cards:
                 if not self._has_radagast_resource_pool_passive(ally):
-                    continue
+                    if not self._is_captain_sahir_objective_ally_card(ally):
+                        continue
                 widget = self._field_widgets.get(ally.id)
                 if widget is not None:
                     state.hero_resources[ally.id] = widget.resource_count()
@@ -59779,6 +63045,7 @@ class MainWindow(QMainWindow):
         self._wandering_took_action_used_chars.clear()
         self._rider_of_mark_action_used_chars.clear()
         self._imrahil_response_used_this_round = False
+        self._eomer_response_used_this_round = False
         self._belegost_servants_hazard_surge_used = False
         self._sync_eowyn_action_limit_markers()
         self._sync_glorfindel_action_limit_markers()
@@ -59804,6 +63071,10 @@ class MainWindow(QMainWindow):
         drawer = self._player_drawer_for(player_index)
         heroes = drawer.deck_heroes if drawer else []
         total = calc_initial_threat_from_heroes(heroes)
+        dawn_star_bonus = 3 if self._player_controls_dawn_star(player_index) else 0
+        silver_wing_bonus = 3 if self._player_controls_silver_wing(player_index) else 0
+        total += dawn_star_bonus
+        total -= silver_wing_bonus
         self._players[player_index].initial_threat_level = total
         self._players[player_index].threat_level = total
         if player_index == self._active_player_index:
@@ -59814,6 +63085,10 @@ class MainWindow(QMainWindow):
             printed_sum = sum(_parse_threat(getattr(h, "Threat", "")) for h in heroes)
             if total < printed_sum:
                 suffix += f"（米尔隆德：印刷学识英雄合计 -1，{printed_sum}→{total}）"
+            if dawn_star_bonus:
+                suffix += "（黎明之星号：初始威胁 +3）"
+            if silver_wing_bonus:
+                suffix += "（银翼号：初始威胁 -3）"
             print(f"初始威胁 {total}：{names}{suffix}")
         self._check_threat_elimination()
 
@@ -60642,6 +63917,7 @@ class MainWindow(QMainWindow):
         card_id = getattr(naurlhug, "id", "") or ""
         shadow = self._shadow_cards.pop(card_id, None)
         extra_shadow = self._extra_shadow_cards.pop(card_id, None)
+        bonus_shadows = self._bonus_extra_shadow_cards.pop(card_id, [])
         self._shadow_revealed.discard(card_id)
         self._extra_shadow_revealed.discard(card_id)
         self._enemies_attacked_this_round.discard(card_id)
@@ -60653,6 +63929,8 @@ class MainWindow(QMainWindow):
             self._to_encounter_discard_pile(shadow)
         if extra_shadow is not None:
             self._to_encounter_discard_pile(extra_shadow)
+        for bonus_shadow in bonus_shadows:
+            self._to_encounter_discard_pile(bonus_shadow)
         self._discard_enemy_attachments(card_id, naurlhug)
         clear_encounter_marker_state_for_card(naurlhug)
         self._destroyed_enemies.discard(card_id)
@@ -61293,6 +64571,289 @@ class MainWindow(QMainWindow):
         name = (getattr(card, "name", "") or "").strip()
         canonical = CARD_NAME_ALIASES.get(name, "")
         return name in {"雾角", "Fog Bank"} or canonical in {"雾角", "Fog Bank"}
+
+    def _is_cursed_temple_location(self, card) -> bool:
+        base_id = self._card_octgn_base_id(card)
+        if base_id == "201569b2-d203-4a2a-b3e4-5dd396b8341a":
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return name in {"被诅咒的神庙", "Cursed Temple"} or canonical in {
+            "被诅咒的神庙",
+            "Cursed Temple",
+        }
+
+    def _cursed_temple_active_location(self) -> bool:
+        loc = getattr(self, "current_location_card", None)
+        return loc is not None and self._is_cursed_temple_location(loc)
+
+    def _cursed_temple_blocks_readying(self, char_id: str, widget=None) -> bool:
+        if not self._cursed_temple_active_location():
+            return False
+        if widget is None:
+            widget = getattr(self, "_field_widgets", {}).get(char_id)
+        if widget is None or not callable(getattr(widget, "get_card_info", None)):
+            card = self._character_card_by_id(char_id)
+            willpower = _parse_threat(getattr(card, "Willpower", 0)) if card else 0
+        else:
+            try:
+                willpower = int(widget.get_card_info().get("willpower", 0) or 0)
+            except (TypeError, ValueError):
+                willpower = 0
+        return willpower <= 2
+
+    def _fog_bank_active_location(self) -> bool:
+        loc = getattr(self, "current_location_card", None)
+        return loc is not None and self._is_fog_bank_location(loc)
+
+    def _fog_bank_blocks_ship_enemy_combat(self, enemy_card) -> bool:
+        return (
+            self._fog_bank_active_location()
+            and enemy_card is not None
+            and self._is_ship_enemy_card(enemy_card)
+        )
+
+    def _enemy_cannot_be_attacked(self, enemy_card) -> bool:
+        return self._fog_bank_blocks_ship_enemy_combat(enemy_card)
+
+    def _is_curse_of_the_downfallen_card(self, card) -> bool:
+        base_id = self._card_octgn_base_id(card)
+        if base_id == self.CURSE_OF_THE_DOWNFALLEN_OCTGN_BASE:
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return (
+            name in self.CURSE_OF_THE_DOWNFALLEN_NAMES
+            or canonical in self.CURSE_OF_THE_DOWNFALLEN_NAMES
+        )
+
+    def _is_lingering_malevolence_card(self, card) -> bool:
+        base_id = self._card_octgn_base_id(card)
+        if base_id == self.LINGERING_MALEVOLENCE_OCTGN_BASE:
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return (
+            name in self.LINGERING_MALEVOLENCE_NAMES
+            or canonical in self.LINGERING_MALEVOLENCE_NAMES
+        )
+
+    def _discard_player_deck_bottom_card(self, player_index: int, *, source: str):
+        if not (0 <= player_index < self.PLAYER_COUNT):
+            return None, f"{source}：未找到玩家，未弃除牌组底牌。"
+        drawer = self._player_drawer_for(player_index)
+        player_no = player_index + 1
+        if drawer is None:
+            return None, f"{source}：玩家 {player_no} 牌组未初始化，未弃除底牌。"
+        if hasattr(drawer, "_ensure_deck_stack"):
+            drawer._ensure_deck_stack()
+        deck_stack = getattr(drawer, "deck_stack", [])
+        if not deck_stack:
+            return None, f"{source}：玩家 {player_no} 牌组为空，未弃除底牌。"
+        bottom_card = deck_stack.pop()
+        self._players[player_index].discard_cards.append(bottom_card)
+        if player_index == self._active_player_index:
+            self._refresh_discard_pile()
+        cost = _parse_card_cost(bottom_card)
+        return (
+            bottom_card,
+            f"{source}：弃除玩家 {player_no} 牌组底牌「{bottom_card.name}」"
+            f"（印刷费用 {cost}）。",
+        )
+
+    def _curse_of_the_downfallen_targets(self) -> list[tuple[int, object]]:
+        targets: list[tuple[int, object]] = []
+        for player_idx in range(self.PLAYER_COUNT):
+            if player_idx in self._eliminated_players:
+                continue
+            for ally in list(getattr(self._players[player_idx], "ally_cards", []) or []):
+                if not self._is_character_in_play(getattr(ally, "id", "")):
+                    continue
+                if (getattr(ally, "type", "") or "").strip() != "盟友":
+                    continue
+                if self._encounter_card_is_objective(ally):
+                    continue
+                if _parse_card_cost(ally) <= 2:
+                    targets.append((player_idx, ally))
+        return targets
+
+    def _resolve_curse_of_the_downfallen_when_revealed(self, card) -> str:
+        """堕落者的诅咒 · 展示后：费用≤2的非目标盟友受1伤害；被消灭者放牌组底。"""
+        lines = [
+            f"  「{card.name}」展示后：对每名印刷费用为 2 或更低的非目标盟友造成 1 点伤害。"
+        ]
+        targets = self._curse_of_the_downfallen_targets()
+        if not targets:
+            lines.append("  场上没有符合条件的非目标盟友。")
+        for owner_idx, ally in targets:
+            ally_id = getattr(ally, "id", "")
+            if not self._is_character_in_play(ally_id):
+                continue
+            player_tag = self._player_tag(owner_idx) or f"玩家 {owner_idx + 1}"
+            cost = _parse_card_cost(ally)
+            destroyed = self._apply_combat_damage(ally_id, 1)
+            result = getattr(self, "_last_combat_damage_result", {}) or {}
+            actual_id = result.get("target_id") or ally_id
+            actual_card = self._character_card_by_id(actual_id)
+            actual_name = (
+                getattr(actual_card, "name", "")
+                or self._character_display_name(actual_id)
+            )
+            if destroyed and actual_card is not None and (getattr(actual_card, "type", "") or "").strip() == "盟友":
+                actual_owner = self._character_owner_index(actual_id)
+                note = self._move_destroyed_ally_to_owner_deck_bottom(
+                    actual_id,
+                    actual_owner,
+                    source=f"展示后 · {card.name}",
+                    cause_text="因本效果被消灭的盟友",
+                )
+                lines.append(
+                    f"  {player_tag}「{ally.name}」（印刷费用 {cost}）受 1 点伤害并被消灭。"
+                )
+                if note:
+                    lines.append("  " + note)
+            else:
+                suffix = "" if result.get("applied") else "（未造成伤害）"
+                lines.append(
+                    f"  {player_tag}「{ally.name}」（印刷费用 {cost}）受 1 点伤害{suffix}。"
+                )
+                if actual_id != ally_id:
+                    lines[-1] += f" 实际承受者：「{actual_name}」。"
+        note = "\n".join(lines)
+        print(f"展示后（{card.name}）：" + "、".join(lines[1:]))
+        return note
+
+    def _resolve_lingering_malevolence_when_revealed(self, card) -> str:
+        """挥之不去的恶意 · 展示后：弃起始玩家牌组底牌，再弃费用更高的手牌。"""
+        first_player = self.first_player_index
+        if first_player in self._eliminated_players:
+            for offset in range(self.PLAYER_COUNT):
+                idx = (self.first_player_index + offset) % self.PLAYER_COUNT
+                if idx not in self._eliminated_players:
+                    first_player = idx
+                    break
+        player_tag = self._player_tag(first_player) or f"玩家 {first_player + 1}"
+        lines = [f"  「{card.name}」展示后：{player_tag}弃除牌组底牌。"]
+        bottom_card, bottom_note = self._discard_player_deck_bottom_card(
+            first_player,
+            source=f"展示后 · {card.name}",
+        )
+        lines.append("  " + bottom_note)
+        if bottom_card is None:
+            note = "\n".join(lines)
+            print(f"展示后（{card.name}）：" + "、".join(lines[1:]))
+            return note
+        bottom_cost = _parse_card_cost(bottom_card)
+        state = self._players[first_player]
+        to_discard = [
+            (idx, hand_card)
+            for idx, hand_card in enumerate(list(state.hand_cards))
+            if _parse_card_cost(hand_card) > bottom_cost
+        ]
+        if not to_discard:
+            lines.append(
+                f"  {player_tag}没有印刷费用高于 {bottom_cost} 的手牌。"
+            )
+        else:
+            discarded_names: list[str] = []
+            for idx, hand_card in reversed(to_discard):
+                discarded = self._discard_hand_card_at(idx, first_player)
+                discarded_names.append(
+                    f"「{discarded.name}」（费用 {_parse_card_cost(discarded)}）"
+                )
+            discarded_names.reverse()
+            lines.append(
+                f"  {player_tag}弃除印刷费用高于 {bottom_cost} 的手牌："
+                + "、".join(discarded_names)
+            )
+        note = "\n".join(lines)
+        print(f"展示后（{card.name}）：" + "、".join(lines[1:]))
+        return note
+
+    def _is_battle_hardened_card(self, card) -> bool:
+        base_id = self._card_octgn_base_id(card)
+        if base_id == "c057b0ef-eb85-4afc-9ca8-60a0cca92bcc":
+            return True
+        name = (getattr(card, "name", "") or "").strip()
+        canonical = CARD_NAME_ALIASES.get(name, "")
+        return name in {"老练战士", "Battle-Hardened"} or canonical in {
+            "老练战士",
+            "Battle-Hardened",
+        }
+
+    def _is_marauder_enemy(self, card) -> bool:
+        return self._enemy_has_trait(card, "掠夺者") or self._enemy_has_trait(card, "Marauder")
+
+    def _battle_hardened_add_resource_to_marauders(self) -> list[str]:
+        notes: list[str] = []
+        for enemy_card in self._enemies_in_play():
+            if not self._is_marauder_enemy(enemy_card):
+                continue
+            widget = self._encounter_widget_for_card(enemy_card)
+            if widget is None:
+                notes.append(f"  未找到「{enemy_card.name}」的在场控件，未放置资源标记。")
+                continue
+            before = int(widget.resource_count()) if hasattr(widget, "resource_count") else 0
+            after = before + 1
+            if hasattr(widget, "set_show_resource_badge"):
+                widget.set_show_resource_badge(True)
+            if hasattr(widget, "set_resource_count"):
+                widget.set_resource_count(after)
+            notes.append(
+                f"  在「{enemy_card.name}」上放置 1 枚资源标记（{before} → {after}）。"
+            )
+        return notes
+
+    def _battle_hardened_engaged_non_ship_enemies(self) -> list[tuple[int, object]]:
+        targets: list[tuple[int, object]] = []
+        seen: set[str] = set()
+        for player_idx in range(self.PLAYER_COUNT):
+            if player_idx in self._eliminated_players:
+                continue
+            for enemy_card in self._engaged_enemies_for_player(player_idx):
+                enemy_id = getattr(enemy_card, "id", "") or ""
+                if not enemy_id or enemy_id in seen:
+                    continue
+                if (getattr(enemy_card, "type", "") or "").strip() != "敌人":
+                    continue
+                if self._is_ship_enemy_card(enemy_card):
+                    continue
+                seen.add(enemy_id)
+                targets.append((player_idx, enemy_card))
+        return targets
+
+    def _resolve_battle_hardened_when_revealed(self, card) -> str:
+        """老练战士 · 展示后：每个掠夺者放1资源；每个交锋非船敌军立即攻击；否则获得涌现。"""
+        lines = [f"  「{card.name}」展示后："]
+        marauder_notes = self._battle_hardened_add_resource_to_marauders()
+        if marauder_notes:
+            lines.append("  每个在场的掠夺者上放置 1 枚资源标记。")
+            lines.extend(marauder_notes)
+        else:
+            lines.append("  场上没有掠夺者，未放置资源标记。")
+        attack_targets = self._battle_hardened_engaged_non_ship_enemies()
+        if attack_targets:
+            names = "、".join(
+                f"玩家 {player_idx + 1} 的「{enemy_card.name}」"
+                for player_idx, enemy_card in attack_targets
+            )
+            lines.append(f"  立即攻击目标：{names}")
+            reason = f"展示后 · 「{card.name}」："
+            for player_idx, enemy_card in attack_targets:
+                self._queue_forced_enemy_attack(
+                    enemy_card,
+                    player_idx,
+                    reason=reason,
+                )
+            self._start_next_pending_forced_enemy_attack()
+        else:
+            card_id = getattr(card, "id", "") or ""
+            if card_id:
+                self._temporary_surge_card_ids.add(card_id)
+            lines.append("  没有交锋的非船敌军；本牌本次展示后获得「涌现」。")
+        note = "\n".join(lines)
+        print(f"展示后（{card.name}）：" + "、".join(lines[1:]))
+        return note
 
     def _resolve_voyage_cursed_mists_2a_when_revealed(self) -> None:
         """被诅咒的迷雾 2a · 展示后：搜寻雾角加入场景区并洗牌。"""
@@ -62291,11 +65852,24 @@ class MainWindow(QMainWindow):
         if self.PLAYER_COUNT > 1:
             self._update_player_controlled_captions()
         self._refresh_discard_top_dependent_passives()
+        # 精灵之光按钮可见性
+        if hasattr(self, "elven_light_discard_btn"):
+            has_elven_light = any(
+                self._is_elven_light_event(c) for c in self.discard_cards
+            )
+            self.elven_light_discard_btn.setVisible(has_elven_light)
 
     def _show_discard_pile_dialog(self):
         """单击 4-2 区域查看玩家弃牌堆全部卡牌。"""
         title = self._player_controlled_title("玩家弃牌堆")
-        dialog = DiscardPileViewDialog(self, self.discard_cards, title=title)
+        playable = self._discard_playable_cards(self._active_player_index)
+        play_cb = (
+            (lambda: self._on_discard_play_card_action())
+            if playable else None
+        )
+        dialog = DiscardPileViewDialog(
+            self, self.discard_cards, title=title, play_callback=play_cb,
+        )
         dialog.exec_()
 
     def _refresh_encounter_discard_pile(self):
@@ -62310,6 +65884,12 @@ class MainWindow(QMainWindow):
             if self.encounter_discard_cards else None
         )
         self.encounter_discard_panel.set_top_card(top_card, series=series)
+        if hasattr(self, "pirate_discard_btn"):
+            pirate_n = len(getattr(self, "pirate_discard_cards", []) or [])
+            self.pirate_discard_btn.setText(f"弃牌堆2 ({pirate_n})")
+            self.pirate_discard_btn.setVisible(
+                bool(getattr(self, "_pirate_deck_enabled", False) or pirate_n)
+            )
 
     def _show_encounter_discard_pile_dialog(self):
         """单击 2-2 区域查看遭遇弃牌堆全部卡牌。"""
@@ -62317,6 +65897,17 @@ class MainWindow(QMainWindow):
             self,
             self.encounter_discard_cards,
             title="遭遇弃牌堆",
+            card_kind="encounter",
+            series=self._encounter_series(),
+        )
+        dialog.exec_()
+
+    def _show_pirate_discard_pile_dialog(self):
+        """按钮：单独查看海盗弃牌堆全部卡牌。"""
+        dialog = DiscardPileViewDialog(
+            self,
+            self.pirate_discard_cards,
+            title="海盗弃牌堆",
             card_kind="encounter",
             series=self._encounter_series(),
         )
@@ -63248,6 +66839,7 @@ class MainWindow(QMainWindow):
                 for h in self.player_drawer.deck_heroes
             )
             print(f"1.2 获得资源：每名英雄 +1 ↭{hero_notes}")
+            self._resolve_corsair_infiltrator_resource_phase_forced(0)
             self._gain_radagast_resources_in_resource_phase()
             self._gain_resourceful_resources_in_resource_phase()
             self._gain_amarthiul_extra_resource_in_resource_phase()
@@ -63275,6 +66867,7 @@ class MainWindow(QMainWindow):
                 for h in drawer.deck_heroes
             )
             print(f"1.2 玩家{player_idx + 1} 获得资源 +1 →{hero_notes}")
+            self._resolve_corsair_infiltrator_resource_phase_forced(player_idx)
             self._debug_place_card_before_draw(player_idx)
             drawn, draw_notes = self._draw_resource_phase_cards_for_player(
                 player_idx
@@ -63674,6 +67267,14 @@ class MainWindow(QMainWindow):
                 "请双击一名角色并从弹出菜单中选择行动。",
             )
             return
+        # 精灵之光只能从弃牌堆打出
+        if self._is_elven_light_event(card):
+            self._warn(
+                "精灵之光",
+                "「精灵之光」只能从你的弃牌堆打出。\n"
+                "请单击弃牌堆区域的「打出精灵之光」按钮。",
+            )
+            return
         secret_treasure_action = (
             card_type == '事件' and self._has_secret_treasure_action(card)
         )
@@ -63776,6 +67377,11 @@ class MainWindow(QMainWindow):
                 trigger_label="英勇行动",
             )
         ):
+            return
+
+        # 缇努维尔的传说：通过手牌双击 → 路由到行动窗口
+        if card_type == '事件' and self._is_tale_of_tinuviel_event(card):
+            self._try_tale_of_tinuviel_play_action(acting_idx)
             return
 
         # 重燃希望：通过手牌双击 → 路由到行动窗口选择对话框
@@ -65235,6 +68841,16 @@ class MainWindow(QMainWindow):
                 self._players[owner_idx].attachments.setdefault(
                     target_id, []
                 ).append(card)
+                # 佩剑侍从：提升盟友为英雄
+                if self._is_sword_bearer_attachment(card):
+                    target_card = self._character_card_by_id(target_id)
+                    if target_card is not None and (
+                        getattr(target_card, "type", "") or ""
+                    ).strip() == "盟友":
+                        self._promoted_ally_ids.add(target_id)
+                        # 初始化英雄资源池
+                        if target_id not in self._players[owner_idx].hero_resources:
+                            self._players[owner_idx].hero_resources[target_id] = 0
                 self._refresh_host_group(target_id)
                 self._enforce_restricted_attachment_limit(target_id)
                 target_name = next(
@@ -65975,7 +69591,7 @@ class MainWindow(QMainWindow):
         """更新 4-2 弃牌堆摘要（顶牌预览）。"""
         if not hasattr(self, "discard_panel"):
             return
-        title = self._player_controlled_title('弃牌堭')
+        title = self._player_controlled_title('玩家弃牌堆')
         self.discard_panel.set_title(title)
         self.discard_panel.set_count(len(self.discard_cards))
         top_card = self.discard_cards[-1] if self.discard_cards else None
@@ -65983,11 +69599,24 @@ class MainWindow(QMainWindow):
         if self.PLAYER_COUNT > 1:
             self._update_player_controlled_captions()
         self._refresh_discard_top_dependent_passives()
+        # 精灵之光按钮可见性
+        if hasattr(self, "elven_light_discard_btn"):
+            has_elven_light = any(
+                self._is_elven_light_event(c) for c in self.discard_cards
+            )
+            self.elven_light_discard_btn.setVisible(has_elven_light)
 
     def _show_discard_pile_dialog(self):
         """单击 4-2 区域查看弃牌堆全部卡牌。"""
         title = self._player_controlled_title("玩家弃牌堆")
-        dialog = DiscardPileViewDialog(self, self.discard_cards, title=title)
+        playable = self._discard_playable_cards(self._active_player_index)
+        play_cb = (
+            (lambda: self._on_discard_play_card_action())
+            if playable else None
+        )
+        dialog = DiscardPileViewDialog(
+            self, self.discard_cards, title=title, play_callback=play_cb,
+        )
         dialog.exec_()
 
     def _refresh_encounter_discard_pile(self):
@@ -66001,6 +69630,12 @@ class MainWindow(QMainWindow):
             if self.encounter_discard_cards else None
         )
         self.encounter_discard_panel.set_top_card(top_card, series=series)
+        if hasattr(self, "pirate_discard_btn"):
+            pirate_n = len(getattr(self, "pirate_discard_cards", []) or [])
+            self.pirate_discard_btn.setText(f"弃牌堆2 ({pirate_n})")
+            self.pirate_discard_btn.setVisible(
+                bool(getattr(self, "_pirate_deck_enabled", False) or pirate_n)
+            )
 
     def _show_encounter_discard_pile_dialog(self):
         """单击 2-2 区域查看遭遇弃牌堆全部卡牌。"""
@@ -66008,6 +69643,17 @@ class MainWindow(QMainWindow):
             self,
             self.encounter_discard_cards,
             title="遭遇弃牌堆",
+            card_kind="encounter",
+            series=self._encounter_series(),
+        )
+        dialog.exec_()
+
+    def _show_pirate_discard_pile_dialog(self):
+        """按钮：单独查看海盗弃牌堆全部卡牌。"""
+        dialog = DiscardPileViewDialog(
+            self,
+            self.pirate_discard_cards,
+            title="海盗弃牌堆",
             card_kind="encounter",
             series=self._encounter_series(),
         )
@@ -66102,6 +69748,7 @@ class MainWindow(QMainWindow):
                 self.engagement_widgets.append(wrapped)
         self.card_bars[self.ENGAGEMENT_ROW_INDEX].addStretch()
         self._sync_card_row_scroller_filters(self.ENGAGEMENT_ROW_INDEX)
+        self._update_quest_dial_badges()
 
     def _refresh_hand_row(self, cards):
         """在第四行显示手牌："""
@@ -66655,6 +70302,7 @@ class MainWindow(QMainWindow):
                 self.next_phase_button.setEnabled(True)
             self._shadow_cards.clear()
             self._extra_shadow_cards.clear()
+            self._bonus_extra_shadow_cards.clear()
             self._shadow_revealed.clear()
             self._extra_shadow_revealed.clear()
             self._facedown_attachment_ids.clear()
@@ -66728,6 +70376,7 @@ class MainWindow(QMainWindow):
             self._wandering_took_action_used_chars.clear()
             self._rider_of_mark_action_used_chars.clear()
             self._imrahil_response_used_this_round = False
+            self._eomer_response_used_this_round = False
             self._landroval_response_used = False
             self._caldara_action_used = False
             self._galdor_havens_action_used_chars.clear()

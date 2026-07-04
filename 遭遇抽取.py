@@ -903,7 +903,11 @@ class CardDrawer(QWidget):
     def _debug_pick_and_place_on_top(self) -> None:
         from debug_card_picker import pick_encounter_card_for_debug
 
-        card = pick_encounter_card_for_debug(self, series=self.deck_series)
+        card = pick_encounter_card_for_debug(
+            self,
+            series=self.deck_series,
+            deck_path=self.deck_path,
+        )
         if card is None:
             return
         self.debug_place_card_on_top(card)
