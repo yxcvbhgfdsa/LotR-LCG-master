@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Hero" shared="False">
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801203c9001">Prince Imrahil</card>
+    <card qty="1" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9008">Boromir</card>
+    <card qty="1" id="9e3a4b3b-7bb7-4403-984c-411af5ec8467">Mablung</card>
+  </section>
+  <section name="Ally" shared="False">
+    <card qty="3" id="5177774a-29a0-4ce7-890c-aae2fe01e611">Soldier of Gondor</card>
+    <card qty="2" id="0c65af6a-7038-476b-9318-a024cc94c8b6">Angbor the Fearless</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9014">Faramir</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9029">Gondorian Spearman</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9073">Gandalf</card>
+    <card qty="2" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9016">Errand-rider</card>
+    <card qty="2" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9010">Citadel Custodian</card>
+    <card qty="3" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9014">Defender of Rammas</card>
+    <card qty="3" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9015">Envoy of Pelargir</card>
+    <card qty="3" id="d4f034b0-2444-4b61-a249-8d86e8856f7c">Squire of the Citadel</card>
+    <card qty="2" id="1f28f098-09d4-43fa-8fba-eae551a5d4fe">Pelargir Ship Captain</card>
+  </section>
+  <section name="Attachment" shared="False">
+    <card qty="3" id="47deb269-e02b-426d-b64a-34a4adff44de">Valiant Sword</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9026">Steward of Gondor</card>
+    <card qty="2" id="09134509-191b-4903-b4b5-5e650f8143c1">Gondorian Shield</card>
+    <card qty="3" id="2f0a3f18-c84f-4458-b6f7-2e6be9acee6b">Visionary Leadership</card>
+    <card qty="1" id="83842580-bfe9-4d56-addf-e1d290eb7bcf">Heir of Mardil</card>
+    <card qty="1" id="29b76593-0ef3-410b-aa85-1c282d4b1582">Captain of Gondor</card>
+  </section>
+  <section name="Event" shared="False">
+    <card qty="2" id="28877bba-27de-4b19-a8ab-5d557b634172">Pillars of the Kings</card>
+    <card qty="2" id="3dc9ec01-71b6-48fd-8fe4-0c8fa2161fe3">Need Drives Them</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-1801204c9033">Foe-hammer</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9024">Valiant Sacrifice</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9034">Feint</card>
+    <card qty="2" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9004">Behind Strong Walls</card>
+  </section>
+  <section name="Side Quest" shared="False">
+  </section>
+  <section name="Sideboard" shared="False">
+    <card qty="1" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9005">Beregond</card>
+    <card qty="1" id="323ebfa3-57e5-4394-9f55-284b2f7ee0be">Faramir</card>
+    <card qty="3" id="67b8089a-af30-46eb-b581-5def4da14149">Emyn Arnen Ranger</card>
+    <card qty="1" id="0c65af6a-7038-476b-9318-a024cc94c8b6">Angbor the Fearless</card>
+    <card qty="1" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9016">Errand-rider</card>
+    <card qty="1" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9010">Citadel Custodian</card>
+    <card qty="1" id="1f28f098-09d4-43fa-8fba-eae551a5d4fe">Pelargir Ship Captain</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801212c9028">Path of Need</card>
+    <card qty="3" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9071">Ranger Spikes</card>
+    <card qty="1" id="09134509-191b-4903-b4b5-5e650f8143c1">Gondorian Shield</card>
+    <card qty="3" id="fd89bdbf-7475-4f3e-96fc-8f5315a90029">Ithilien Pit</card>
+    <card qty="2" id="83842580-bfe9-4d56-addf-e1d290eb7bcf">Heir of Mardil</card>
+    <card qty="2" id="29b76593-0ef3-410b-aa85-1c282d4b1582">Captain of Gondor</card>
+    <card qty="3" id="2002b5d3-57b1-429a-a19a-2d10a564bc31">Coney in a Trap</card>
+    <card qty="1" id="28877bba-27de-4b19-a8ab-5d557b634172">Pillars of the Kings</card>
+    <card qty="1" id="3dc9ec01-71b6-48fd-8fe4-0c8fa2161fe3">Need Drives Them</card>
+    <card qty="1" id="887ff756-3e65-47d0-b056-12194727a83b">Helm of Secrecy</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-1801204c9033">Foe-hammer</card>
+    <card qty="1" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9004">Behind Strong Walls</card>
+  </section>
+  <section name="Quest" shared="True" />
+  <section name="Encounter" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

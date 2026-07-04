@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Quest" shared="True">
+    <card qty="1" id="a27a3045-58aa-4cbe-ab36-90bc6e7a5cdb">The Tower of Cirith Ungol</card>
+    <card qty="1" id="22e79f71-9496-4f1a-bf7e-36834378d68c">Pass the Two Watchers</card>
+    <card qty="1" id="26eb433a-01e2-4b0e-83c4-680b0e0c4854">Fighting in the Tower</card>
+    <card qty="1" id="196dd43b-1df2-4eae-9dcf-2e8d2723af67">Escape from Cirith Ungol</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="3" id="e53df85c-f6e6-41df-9fd1-03dd2d2a1c65">Echoing Passage</card>
+    <card qty="3" id="46c6afb3-9a68-4f1a-acfa-e421c84da528">Bloodied Courtyard</card>
+    <card qty="3" id="cf74c777-dfe4-4cea-8b7f-4b09fc1aa5b2">Winding Stairs</card>
+    <card qty="3" id="32706788-e37c-47b1-831b-40c7f711cb10">Torch-lit Hall</card>
+    <card qty="1" id="74f40d23-068a-40ea-9965-81df44294490">Gorbag</card>
+    <card qty="3" id="03abe728-0062-49bb-9a04-e78bff777e83">Wounded Uruk</card>
+    <card qty="3" id="66489fc6-7074-4cbb-8a60-37acd641f7a6">Orcish Howls</card>
+    <card qty="3" id="7d9a3914-bc46-40d6-b489-3157d7430382">Orc of Mordor</card>
+    <card qty="3" id="194ceae6-a5e2-4a52-ba07-76e6c2611e8e">Snaga Archer</card>
+    <card qty="3" id="50f294ff-ee4b-4685-b7e1-86cd7f2e0a59">Uruk Soldier</card>
+    <card qty="3" id="a442dbd4-ec18-44e6-b762-b0ebf94a8897">Drawn to the Ring</card>
+    <card qty="2" id="ef94d441-715f-42e8-bb3a-764592cdf44c">Deep Shadows</card>
+    <card qty="3" id="15f9c6b7-2bb0-48ea-9a5d-b8ec3b1a7e2d">Evil Vigilance</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="a246d29f-f370-4308-828d-c1ff09029b4a">Shagrat</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="78f780fd-fcc0-495e-b132-772ce71dbfa9">The Two Watchers</card>
+    <card qty="1" id="490a363e-2f00-4c66-9c6f-5bdfb83f6b08">Topmost Chamber</card>
+    <card qty="1" id="b937644c-ccbb-4a39-ae3c-24857d1d4d57">Frodo Baggins</card>
+    <card qty="1" id="ad4739ac-fd18-4add-9b83-860c1fcc2b54">Last of the Company</card>
+    <card qty="1" id="06b1e27e-6493-4f05-9203-1835058073df">The One Ring</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Quest" shared="True">
+    <card qty="1" id="d6fa1984-6016-4b44-8466-772160706d31">The Fate of Númenor</card>
+    <card qty="1" id="05bf91b3-8e8e-4a45-a6cf-ac8b936b032d">Explore the Island</card>
+    <card qty="1" id="97584fc2-835e-411c-aae3-eb841c90fc43">A Fateful Discovery</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="2" id="7a2f15bc-d05d-4891-9558-02396affc32b">Servant of the Deceiver</card>
+    <card qty="1" id="b0a1f83b-f1b0-4945-afc8-91a1c25063e2">Mysterious Fog</card>
+    <card qty="1" id="b03a007c-42bc-433c-bd0e-efbf65a8696d">Lingering Malevolence</card>
+    <card qty="2" id="92fec8c5-53e7-477a-9c47-8d97578bc1e7">Ruins of Ages Past</card>
+    <card qty="2" id="79d5dc52-cfee-49f9-8a3d-1d4a7a749af2">Drowned Dead</card>
+    <card qty="2" id="69a3ace6-7588-4ec4-91de-780b56502d8a">Soulless Cadaver</card>
+    <card qty="2" id="159f5a8f-1e1f-4282-9936-94b10e348176">Throngs of Unfaithful</card>
+    <card qty="2" id="ab5fec4c-b353-47e5-ae47-db7daf7f9088">Curse of the Downfallen</card>
+    <card qty="2" id="d09d5da8-4fb8-4c94-a344-25fbd40cbd46">Guardian of the Golden King</card>
+    <card qty="3" id="2bb3f0dd-6028-4cd5-bfdc-3d12f9b69c92">Overgrown Steps</card>
+    <card qty="3" id="406c33fc-8f5d-4d1d-a635-eb6ae9c33091">Corrupted Fauna</card>
+    <card qty="2" id="6a03ecc3-716a-4499-9412-b3838c4b1cba">Calphon's Folly</card>
+  </section>
+  <section name="Special" shared="True">
+    <card qty="1" id="8b8149c8-a1c5-4183-bf0b-a26f93348076">Lost Island</card>
+    <card qty="2" id="2929a83e-2da9-4f76-8300-8998784155d6">Lost Island</card>
+    <card qty="1" id="c823de8a-c258-494f-8a4a-9cbb4e812e06">Lost Island</card>
+    <card qty="2" id="09f14f19-b4c3-4e9e-aeea-21ed53d09138">Lost Island</card>
+    <card qty="2" id="5e4d1c14-315d-41a7-8ae1-76084554bfa7">Lost Island</card>
+    <card qty="2" id="6e3a151a-55de-402f-bff4-6e0813226ff9">Lost Island</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="ac1958aa-f119-423f-ac1e-cb04c58e641b">The Fate of Númenor</card>
+    <card qty="1" id="02ba32c6-9442-4a69-b89b-b2ec4ee24be2">Lost Island</card>
+    <card qty="1" id="24a816f2-172f-4945-8d9b-21eb7fb68263">Calphon</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

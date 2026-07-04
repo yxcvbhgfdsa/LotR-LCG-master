@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Hero" shared="False" />
+  <section name="Quest" shared="True">
+    <card qty="1" id="271fa771-d678-461e-b5c6-483117059ed1">Mount Doom</card>
+    <card qty="1" id="39a64a5a-7074-46a5-aacc-a42537fe0ddd">The Land of Mordor</card>
+    <card qty="1" id="6a24a5e8-80e9-4bba-af55-64be11742dde">The Road to Isenmouthe</card>
+    <card qty="1" id="ec2049ab-c950-46f7-9f1b-30ada69db857">The Last Gasp</card>
+    <card qty="1" id="ad73bb42-f0fb-4732-956d-e921140e99bb">The Crack of Doom</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="3" id="a442dbd4-ec18-44e6-b762-b0ebf94a8897">Drawn to the Ring</card>
+    <card qty="2" id="ef94d441-715f-42e8-bb3a-764592cdf44c">Deep Shadows</card>
+    <card qty="3" id="15f9c6b7-2bb0-48ea-9a5d-b8ec3b1a7e2d">Evil Vigilance</card>
+    <card qty="2" id="1a0189ae-b9ad-49c2-a217-a9c975536384">Orc-hold</card>
+    <card qty="1" id="e9bdfb84-2f96-4288-bbed-31f52cc10b86">Mordor Road</card>
+    <card qty="3" id="c88f14e5-1bd3-4829-ab70-02479df6cdfd">Plain of Gorgoroth</card>
+    <card qty="1" id="cfe25792-3c08-4154-8770-821eee3c9e3f">Brake of Thorns</card>
+    <card qty="1" id="eb232287-e39e-4358-b37f-23b2c45ca6a8">Gollum</card>
+    <card qty="2" id="c39c83bf-ee9e-4e4d-9689-b8f7559292bd">Ringwraith of Sauron</card>
+    <card qty="2" id="ae4a4129-ed5d-4902-92e3-ae89e2795fb1">Orc Captain</card>
+    <card qty="3" id="6036efda-3456-45d2-817a-4ef8b310db5a">Big Uruk</card>
+    <card qty="4" id="ad3509b5-b4b4-4fe5-bfdc-e655cc2470d3">Little Snuffler</card>
+    <card qty="1" id="2ab79807-7f6b-4b8b-8295-fb8645cdee8a">“Wicked Master!”</card>
+    <card qty="4" id="d71de165-8632-4628-94ea-793a1c20e6f8">The Lidless Eye</card>
+    <card qty="2" id="01a03d74-06d9-4fc8-afd7-2739fa900c32">Foul Fumes</card>
+    <card qty="2" id="cdf7a6c5-23f6-4314-a122-3b7df1b97501">Heavy and Tired</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="bb6dd4a6-a72c-400a-9cc6-903d7260ea1b">The Tower of Barad-dur</card>
+    <card qty="1" id="2dc216a5-af92-44e5-b225-9cdc7bf47e73">Mount Doom</card>
+    <card qty="1" id="1a0189ae-b9ad-49c2-a217-a9c975536384">Orc-hold</card>
+    <card qty="1" id="e9bdfb84-2f96-4288-bbed-31f52cc10b86">Mordor Road</card>
+    <card qty="1" id="c88f14e5-1bd3-4829-ab70-02479df6cdfd">Plain of Gorgoroth</card>
+    <card qty="1" id="cfe25792-3c08-4154-8770-821eee3c9e3f">Brake of Thorns</card>
+    <card qty="1" id="13543061-b855-4e58-9190-e2f56c17cd32">Old Water-course</card>
+  </section>
+  <section name="Active Setup" shared="True">
+    <card qty="1" id="cfe25792-3c08-4154-8770-821eee3c9e3f">Brake of Thorns</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="b937644c-ccbb-4a39-ae3c-24857d1d4d57">Frodo Baggins</card>
+    <card qty="1" id="06b1e27e-6493-4f05-9203-1835058073df">The One Ring</card>
+  </section>
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

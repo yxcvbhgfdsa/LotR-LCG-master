@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Hero" shared="False" />
+  <section name="Quest" shared="True">
+    <card qty="1" id="0f31d397-55d8-4988-b6bb-3d4101977515">Embassy from The Dark Tower</card>
+    <card qty="1" id="48c071bf-b00f-4677-b43f-aa119f736428">The Battle of the Morannon</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="2" id="e5b56e5a-3286-4ea6-bbdd-da7e47750125">Towers of the Teeth</card>
+    <card qty="2" id="1eab8808-f8ee-4935-b456-7dd940afbc28">Beleaguered Hills</card>
+    <card qty="3" id="77bcda70-5126-4e58-919e-447c03d7ab02">Waste of Dagorlad</card>
+    <card qty="2" id="3551cf11-1670-46de-b404-7b8fd20d3aff">Slopes of Cirith Gorgor</card>
+    <card qty="2" id="f13a2e94-0ece-45c3-a7ce-0248f9ff92b3">Reeking Moat</card>
+    <card qty="2" id="6aaf94eb-c656-4589-acf1-c6637a755946">Wall of Morannon</card>
+    <card qty="3" id="e62cec6d-6b96-4662-9a86-bcc0f5aee453">Nazgul of Mordor</card>
+    <card qty="2" id="fafbd12c-b97e-41d8-a696-5c89566927ba">Gorgoroth Hill-troll</card>
+    <card qty="3" id="ce23920a-4b87-4015-88bf-8687a6d3f180">Easterling Bowman</card>
+    <card qty="3" id="7108bf9e-3e91-4cbd-977a-fbab0a464512">Warrior of Rhun</card>
+    <card qty="2" id="5003227b-ebc3-454a-88b4-2d6e20cc48f7">Hell-hawk</card>
+    <card qty="3" id="3f736d45-c2b3-429e-9a21-3f8073cdbd48">The Hour of Doom</card>
+    <card qty="2" id="d5286130-d03a-49f3-bd70-d40e9320c292">Jaws of Steel</card>
+    <card qty="3" id="218b6d77-2c40-4967-8487-2a383b4170ce">Rage Filled Him</card>
+    <card qty="3" id="60ac6ce9-7aad-415d-a4af-61f67db59454">Onslaught of Mordor</card>
+    <card qty="3" id="7d9a3914-bc46-40d6-b489-3157d7430382">Orc of Mordor</card>
+    <card qty="3" id="194ceae6-a5e2-4a52-ba07-76e6c2611e8e">Snaga Archer</card>
+    <card qty="3" id="50f294ff-ee4b-4685-b7e1-86cd7f2e0a59">Uruk Soldier</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="5c1973bf-c331-4b8f-8872-4ead564476d3">Gwaihir</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="f1cc6057-ced3-4105-9172-869d26a54af5">Aragorn</card>
+    <card qty="1" id="c6b0a8d2-32fe-4750-9270-7270cd5f062b">The Black Gate</card>
+    <card qty="1" id="a3a28453-4292-49b3-9b78-fc958310a800">The Mouth of Sauron</card>
+  </section>
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>
