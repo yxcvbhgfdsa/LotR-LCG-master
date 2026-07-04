@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Quest" shared="True">
+    <card qty="1" id="9fb6747a-1dd1-4a38-8c55-9459fda296c1">Trouble in Tharbad</card>
+    <card qty="1" id="022c654e-9d4d-40ff-9d67-8e465fda0e78">Double Dealings</card>
+    <card qty="1" id="f86ef645-bc8b-41a0-b288-80118f5433cc">Escape from Tharbad</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="2" id="57f80fa2-0fdb-47b1-a441-939ee4cc6b4e">Bellach's Marauder</card>
+    <card qty="2" id="c2181617-ad55-4bf7-a6f3-60979d112ce6">Streets of Tharbad</card>
+    <card qty="2" id="3d25a41e-6a10-4fd7-a159-2b25bfc54454">Ruins of the Second Age</card>
+    <card qty="2" id="ead7703f-43e0-464e-ac09-304b86a54b50">Seedy Inn</card>
+    <card qty="1" id="8a4aebc3-32db-4b2f-965c-548058440a7c">Decrepit Rooftops</card>
+    <card qty="2" id="51681809-60af-4819-bfa0-3f568987f4ea">Constant Tail</card>
+    <card qty="2" id="1b3b1063-e102-4fea-a29b-5692fbfb9cd6">Conspicuous Lot</card>
+    <card qty="2" id="44c49a79-6396-494c-a311-bf1b25263acb">Cornered</card>
+    <card qty="2" id="2f7770cd-3102-4f35-a3bc-bd9afcab8303">Get That Dwarf!</card>
+    <card qty="1" id="ded946a7-99f0-42bf-92f6-a2c46ca64d98">Orc Skirmisher</card>
+    <card qty="2" id="a835576b-6a6c-4407-8f40-0151b70f5902">Orc Hunter</card>
+    <card qty="2" id="119cfabc-2cbf-4ffd-a25e-00ec140b8f26">Orc Hound</card>
+    <card qty="2" id="2bc9f441-e922-4509-aef9-a27e485ed227">Bellach's Hunter</card>
+    <card qty="3" id="715a7c96-17de-4e8d-8771-a8ae0e36e732">Orc Seeker</card>
+    <card qty="3" id="fa961100-1d40-4614-b405-faf9c00e2a83">Blood Hound</card>
+    <card qty="3" id="99d7fe5f-dcb5-43e2-9b73-8d47e661e6be">City of Spies</card>
+    <card qty="3" id="be2d2c3f-db7a-43bc-b0e8-43587dfce5c9">Dark Pathway</card>
+    <card qty="2" id="4b748920-83c0-473a-a2fd-0ec8a6b3f1b8">Waylaid by Agents</card>
+    <card qty="3" id="68384cac-543c-4e62-9866-e066f2ad27f0">Tharbad Patrol</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="8f6254c0-a723-4e66-bdc7-4c92eed415f8">Bellach</card>
+    <card qty="1" id="8b203ead-9fb6-4734-9109-3633fc24d1a9">The Crossing at Tharbad</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="4" id="8cc366fb-68f0-4401-9df9-20f9258a728c">Spy from Mordor</card>
+    <card qty="1" id="79f789a1-8a89-468b-8fb1-7a0292cc963f">Nalir</card>
+  </section>
+  <section name="Active Setup" shared="True">
+    <card qty="1" id="1d1adc93-c364-41d0-b987-6038d9df0c07">The Empty Mug</card>
+  </section>
+  <notes><![CDATA[]]></notes>
+</deck>

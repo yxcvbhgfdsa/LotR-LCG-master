@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True">
+    <card id="5bf68a8a-53ee-492c-9a74-654391a9088a" qty="1">Drive them Away</card>
+    <card id="34f9c6a0-3e6c-4ff6-9794-2d47ad3c9511" qty="1">Ambush!</card>
+  </section>
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Encounter" shared="True">
+    <card id="12f174af-abb0-42e8-be1c-d3c7493fd0a6" qty="2">Cold from the Mountains</card>
+    <card id="932a906a-e73f-43f7-bc97-84459611a7c1" qty="2">Exhausting Winds</card>
+    <card id="a84e0b4f-a80e-48f9-9c37-f7071aa115e9" qty="2">Tired and Hungry</card>
+    <card id="6d2923be-bccf-413c-89a3-ba1393587d13" qty="1">Exposed to the Elements</card>
+    <card id="5bea4f50-d569-4da3-94e5-ad0d2574b3fb" qty="3">Old Farmhouse</card>
+    <card id="9108bfe5-30b1-42e5-8866-1df5936f8d4a" qty="2">Abandoned Mill</card>
+    <card id="b89064bc-1dd9-4c9a-9dc8-39b25e8ec67e" qty="2">Pillaging Swordsman</card>
+    <card id="a8fd80fa-a2fe-4c29-885e-11fd6b86c03a" qty="2">Grasping Slaver</card>
+    <card id="2c1f057f-b355-4d9d-b3bc-a6374acf23f8" qty="1">Vengeful Bowman</card>
+    <card id="834e1b11-c4a0-481d-9739-01b9477b2e75" qty="2">Sneaky Thief</card>
+    <card id="f05e2dd2-8e13-4d5b-ae48-601575927039" qty="2">Erelas Gates</card>
+    <card id="99edecda-3072-43e1-80bf-7a409774474a" qty="3">Crossroads</card>
+    <card id="9ce9288e-9735-415d-b30d-b3880aec55bb" qty="2">Erelas Stables</card>
+    <card id="310bd34e-ac55-4bfe-a8b4-90e304449312" qty="2">Chaos in the Hills</card>
+    <card id="26cde939-6edc-4ad6-9480-fd4811aa0d38" qty="2">Looted Weapons</card>
+    <card id="13f396ac-ad34-4f11-bd92-3b372c529420" qty="1">Stockpile Barricade</card>
+  </section>
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True">
+    <card id="f6d3edc2-850c-4c82-b4dd-7fac8237cdd5" qty="1">Children of Eorl Rules 2</card>
+    <card id="41e4b5d9-2959-4e77-ac3d-48022d8b4ba4" qty="1">Ambush at Erelas 1</card>
+    <card id="dad84783-62b4-4aea-841e-90dadddd34cf" qty="1">Ambush at Erelas 2</card>
+    <card id="d8ab2b1f-2469-44a6-a032-707ed7e6a35c" qty="1">Ambush at Erelas 3</card>
+    <card id="a79779cb-9c01-4b29-8294-0ec636ee623a" qty="1">Ambush at Erelas 4</card>
+    <card id="4a85582a-760d-45e0-9bb4-e3003d699e17" qty="1">Ambush at Erelas 5</card>
+    <card id="2e8b1510-6c25-4986-9d6a-a703a01f9855" qty="1">Loot Piles and Looter X</card>
+    <card id="747e75fd-5729-405e-a4b7-151c01f4d69d" qty="1">Ambush at Erelas 6</card>
+    <card id="f558494f-24e7-4f4c-8211-34d3053e4766" qty="1">Brigand Ringleader</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card id="1b03ab62-3c05-4ec3-84d0-28b41035cf07" qty="1">Plundered Goods</card>
+    <card id="b89064bc-1dd9-4c9a-9dc8-39b25e8ec67e" qty="1">Pillaging Swordsman</card>
+    <card id="a8fd80fa-a2fe-4c29-885e-11fd6b86c03a" qty="1">Grasping Slaver</card>
+    <card id="2c1f057f-b355-4d9d-b3bc-a6374acf23f8" qty="1">Vengeful Bowman</card>
+    <card id="834e1b11-c4a0-481d-9739-01b9477b2e75" qty="1">Sneaky Thief</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Quest" shared="True">
+    <card qty="1" id="ad1fbfb1-a45a-474a-bf30-eb5c9e642d16">The Drowned Ruins</card>
+    <card qty="1" id="31bd075d-e116-4a0f-81dd-942b52a6267c">The Grotto</card>
+    <card qty="1" id="e48c7313-d1cb-4291-9dc1-9fff6fb23e83">Sahír's Betrayal</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="3" id="befbd3c9-45b3-4e68-b19e-5981a6571835">Powerful Undertow</card>
+    <card qty="3" id="c0d85826-dc42-4ac8-851c-4ed671917e9d">Tangling and Grasping</card>
+    <card qty="3" id="a9321cbd-897f-4a77-a548-85ad00112273">Ancient Depths</card>
+    <card qty="3" id="79d5dc52-cfee-49f9-8a3d-1d4a7a749af2">Drowned Dead</card>
+    <card qty="2" id="ab5fec4c-b353-47e5-ae47-db7daf7f9088">Curse of the Downfallen</card>
+    <card qty="1" id="c49ec585-e306-4fda-a55b-497cb0fd1174">Sea-Scorpion</card>
+    <card qty="1" id="34bfcbad-5557-48bc-8abd-3ac472ee4d3b">Cave Eel</card>
+    <card qty="4" id="08e743d7-0613-4863-b977-763b68256183">Submerged Dead</card>
+    <card qty="2" id="18b0c2b8-c88d-4621-a7a9-583b7c00cc67">Great Shark</card>
+    <card qty="2" id="70907f02-3a93-4292-ad21-e736d08232be">Undersea Cave Troll</card>
+    <card qty="2" id="9fd0166e-dd9b-46a8-830a-b3a1a9fe84db">Flooded Caverns</card>
+    <card qty="3" id="dfc6d0c9-0ea2-40ac-b883-6be2a5f4b36b">Pit into the Depths</card>
+    <card qty="2" id="8093af80-f939-49cc-a8be-b54a454e2a55">Sulfur Cloud</card>
+  </section>
+  <section name="Special" shared="True">
+    <card qty="1" id="58f1cb80-d8de-4f96-98d0-0fdf61988da3">Undersea Grotto</card>
+    <card qty="1" id="6a3ae84d-6c74-4fbf-9254-b8c1d17c8384">Cursed Caverns</card>
+    <card qty="1" id="4be4e706-1bd2-455a-a712-833c1bbcea55">Cursed Caverns</card>
+    <card qty="1" id="9c6798e3-9c5a-4609-b499-e6b1d6ae567b">Water-Logged Halls</card>
+    <card qty="1" id="c95b4c6a-3dd0-4f11-8620-df7af65c11bc">Undersea Grotto</card>
+    <card qty="1" id="cb3ca114-400e-4abf-87e6-124b75e92cb4">Water-Logged Halls</card>
+    <card qty="1" id="cec23012-fe4a-4c06-a3de-3123e2986d59">Overgrown Passage</card>
+    <card qty="1" id="cfb44b9d-0865-45ed-948d-3b28c36b9d61">Overgrown Passage</card>
+    <card qty="1" id="8b906fda-69b7-461f-bfb2-2e50ced157a6">Sharp Precipice</card>
+    <card qty="1" id="b9835b1a-609d-4cec-87e8-dd524b5685a8">Sharp Precipice</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="d41a03fa-e124-4e40-99b2-2ea4f71930f1">The Drowned Ruins</card>
+    <card qty="1" id="011a4573-f21a-4897-9b23-8b64391f5136">Shrine to Morgoth</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="97bf780d-cd76-492f-a970-37f78273c5bb">Captain Sahír</card>
+    <card qty="1" id="f0d30258-7122-4004-a689-9ff50a00b3af">Na'asiyah</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

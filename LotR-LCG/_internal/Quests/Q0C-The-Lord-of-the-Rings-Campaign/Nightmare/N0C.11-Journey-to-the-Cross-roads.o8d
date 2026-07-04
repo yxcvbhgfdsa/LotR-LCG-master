@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Quest" shared="True">
+    <card qty="1" id="797f8633-3df6-4e0e-b42e-c088f34e488f">Journey to the Cross-roads</card>
+    <card qty="1" id="2b93afb6-38fd-4ded-bf92-ed86bc03635d">Journey to the Cross-roads</card>
+    <card qty="1" id="b32e4536-aa58-4a09-8025-12028cd28288">Ambush the Men of Harad</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="2" id="7b41bc67-160e-4d01-90ba-d00481aa3b81">Southron Rearguard</card>
+    <card qty="4" id="62dea330-3ec7-4db0-bea7-382cb3454f83">Man of Harad</card>
+    <card qty="3" id="38e03ed2-9492-4522-8ef1-014f0444b40e">Wooded Glade</card>
+    <card qty="2" id="1fa7117f-2e41-45ae-b81e-75da3ad36cf2">Dense Fern-brake</card>
+    <card qty="3" id="0f6dfe98-9645-4c52-93d1-cd6e9089c640">Shadowy Thicket</card>
+    <card qty="3" id="7dcb70a6-4be1-4436-8e38-9ebdcc12d165">Blind Wrath</card>
+    <card qty="2" id="26fcc4f7-16bc-4134-b184-ede9bfe82906">Ware! Ware!</card>
+    <card qty="2" id="fc7041f2-b7f8-44a2-bf4c-beadd8016470">Captain of Harad</card>
+    <card qty="3" id="8fa4b202-cb8e-470d-ae2b-aa945ac652c5">Foothills of Ephel Duath</card>
+    <card qty="2" id="808f60ad-a63f-4504-9b67-4fd45d630add">Ithilien Woods</card>
+    <card qty="2" id="b774e6b4-461c-46eb-9398-dcb2af4cfab5">Marching Up the Road</card>
+    <card qty="2" id="d12e280f-44f3-469e-a2e8-e3bfd541f909">Fierce Southrons</card>
+    <card qty="3" id="75c1d9eb-9ade-4c71-a918-74cf5b526ff2">Arrows Thick in the Air</card>
+  </section>
+  <section name="Special" shared="True">
+    <card qty="3" id="2163f5ef-63a3-4afc-8084-fe730774d216">Oliphaunt</card>
+    <card qty="3" id="456329e9-c7c4-42ac-9edd-e769aea198ea">Haradrim Soldier</card>
+    <card qty="3" id="c04f4018-e001-4a31-a003-9914e3f585ee">Haradrim Archer</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="4" id="7fe4a83b-8654-4599-ab5d-6c06e56a7cdc">Southron Warror</card>
+    <card qty="4" id="c759124f-3bf2-4820-a1af-285c740c4a5b">Brace of Conies</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="2522fc59-6617-4c74-9723-4a120431aa3f">The Black Gate</card>
+    <card qty="1" id="22f6fc49-6a00-4104-a9fa-4823435175a1">The Cross-roads</card>
+    <card qty="1" id="fe58a6d3-7028-41c1-ab00-5e33e7d77b5f">Frodo Baggins</card>
+    <card qty="1" id="32267333-091c-4bbf-bb29-5f21c8b79188">The One Ring</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True">
+    <card qty="1" id="4297aa1e-8d53-4bd4-a750-ae5490fbb82b">Searching the Caves</card>
+    <card qty="1" id="f38caab3-61dc-45e2-9b31-533ba3b9fbd9">Getting Closer</card>
+    <card qty="1" id="8351cce0-b16e-4eba-93f2-24015bbc54c1">The Spider’s Hive</card>
+  </section>
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Encounter" shared="True">
+    <card qty="3" id="9afed95c-399f-4823-a277-342ece74a9e4">Hive Guardian</card>
+    <card qty="5" id="6ad8ed6c-4b09-4a2a-bc5f-a44b4f180b8e">Spider Broodling</card>
+    <card qty="2" id="6b828300-4558-4a8b-a591-a9865202a630">Spider Burrow</card>
+    <card qty="2" id="f02f15ee-3262-435a-b894-8f4003068c32">Pitch Black Tunnel</card>
+    <card qty="2" id="e1b0b7ba-c097-481b-baba-53755545cbbe">Nest of Vermin</card>
+    <card qty="3" id="8d55b746-417d-4996-b69b-01c80a7e4602">Cobwebbed Cavern</card>
+    <card qty="3" id="4233fe0f-ba63-4947-8c3c-f732ab09c472">Blocked Passage</card>
+    <card qty="3" id="8c15fd9d-0956-474a-9051-51f36890c7a5">Forced Off Track</card>
+    <card qty="3" id="a5aef3fe-7bb9-4165-ba0f-91127d8f21e3">Grabbed by Spiders</card>
+    <card qty="1" id="74c7a9e0-940f-4b66-bc23-c938eef5587f">Lost Underground</card>
+    <card qty="1" id="24772594-75f3-4789-aeec-41526d845e11">In Hostile Territory</card>
+    <card qty="3" id="2b81f105-3712-4326-ac9f-ed7aa18aace1">Injured Companion</card>
+    <card qty="2" id="cf6094fe-6a58-4784-8e41-1ad546f8b6aa">Enfeebled</card>
+    <card qty="1" id="55d8f78d-2dd7-4b44-80db-fb539ff05f00">Craft Remedy</card>
+    <card qty="2" id="b2ff9ad8-c9c6-42bb-a5cd-cb2af0b006a0">Sand Viper</card>
+    <card qty="3" id="5ddb243e-ee43-45fd-b4c2-2b197fdf70a9">Giant Scorpion</card>
+  </section>
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True">
+    <card qty="1" id="f47bffb2-d4cc-404c-bd53-5e91be0dc254">Brood Mother</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="05738935-2cd4-4ce3-a977-9e4f59689a32">On Track</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

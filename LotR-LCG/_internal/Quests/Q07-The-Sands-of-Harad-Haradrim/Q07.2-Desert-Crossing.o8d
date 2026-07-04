@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Quest" shared="True">
+    <card qty="1" id="b3ab2d77-ada8-42cb-9a87-dfac20d3a9f8">The Desert of Harad</card>
+    <card qty="1" id="36905f8f-3807-432b-bd0f-892c97504afd">Under the Merciless Sun</card>
+    <card qty="1" id="6cb224c2-d164-484e-b20d-fede3dd640d5">Beasts of Legend</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="1" id="cd974fa4-7f3a-4b46-b2d0-b99d086fe98a">Seek Shade</card>
+    <card qty="4" id="11cb3eda-b7fa-493f-a9fd-cd31e5ae41f2">Were-worm</card>
+    <card qty="2" id="8b083bb8-0ada-484a-9f83-6c8f431170b5">Carrion Bird</card>
+    <card qty="2" id="df908f24-8927-42cf-a6dd-9dfc41de74c1">Scorched Hamada</card>
+    <card qty="2" id="f5ba58db-76fc-497e-b0d7-0382c0b9c0c0">Parched Wadi</card>
+    <card qty="2" id="2c1f75cf-a6b5-4aa6-abbd-e1beb803e2e2">Mirage</card>
+    <card qty="2" id="365efac0-2631-483c-91ce-19da7585bd1a">Unbearable Heat</card>
+    <card qty="2" id="e8d205e0-5951-403b-b36e-f992e1b9de7e">Scorching Sun</card>
+    <card qty="1" id="84877af6-0720-4ef8-802b-69b792c32e15">Find Water</card>
+    <card qty="3" id="3d9db37c-4b51-4da8-be2b-25cd2d48e28b">Towering Dunes</card>
+    <card qty="2" id="19bcc176-d952-485b-9d28-12188c5a0bc1">Desert Oasis</card>
+    <card qty="2" id="6def55a1-ee80-4570-831b-d591e6effc11">Sandstorm</card>
+    <card qty="2" id="6d2cbe18-4504-46df-821c-d3ce588bcb3f">Heat Exhaustion</card>
+    <card qty="1" id="55d8f78d-2dd7-4b44-80db-fb539ff05f00">Craft Remedy</card>
+    <card qty="2" id="b2ff9ad8-c9c6-42bb-a5cd-cb2af0b006a0">Sand Viper</card>
+    <card qty="3" id="5ddb243e-ee43-45fd-b4c2-2b197fdf70a9">Giant Scorpion</card>
+  </section>
+  <section name="Setup" shared="True" />
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="4" id="81de0a94-a871-42af-8497-d66b900c9620">Burnt Sands</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>
