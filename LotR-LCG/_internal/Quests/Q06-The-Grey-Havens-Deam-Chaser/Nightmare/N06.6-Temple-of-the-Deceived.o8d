@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Quest" shared="True">
+    <card qty="1" id="9e9e209e-9629-449e-9cc4-d345f68892b8">Temple of the Deceived</card>
+    <card qty="1" id="fb7d55c5-7198-45c5-97d7-be4c6a26fa68">Searching the Island</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="2" id="90b5e33a-3708-40ab-8d20-5a997237e536">Island Watcher</card>
+    <card qty="2" id="00e25526-9804-4b05-89d6-557d9ef7ad77">Profane Dead</card>
+    <card qty="2" id="c8decb35-cb3e-4dc9-ad15-d0cc80c157cb">Deeper into the Ruins</card>
+    <card qty="3" id="4fc6111a-93c3-4407-b067-1b82396b802f">Furious Rainstorm</card>
+    <card qty="2" id="3e8eaee9-6fdb-4207-864f-151f0f98807b">Dwindling Supplies</card>
+    <card qty="3" id="79d5dc52-cfee-49f9-8a3d-1d4a7a749af2">Drowned Dead</card>
+    <card qty="2" id="69a3ace6-7588-4ec4-91de-780b56502d8a">Soulless Cadaver</card>
+    <card qty="2" id="159f5a8f-1e1f-4282-9936-94b10e348176">Throngs of Unfaithful</card>
+    <card qty="2" id="56eebf01-713c-470e-beb1-cc141b8be928">King's Knight</card>
+    <card qty="3" id="bc3a69cf-4bf8-4473-aeb1-afeb233815d9">Cursed Soldier</card>
+    <card qty="2" id="3579da3e-dd28-41a3-b21b-e6dc49e417d7">Deceitful Island</card>
+    <card qty="3" id="b3e97670-b41b-45a7-9c47-7fb885fc1f04">Call of the Curse</card>
+    <card qty="3" id="724f33d4-1305-4ea1-a6ee-d4e6c8de01b3">Sudden Precipice</card>
+    <card qty="1" id="a8918c80-f092-4649-bb5c-9f7fde3cef75">Aimless Wandering</card>
+  </section>
+  <section name="Special" shared="True">
+    <card qty="1" id="f3bc3759-1f94-4983-bebb-66c7d9e3e0b3">Temple of the Deceived</card>
+    <card qty="2" id="3371c102-4aab-4b15-a738-a4b3483a6004">Temple of the Deceived</card>
+    <card qty="2" id="1877b069-7015-4172-b5df-bbfd235b976f">Lost Island</card>
+    <card qty="2" id="4c7d7a31-250d-4e48-a97a-2aebb3b2b47d">Lost Island</card>
+    <card qty="1" id="dc8f31b6-73af-4aec-be26-8d297909d14d">Lost Island</card>
+    <card qty="2" id="fb5e0cb9-914f-49ee-8e21-534e89bc5533">Lost Island</card>
+    <card qty="2" id="d7ef4ad0-93f1-4c03-a04b-cdfe6339eb41">Lost Island</card>
+    <card qty="2" id="717d63f2-2674-4f20-af8f-2251bc4617f0">Edge of the Temple</card>
+    <card qty="2" id="8a6687f9-25d5-47c2-8ceb-0fd9a37bd308">Edge of the Temple</card>
+    <card qty="2" id="6a071291-7135-4137-b57a-20c97d242444">Edge of the Temple</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="4fcbffac-5e31-4c8f-bf94-d8ad96927e2e">Temple of the Deceived</card>
+    <card qty="1" id="7217415c-c4c1-4e03-8a62-90611f5d6ecf">Temple of the Deceived</card>
+    <card qty="1" id="e4f6c61b-afb1-4f12-81d5-4edd14a90d32">Temple Guardian</card>
+    <card qty="1" id="447dd08d-693c-407f-8155-87164f212351">Gate Key</card>
+    <card qty="1" id="f0d30258-7122-4004-a689-9ff50a00b3af">Na'asiyah</card>
+    <card qty="1" id="97bf780d-cd76-492f-a970-37f78273c5bb">Captain Sahír</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

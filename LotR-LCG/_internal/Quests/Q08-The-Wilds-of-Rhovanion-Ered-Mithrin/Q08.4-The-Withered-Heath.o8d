@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True">
+    <card qty="1" id="21786f6e-9f9c-4850-9277-9ee77b6e0912">Searching for Dragon Sign</card>
+    <card qty="1" id="60ba0781-d051-46f0-97b1-e02fb637b94e">The Cold-Drake Attacks!</card>
+    <card qty="1" id="e70fa96c-f4c7-4d6c-ab14-41831a6eb8c8">Hunting the Beast</card>
+    <card qty="1" id="9656a1c9-dd90-4096-b2ba-eb2491d08403">A Cornered Dragon</card>
+  </section>
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Encounter" shared="True">
+    <card qty="2" id="ebde9bba-fd89-4098-ad60-9d1d4e746d23">Snow-troll</card>
+    <card qty="3" id="beedf6c6-6214-47d8-bd82-81280543b141">Dragon Hatchling</card>
+    <card qty="3" id="351afed2-188b-42d4-9b3a-bccb510ae7d2">Mountain Pass</card>
+    <card qty="3" id="ef4ae3ca-ce48-4cad-88ee-23917e9dcdcc">Dwarven Door</card>
+    <card qty="3" id="15ebc613-43fc-4c9b-ac71-91840d853e60">Cave Entrance</card>
+    <card qty="2" id="80764232-a3c9-47f1-9034-9c9ac82002e4">Creature Den</card>
+    <card qty="2" id="2b158c89-59d6-40a2-af56-6db21dc62e73">High Falls</card>
+    <card qty="2" id="572ba251-0abb-4a81-b38b-d695123b7219">Heavy Snow</card>
+    <card qty="3" id="cb64fac2-c5ea-4233-86ed-90e30181a520">Deadly Cold</card>
+    <card qty="2" id="daa67624-18ba-43a3-92c6-6e5586166bb0">Ruined Supplies</card>
+    <card qty="2" id="b81e837e-f4e8-43e9-892a-8bfaecbd1416">Lost in the Wild</card>
+    <card qty="2" id="0f2929de-bef9-40b8-b0ed-de69e136188f">Weighed Down</card>
+    <card qty="2" id="5bcec205-7f6b-44b9-bb4d-9addde372316">Werewolf</card>
+    <card qty="3" id="9b3c0e2a-c874-41b7-9ccd-2798a4884b34">Giant Spider</card>
+    <card qty="3" id="f5d539b2-0b65-493d-8493-5122a0761eed">Black Bats</card>
+  </section>
+  <section name="Special" shared="True">
+    <card qty="1" id="c0c522b2-5f5c-45a0-b6fc-e05c8bb835d8">Ancient Treasury</card>
+    <card qty="1" id="286a5206-9ebb-4ec4-a349-2960ccb2f669">Lost Armory</card>
+    <card qty="1" id="9e490f6c-3873-4cd7-8c80-98a6640b9043">Frightful Den</card>
+    <card qty="1" id="acbf7fd1-9f93-4d0b-b18a-8f0854e028f5">Lightless Grotto</card>
+    <card qty="1" id="9a5884f4-c2a8-4696-97b5-f0c5c5e92b6d">Crumbling Cavern</card>
+    <card qty="1" id="8be23a53-ba85-4db3-8d1f-821da0323cbf">Underground Lake</card>
+  </section>
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True">
+    <card qty="1" id="e9217231-de12-48ef-9351-f7d992643c2f">Cold-Drake</card>
+    <card qty="4" id="b922eedf-eea0-471d-bc52-90becc2a0769">Dragon Sign</card>
+  </section>
+  <section name="Staging Setup" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

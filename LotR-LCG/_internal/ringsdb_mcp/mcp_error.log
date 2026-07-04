@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "C:\Users\steam\Music\LotR-LCG-master\ringsdb_mcp\run_server.py", line 12, in <module>
+    from server import mcp
+  File "C:\Users\steam\Music\LotR-LCG-master\ringsdb_mcp\server.py", line 11, in <module>
+    from mcp.server.fastmcp import FastMCP
+ModuleNotFoundError: No module named 'mcp'

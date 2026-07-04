@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Quest" shared="True">
+    <card qty="1" id="e3e98df7-720f-49b8-995a-370961706cec">The Iron Hills</card>
+    <card qty="1" id="e38f5043-50b5-4b2a-a23f-f786106c4055">The Lower Depths</card>
+    <card qty="1" id="bfae3bf9-24e1-46af-b202-fb6c676a5dd9">The Fire Worm</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="2" id="2d4b1381-467e-4bb4-9265-d26dec6125ea">Iron Hills Mine</card>
+    <card qty="3" id="8a7a0942-0bd2-44b1-9a9b-057f38b225e9">Contested Depths</card>
+    <card qty="2" id="e4432b9b-4969-44be-937f-ca2728d57ad4">Deep Chasm</card>
+    <card qty="2" id="4daa4ff5-625a-4949-aef5-fb1349e249fd">Denizen of the Deep</card>
+    <card qty="2" id="23fb0422-0e54-4064-bb76-e5bf3c214709">Stone Troll</card>
+    <card qty="2" id="b7431f72-5157-4a6d-a6c0-86bcf88f2669">Hobgoblin</card>
+    <card qty="2" id="5bcec205-7f6b-44b9-bb4d-9addde372316">Werewolf</card>
+    <card qty="3" id="9b3c0e2a-c874-41b7-9ccd-2798a4884b34">Giant Spider</card>
+    <card qty="3" id="f5d539b2-0b65-493d-8493-5122a0761eed">Black Bats</card>
+    <card qty="4" id="14f41245-2616-4358-a8bb-6b9bcf83cf56">Dark Tunnel</card>
+    <card qty="2" id="1062dfa2-d821-474d-9a8f-9eda79753222">Forked Passage</card>
+    <card qty="3" id="f945cfde-271f-4e93-8eed-93eaaf0fb408">Dark Places</card>
+    <card qty="3" id="cfddac0a-3055-46bd-af9a-8bdda8c9abb6">Eyes in the Dark</card>
+    <card qty="2" id="3566b6df-a1cd-4417-b202-27e0ecc0a966">Afraid of the Dark</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="42a5a608-0699-4cd5-b69d-f7c3413cd5cd">Fire Drake</card>
+    <card qty="1" id="744e45f8-a808-4d9f-96f4-59e26cff5874">Dragon Hoard</card>
+    <card qty="2" id="6220ef6b-f314-4cf9-92df-f9551d6cfde0">Dragon Breath</card>
+    <card qty="2" id="51b186ac-ddf5-4909-a484-20d273be27c9">Dragon Scales</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True">
+    <card qty="1" id="acbf7fd1-9f93-4d0b-b18a-8f0854e028f5">Lightless Grotto</card>
+    <card qty="1" id="9a5884f4-c2a8-4696-97b5-f0c5c5e92b6d">Crumbling Cavern</card>
+    <card qty="1" id="8be23a53-ba85-4db3-8d1f-821da0323cbf">Underground Lake</card>
+    <card qty="1" id="286a5206-9ebb-4ec4-a349-2960ccb2f669">Lost Armory</card>
+    <card qty="1" id="9e490f6c-3873-4cd7-8c80-98a6640b9043">Frightful Den</card>
+    <card qty="1" id="c0c522b2-5f5c-45a0-b6fc-e05c8bb835d8">Ancient Treasury</card>
+  </section>
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

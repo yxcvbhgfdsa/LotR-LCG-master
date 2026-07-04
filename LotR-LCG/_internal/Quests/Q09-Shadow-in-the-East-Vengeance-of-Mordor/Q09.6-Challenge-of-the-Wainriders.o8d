@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True">
+    <card qty="1" id="21165a65-1296-4664-a880-d85eea19a4ae">Wainrider Camp</card>
+  </section>
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Encounter" shared="True">
+    <card qty="4" id="2301fc93-a05e-4dd4-b06e-40d659783d8b">Aggressive Racer</card>
+    <card qty="3" id="e6995a7d-46af-4c90-86dc-9ef9c8e3a666">Chariot Driver</card>
+    <card qty="3" id="79e00002-0087-4bb1-9e44-a460f4aa2894">Veteran Wainrider</card>
+    <card qty="2" id="cfaa761e-c273-451f-bb1e-84d25c4bedbb">Narrow Pass</card>
+    <card qty="1" id="31911895-7f61-4cd1-aeeb-6ae706ffa4f5">Crowded Track</card>
+    <card qty="1" id="9ff94935-ae08-4d86-859f-f4d0776a66e5">Ravine Ledge</card>
+    <card qty="2" id="309c763a-60c9-4e33-bb0b-2b5e3a015227">Wainrider Chariot</card>
+    <card qty="3" id="611c0811-1810-4b3e-a00e-4d34f1f986b1">The Champion's Cunning</card>
+    <card qty="1" id="9042242b-054d-413e-83c7-bb9f42551a8a">Easterling Captain</card>
+    <card qty="2" id="5af4be18-af74-46ef-a235-9c1002b85338">Rider of Rhûn</card>
+    <card qty="3" id="53c01bdc-2761-4f8f-90bc-1eedd14ca376">Easterling Horse</card>
+    <card qty="3" id="c6ffa525-d499-4dcc-9f07-cbd0da50479f">Rollings Plains</card>
+    <card qty="1" id="926a17c6-ea0b-43ba-925a-71ba5ef1ed77">Rocky Outcrop</card>
+    <card qty="2" id="1f4cdef5-6847-4dd5-96b0-8ce03d21bd8d">Weary Lands</card>
+    <card qty="2" id="37153373-7a82-484e-9aca-7ed47a6a7703">Painful Fatigue</card>
+  </section>
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True">
+    <card qty="1" id="c2ff668a-6174-47d4-bbab-46f9c91403eb">The Challengers</card>
+    <card qty="1" id="727b90c5-46b3-4568-9ab9-cb7c6e662428">The Wainriders</card>
+    <card qty="1" id="f607e8d7-ca95-4f83-80b9-a07726d38f65">Wainrider Champion</card>
+    <card qty="1" id="282bca71-ff04-4447-a4e9-a7e5f70e0083">First Sprint</card>
+    <card qty="1" id="fbfee53c-fec3-4b55-a8b4-c7329f8f973e">The Turnaround</card>
+    <card qty="1" id="29fd0721-10ed-4315-b415-5fadeb010051">The Farthest Edge</card>
+    <card qty="1" id="4c1e8a5c-db6b-4d36-8202-bf0960870914">Last Climb</card>
+    <card qty="1" id="b7f25c2a-b9f1-4ec7-8ab3-4843aaef4e06">Home Stretch</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="9ff94935-ae08-4d86-859f-f4d0776a66e5">Ravine Ledge</card>
+    <card qty="1" id="926a17c6-ea0b-43ba-925a-71ba5ef1ed77">Rocky Outcrop</card>
+    <card qty="1" id="c6ffa525-d499-4dcc-9f07-cbd0da50479f">Rollings Plains</card>
+    <card qty="1" id="cfaa761e-c273-451f-bb1e-84d25c4bedbb">Narrow Pass</card>
+    <card qty="1" id="31911895-7f61-4cd1-aeeb-6ae706ffa4f5">Crowded Track</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

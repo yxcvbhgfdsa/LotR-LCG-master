@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Special" shared="True">
+    <card qty="2" id="07067901-5306-47f0-8863-3c9cb194e1c6">Eye of the Beast</card>
+    <card qty="2" id="9c3c6e43-7548-4eaf-8225-2f51ecafbc4a">Thrashing Arm</card>
+    <card qty="3" id="db512bcc-1bc7-4008-ba2b-18d56abc3b67">Crushing Arm</card>
+    <card qty="3" id="5073c7a3-a3f6-4aca-b2a2-e0b830af3985">Grasping Arm</card>
+    <card qty="3" id="0daf1963-a45f-4fe1-bd0b-ad901a1213fa">Giant Arm</card>
+    <card qty="3" id="5d811a82-3729-4b54-8748-e0abffd96e90">From the Depths</card>
+    <card qty="2" id="b1898a55-730c-493e-9fcd-24a51d817b64">Lashing Tentacles</card>
+  </section>
+  <section name="Quest" shared="True">
+    <card qty="1" id="cfa94470-c25c-4af3-ba71-941d1fa48a9c">Take the Ship!</card>
+    <card qty="1" id="de744bed-1461-4442-b9a1-193d00fd39a3">Change of Plans</card>
+    <card qty="1" id="81779961-8776-4c1d-953d-ed7bf1324fbf">Defend the Ship!</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="2" id="5571b159-9889-4fcd-bc0e-13bea7443348">Forecastle Deck</card>
+    <card qty="2" id="ec9d7726-89fa-41ee-a6ad-30761a6b79d3">Weather Deck</card>
+    <card qty="2" id="de903b76-e5e1-478b-a782-1e91f5a7261e">Cargo Hold</card>
+    <card qty="2" id="2dbe66bc-a6bf-42d7-92a5-d186dfe954c6">Crew Quarters</card>
+    <card qty="2" id="d7fd973b-6b4e-4f4b-9fc5-4886dcf80996">Quarter Deck</card>
+    <card qty="2" id="5a4545c3-8b25-4fad-9798-b67921c9e7d3">Hold Steady!</card>
+    <card qty="2" id="d03bdefa-cc39-43b6-9af9-feeb33858958">Umbar Raider</card>
+    <card qty="2" id="d7885efa-3af6-48e6-8eb1-5750892fdb34">Corsair Infiltrator</card>
+    <card qty="2" id="4b3a4229-eb85-49b0-9f34-78cb17301b34">Raid Leader</card>
+    <card qty="2" id="c057b0ef-eb85-4afc-9ca8-60a0cca92bcc">Battle-Hardened</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="b53fd0fc-5734-4bdc-b26f-c2133da31c3d">The Thing in the Depths</card>
+    <card qty="1" id="97bf780d-cd76-492f-a970-37f78273c5bb">Captain Sahír</card>
+    <card qty="1" id="f0d30258-7122-4004-a689-9ff50a00b3af">Na'asiyah</card>
+    <card qty="1" id="92b2ea69-3f7f-4bbd-b3e0-c6c98cbbde9d">The Thing in the Depths </card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="5585680f-0609-4cc4-96b5-37e53992af56">Helm of the Stormcaller</card>
+    <card qty="1" id="d03bdefa-cc39-43b6-9af9-feeb33858958">Umbar Raider</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>
