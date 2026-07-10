@@ -32,6 +32,7 @@ from PyQt5.QtGui import QCursor
 _PROJECT_ROOT = Path(__file__).resolve().parent
 PLAYER_CSV = _PROJECT_ROOT / "魔戒玩家牌.csv"
 PLAYER_IMAGE_DIRS = (
+    _PROJECT_ROOT / "cards",
     _PROJECT_ROOT / "cards" / "玩家卡牌",
     _PROJECT_ROOT / "cards" / "玩家牌组",
 )

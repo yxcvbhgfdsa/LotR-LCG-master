@@ -53,6 +53,11 @@ O8D_SPECIAL_SECTION = "Special"
 # 遭遇卡图源尺寸（宽 × 高，竖版）
 ENCOUNTER_CARD_W = 358
 ENCOUNTER_CARD_H = 500
+REVERSED_UNKNOWN_LOCATION_IMAGE_IDS = frozenset({
+    "fb5e0cb9-914f-49ee-8e21-534e89bc5533",
+    "d7ef4ad0-93f1-4c03-a04b-cdfe6339eb41",
+    "201569b2-d203-4a2a-b3e4-5dd396b8341a",
+})
 
 
 def fit_encounter_card_size(max_height: int = 158) -> tuple[int, int]:
@@ -77,10 +82,13 @@ def resolve_encounter_image(image_id: str) -> str:
     stem = _image_id_stem(image_id)
     if not stem:
         return ""
+    preferred_exts = [".jpg", ".jpeg", ".png", ".JPG"]
+    if stem in REVERSED_UNKNOWN_LOCATION_IMAGE_IDS:
+        preferred_exts = [".B.jpg", ".B.jpeg", ".B.png", ".B.JPG"] + preferred_exts
     for folder in ENCOUNTER_IMAGE_DIRS:
         if not folder.is_dir():
             continue
-        for ext in (".jpg", ".jpeg", ".png", ".JPG"):
+        for ext in preferred_exts:
             path = folder / f"{stem}{ext}"
             if path.is_file():
                 return str(path)
@@ -220,12 +228,19 @@ def _build_encounter_index_by_image_id(
     series: Optional[str] = None,
 ) -> Dict[str, Dict[str, str]]:
     index: Dict[str, Dict[str, str]] = {}
+    rows: List[Tuple[str, Dict[str, str]]] = []
     for row in _read_encounter_csv_rows(csv_path):
         if series and (row.get("系列") or "").strip() != series:
             continue
         image_id = _image_id_stem(row.get("图片链接") or "")
         if image_id:
             index[image_id] = row
+            rows.append((image_id, row))
+    for image_id, row in rows:
+        if image_id.lower().endswith(".b"):
+            index.setdefault(image_id[:-2], row)
+        else:
+            index.setdefault(f"{image_id}.B", row)
     return index
 
 
