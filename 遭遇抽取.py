@@ -50,6 +50,9 @@ O8D_ENCOUNTER_SECTION = "Encounter"
 O8D_QUEST_SECTION = "Quest"
 O8D_SETUP_SECTION = "Setup"
 O8D_SPECIAL_SECTION = "Special"
+O8D_SECOND_SPECIAL_SECTION = "Second Special"
+O8D_STAGING_SETUP_SECTION = "Staging Setup"
+O8D_ACTIVE_SETUP_SECTION = "Active Setup"
 # 遭遇卡图源尺寸（宽 × 高，竖版）
 ENCOUNTER_CARD_W = 358
 ENCOUNTER_CARD_H = 500
@@ -310,6 +313,39 @@ def _build_cards_from_o8d_section(
     return cards, missing, skipped
 
 
+def _build_cards_from_o8d_sections(
+    o8d_path: str | Path,
+    section_names: List[str],
+    csv_path: Optional[Path] = None,
+    series: Optional[str] = None,
+    use_o8d_qty: bool = False,
+    allowed_types: Optional[frozenset[str]] = None,
+) -> Tuple[List[Card], List[str], List[str]]:
+    cards: List[Card] = []
+    missing: List[str] = []
+    skipped: List[str] = []
+    seen_ids: set[str] = set()
+    for section_name in section_names:
+        sec_cards, sec_missing, sec_skipped = _build_cards_from_o8d_section(
+            o8d_path,
+            section_name,
+            csv_path=csv_path,
+            series=series,
+            use_o8d_qty=use_o8d_qty,
+            allowed_types=allowed_types,
+        )
+        missing.extend(sec_missing)
+        skipped.extend(sec_skipped)
+        for card in sec_cards:
+            card_id = getattr(card, "id", "") or ""
+            if card_id and card_id in seen_ids:
+                continue
+            if card_id:
+                seen_ids.add(card_id)
+            cards.append(card)
+    return cards, missing, skipped
+
+
 def load_encounter_deck_from_o8d(
     o8d_path: str | Path,
     csv_path: Optional[Path] = None,
@@ -337,10 +373,14 @@ def load_setup_cards_from_o8d(
     csv_path: Optional[Path] = None,
     series: Optional[str] = None,
 ) -> Tuple[List[Card], List[str]]:
-    """从 o8d 的 Setup 节加载准备牌池；不洗入遭遇牌库。"""
-    cards, missing, skipped = _build_cards_from_o8d_section(
+    """从 o8d 的 Setup/Staging Setup/Active Setup 节加载准备牌池；不洗入遭遇牌库。"""
+    cards, missing, skipped = _build_cards_from_o8d_sections(
         o8d_path,
-        O8D_SETUP_SECTION,
+        [
+            O8D_SETUP_SECTION,
+            O8D_STAGING_SETUP_SECTION,
+            O8D_ACTIVE_SETUP_SECTION,
+        ],
         csv_path=csv_path,
         series=series,
         use_o8d_qty=True,
@@ -357,9 +397,12 @@ def load_special_cards_from_o8d(
     series: Optional[str] = None,
 ) -> Tuple[List[Card], List[str]]:
     """Load o8d Special section cards; used by scenario-specific side decks."""
-    cards, missing, skipped = _build_cards_from_o8d_section(
+    cards, missing, skipped = _build_cards_from_o8d_sections(
         o8d_path,
-        O8D_SPECIAL_SECTION,
+        [
+            O8D_SPECIAL_SECTION,
+            O8D_SECOND_SPECIAL_SECTION,
+        ],
         csv_path=csv_path,
         series=series,
         use_o8d_qty=True,
@@ -368,6 +411,27 @@ def load_special_cards_from_o8d(
     if skipped:
         print(f"o8d Special skipped: {', '.join(skipped)}")
     return cards, missing
+
+
+def load_second_special_cards_from_o8d(
+    o8d_path: str | Path,
+    csv_path: Optional[Path] = None,
+    series: Optional[str] = None,
+) -> Tuple[List[Card], List[str]]:
+    """从 O8D 的 Second Special 节读取独立的遭遇副牌库。"""
+    cards, missing, skipped = _build_cards_from_o8d_section(
+        o8d_path,
+        O8D_SECOND_SPECIAL_SECTION,
+        csv_path=csv_path,
+        series=series,
+        use_o8d_qty=True,
+        allowed_types=ENCOUNTER_DECK_TYPES,
+    )
+    if skipped:
+        print(f"o8d Second Special 节已跳过非遭遇库类型: {', '.join(skipped)}")
+    return cards, missing
+
+
 def _find_o8d_section(root: ET.Element, section_name: str) -> Optional[ET.Element]:
     for section in root.findall("section"):
         if (section.get("name") or "").strip() == section_name:
@@ -922,6 +986,7 @@ class CardDrawer(QWidget):
             self,
             series=self.deck_series,
             deck_path=self.deck_path,
+            deck_cards=self.cards,
         )
         if card is None:
             return
@@ -1091,4 +1156,3 @@ if __name__ == "__main__":
     window = EncounterTestWindow()
     window.show()
     sys.exit(app.exec_())
-

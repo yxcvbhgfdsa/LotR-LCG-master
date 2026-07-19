@@ -142,6 +142,28 @@ CARD_NAME_ALIASES: Dict[str, str] = {
     "维拉的看重": "主神的眷顾",
 }
 
+CARD_NAME_ALIASES.update({
+    "洛希尔人冲锋": "洛汗冲锋",
+    "加拉德瑞尔的侍女": "凯兰崔尔的侍女",
+    "Galadriel's Handmaiden": "凯兰崔尔的侍女",
+    "加拉德瑞尔的水镜": "凯兰崔尔之镜",
+    "加拉德瑞尔": "凯兰崔尔",
+    "Mirror of Galadriel": "凯兰崔尔之镜",
+    "Galadriel's Mirror": "凯兰崔尔之镜",
+    "Nenya": "南雅",
+    "鄂肯布兰德": "埃肯布兰德",
+    "Ekenbrand": "埃肯布兰德",
+    "游荡的恩特": "游荡的树人",
+    "罗瑞安斗篷": "罗瑞安斗篷",
+    "Cloak of Lórien": "罗瑞安斗篷",
+    "Cloak of Lorien": "罗瑞安斗篷",
+    "Wandering Ent": "游荡的树人",
+    "Great Yew Bow": "巨大的紫杉木弓",
+    "Black Arrow": "黑色的羽箭",
+    "Rohirrim Charge": "洛汗冲锋",
+    "Charge of the Rohirrim": "洛汗冲锋",
+})
+
 def _init_series_aliases() -> Dict[str, str]:
     """卡组列表常用简称 / 英文扩展包名 → CSV「系列」列。"""
     try:
@@ -468,17 +490,27 @@ def build_player_deck_from_text(
 class DeckListDialog(QDialog):
     """粘贴/编辑 Main Deck 文本格式的卡组对话框。"""
 
-    def __init__(self, parent=None, initial_text: Optional[str] = None):
+    def __init__(
+        self,
+        parent=None,
+        initial_text: Optional[str] = None,
+        allow_fellowship: bool = False,
+    ):
         super().__init__(parent)
+        self.allow_fellowship = bool(allow_fellowship)
         self.setWindowTitle("加载卡组")
         self.setMinimumSize(480, 520)
 
         layout = QVBoxLayout(self)
         layout.setSpacing(10)
 
+        ringsdb_hint = "支持 decklist 与 deck/view"
+        if self.allow_fellowship:
+            ringsdb_hint += "；fellowship/view 会自动调整玩家数"
         hint = QLabel(
             "粘贴或编辑卡组列表（Main Deck 格式），\n"
-            "或粘贴 RingsDB 链接后点「加载 RingsDB」/ 直接 OK（支持 decklist 与 deck/view）。\n"
+            "或粘贴 RingsDB 链接后点「加载 RingsDB」/ 直接 OK"
+            f"（{ringsdb_hint}）。\n"
             "英雄不参与抽牌；盟友/附属/事件构成 50 张主牌组。"
         )
         hint.setStyleSheet("color: #444;")
@@ -523,13 +555,30 @@ class DeckListDialog(QDialog):
             self,
             "加载 RingsDB 牌组",
             "粘贴 RingsDB 牌组链接或编号：\n"
-            "（decklist/view 或 deck/view，如 https://ringsdb.com/deck/view/677635）",
+            "（decklist/view、deck/view"
+            + (" 或 fellowship/view" if self.allow_fellowship else "")
+            + "）",
             text=default,
         )
         if not ok or not url.strip():
             return
         try:
-            from CardViewer import ringsdb_to_deck_text
+            from CardViewer import (
+                is_ringsdb_fellowship_source,
+                ringsdb_to_deck_text,
+            )
+
+            if is_ringsdb_fellowship_source(url):
+                if not self.allow_fellowship:
+                    QMessageBox.warning(
+                        self,
+                        "无法加载队伍",
+                        "Fellowship 队伍链接只能从主游戏的开始流程加载。",
+                    )
+                    return
+                self.text_edit.setPlainText(url.strip())
+                self.accept()
+                return
 
             QApplication.setOverrideCursor(QCursor(Qt.WaitCursor))
             QApplication.processEvents()
@@ -892,6 +941,8 @@ class CardDrawer(QWidget):
     card_drawn = pyqtSignal(str)
     deck_loaded = pyqtSignal(str)
     deck_reset = pyqtSignal()
+    # 牌库顶公开信息（例如《前路黑暗》甘道夫）需要在不抽牌时也同步刷新。
+    deck_state_changed = pyqtSignal()
     next_phase_requested = pyqtSignal()
 
     def __init__(self, parent=None, max_height: int = 182, adaptive: bool = False):
@@ -1215,6 +1266,7 @@ class CardDrawer(QWidget):
         self.deck_stack = list(self.cards)
         if shuffle:
             random.shuffle(self.deck_stack)
+        self.deck_state_changed.emit()
 
     def _ensure_deck_stack(self) -> None:
         if self.deck_stack:
@@ -1240,6 +1292,8 @@ class CardDrawer(QWidget):
             card = self.deck_stack.pop(0)
             self.drawn_ids.add(card.id)
             taken.append(card)
+        if taken:
+            self.deck_state_changed.emit()
         return taken
 
     def put_cards_on_deck_top(self, ordered_cards: List["Card"]) -> None:
@@ -1248,6 +1302,8 @@ class CardDrawer(QWidget):
         for card in reversed(ordered_cards):
             self.drawn_ids.discard(card.id)
             self.deck_stack.insert(0, card)
+        if ordered_cards:
+            self.deck_state_changed.emit()
 
     def place_card_on_deck_bottom(self, card: "Card") -> None:
         """将指定卡牌放置于牌库底端。"""
@@ -1258,6 +1314,7 @@ class CardDrawer(QWidget):
         self.deck_stack.append(card)
         if not any(c.id == card.id for c in self.cards):
             self.cards.append(card)
+        self.deck_state_changed.emit()
 
     def debug_place_card_on_top(self, card: "Card") -> None:
         """Debug：将指定卡牌放置于牌库顶。"""
@@ -1271,6 +1328,7 @@ class CardDrawer(QWidget):
         self.deck_stack.insert(0, card)
         if not any(c.id == card.id for c in self.cards):
             self.cards.append(card)
+        self.deck_state_changed.emit()
         print(f"Debug：已将「{card.name}」放置于玩家牌库顶（剩余 {len(self.deck_stack)} 张）")
 
     def _debug_pick_and_place_on_top(self, parent=None) -> None:
@@ -1296,6 +1354,7 @@ class CardDrawer(QWidget):
             card = self.deck_stack.pop(0)
             self.drawn_ids.add(card.id)
             record_player_card(card, self.deck_path)
+            self.deck_state_changed.emit()
             return card
 
         available_cards = [card for card in self.cards if card.id not in self.drawn_ids]
@@ -1312,6 +1371,7 @@ class CardDrawer(QWidget):
         card = random.choice(available_cards)
         self.drawn_ids.add(card.id)
         record_player_card(card, self.deck_path)
+        self.deck_state_changed.emit()
         return card
 
     def return_cards_to_deck(self, cards: List["Card"]) -> int:
@@ -1325,6 +1385,7 @@ class CardDrawer(QWidget):
             self._ensure_deck_stack()
             self.deck_stack.extend(cards)
             random.shuffle(self.deck_stack)
+            self.deck_state_changed.emit()
         if count:
             names = "、".join(c.name for c in cards[:count])
             print(f"已将 {count} 张玩家卡洗回牌库: {names}")

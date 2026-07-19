@@ -186,6 +186,7 @@ class CardImageZoomDialog(QDialog):
 
 class CardWidget(QWidget):
     clicked = pyqtSignal()
+    play_requested = pyqtSignal()
     double_clicked = pyqtSignal()
     stats_changed = pyqtSignal()
 
@@ -233,6 +234,8 @@ class CardWidget(QWidget):
         self._damage_count_label = None
         self._suppress_marker_persist = False
         self._passive_threat_bonus = 0
+        self._passive_health_bonus = 0
+        self._passive_defense_bonus = 0
         self._resource_count = 0
         self._passive_attack_per_resource = 0
         self._passive_defense_per_resource = 0
@@ -549,8 +552,10 @@ class CardWidget(QWidget):
         if self.top_resource_container is None:
             return
         badge_w, badge_h = 44, 20
-        margin = 2
-        self.top_resource_container.setGeometry(margin, margin, badge_w, badge_h)
+        w = self._label_w
+        x = max(0, (w - badge_w) // 2)
+        y = 24
+        self.top_resource_container.setGeometry(x, y, badge_w, badge_h)
 
     def _raise_marker_layers(self):
         if self.top_left_damage_container is not None:
@@ -836,6 +841,8 @@ class CardWidget(QWidget):
 
     def _recalc_stats(self):
         stats = dict(self._base_stats)
+        stats["health"] = max(0, stats["health"] + self._passive_health_bonus)
+        stats["defense"] = max(0, stats["defense"] + self._passive_defense_bonus)
         for marker in self.top_right_markers:
             marker_type = getattr(marker, "marker_type", "")
             if marker_type == "Attack":
@@ -873,6 +880,20 @@ class CardWidget(QWidget):
         if amount == self._passive_threat_bonus:
             return
         self._passive_threat_bonus = amount
+        self._recalc_stats()
+
+    def set_passive_health_bonus(self, amount: int):
+        amount = int(amount)
+        if amount == self._passive_health_bonus:
+            return
+        self._passive_health_bonus = amount
+        self._recalc_stats()
+
+    def set_passive_defense_bonus(self, amount: int):
+        amount = int(amount)
+        if amount == self._passive_defense_bonus:
+            return
+        self._passive_defense_bonus = amount
         self._recalc_stats()
 
     def set_show_resource_badge(self, show: bool):
@@ -931,6 +952,7 @@ class CardWidget(QWidget):
             "base_attack": self._base_stats["attack"],
             "base_defense": self._base_stats["defense"],
             "base_health": self._base_stats["health"],
+            "passive_health_bonus": self._passive_health_bonus,
             "base_progress": self._base_stats["progress"],
             "image_path": c.image_path,
         }
@@ -954,6 +976,7 @@ class CardWidget(QWidget):
 
     def mouseDoubleClickEvent(self, event):
         if event.button() == Qt.LeftButton:
+            self.play_requested.emit()
             self.double_clicked.emit()
             event.accept()
             return
