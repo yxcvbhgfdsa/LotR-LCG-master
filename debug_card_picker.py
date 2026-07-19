@@ -293,7 +293,13 @@ def _load_encounter_cards_for_debug(
     *,
     series: Optional[str],
     deck_path: Optional[str],
+    deck_cards: Optional[List[EncounterCard]] = None,
 ) -> List[EncounterCard]:
+    # The live deck can contain setup cards that were shuffled in after the
+    # scenario was loaded, so it is the authoritative source for debugging.
+    if deck_cards is not None:
+        return list(deck_cards)
+
     use_series = series or ENCOUNTER_DEFAULT_SERIES
     path_text = (deck_path or "").strip()
     if path_text:
@@ -349,6 +355,7 @@ def pick_encounter_card_for_debug(
     series: Optional[str] = None,
     *,
     deck_path: Optional[str] = None,
+    deck_cards: Optional[List[EncounterCard]] = None,
 ) -> Optional[EncounterCard]:
     use_series = series or ENCOUNTER_DEFAULT_SERIES
 
@@ -356,6 +363,7 @@ def pick_encounter_card_for_debug(
         return _load_encounter_cards_for_debug(
             series=use_series,
             deck_path=deck_path,
+            deck_cards=deck_cards,
         )
 
     return _pick_card(

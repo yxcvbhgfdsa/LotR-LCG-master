@@ -186,6 +186,8 @@ class CardImageZoomDialog(QDialog):
 
 class CardWidget(QWidget):
     clicked = pyqtSignal()
+    play_requested = pyqtSignal()
+    double_clicked = pyqtSignal()
     stats_changed = pyqtSignal()
 
     def __init__(
@@ -206,6 +208,7 @@ class CardWidget(QWidget):
         self._show_threat_badge = show_threat_badge
         self._show_attack_badge = False
         self._show_defense_badge = False
+        self._show_damage_badge_left = False
         self._show_name_label = show_name_label
         self._face_down = face_down
         self.csv_path = Path(csv_path)
@@ -227,8 +230,12 @@ class CardWidget(QWidget):
         self._progress_count_label = None
         self.top_threat_container = None
         self._threat_count_label = None
+        self.top_left_damage_container = None
+        self._damage_count_label = None
         self._suppress_marker_persist = False
         self._passive_threat_bonus = 0
+        self._passive_health_bonus = 0
+        self._passive_defense_bonus = 0
         self._resource_count = 0
         self._passive_attack_per_resource = 0
         self._passive_defense_per_resource = 0
@@ -331,6 +338,33 @@ class CardWidget(QWidget):
         self.bottom_left_layout.setContentsMargins(0, 0, 0, 0)
         self.bottom_left_layout.setSpacing(2)
         self.bottom_left_layout.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+
+        self.top_left_damage_container = QWidget(overlay_parent)
+        self.top_left_damage_container.setStyleSheet(
+            "background-color: rgba(0, 0, 0, 0.55); border-radius: 4px;"
+        )
+        self.top_left_damage_container.setAutoFillBackground(False)
+        self.top_left_damage_container.setAttribute(Qt.WA_TransparentForMouseEvents)
+        damage_layout = QHBoxLayout(self.top_left_damage_container)
+        damage_layout.setContentsMargins(4, 1, 4, 1)
+        damage_layout.setSpacing(2)
+        damage_layout.setAlignment(Qt.AlignCenter)
+        self._damage_count_label = QLabel("0")
+        self._damage_count_label.setAlignment(Qt.AlignCenter)
+        self._damage_count_label.setStyleSheet(
+            "color: #FF7777; font-weight: bold; font-size: 11px; "
+            "background: transparent; border: none;"
+        )
+        self._damage_icon = MarkerLabel(
+            pixmap_path=MARKER_ICONS.get("Damage"),
+            fallback="D",
+            color="#CC3333",
+        )
+        self._damage_icon.setFixedSize(14, 14)
+        self._damage_icon.setAttribute(Qt.WA_TransparentForMouseEvents)
+        damage_layout.addWidget(self._damage_count_label)
+        damage_layout.addWidget(self._damage_icon)
+        self.top_left_damage_container.hide()
 
         self.top_threat_container = QWidget(overlay_parent)
         self.top_threat_container.setStyleSheet(
@@ -468,6 +502,7 @@ class CardWidget(QWidget):
         self.top_resource_container.hide()
 
         self._position_top_threat_badge()
+        self._position_damage_badge()
         self._position_top_attack_badge()
         self._position_top_defense_badge()
         self._position_progress_badge()
@@ -480,6 +515,13 @@ class CardWidget(QWidget):
         badge_w = 44
         x = max(0, (w - badge_w) // 2)
         self.top_threat_container.setGeometry(x, 2, badge_w, 20)
+
+    def _position_damage_badge(self):
+        if self.top_left_damage_container is None:
+            return
+        badge_w, badge_h = 44, 20
+        margin = 2
+        self.top_left_damage_container.setGeometry(margin, margin, badge_w, badge_h)
 
     def _position_top_attack_badge(self):
         if self.top_attack_container is None:
@@ -510,10 +552,14 @@ class CardWidget(QWidget):
         if self.top_resource_container is None:
             return
         badge_w, badge_h = 44, 20
-        margin = 2
-        self.top_resource_container.setGeometry(margin, margin, badge_w, badge_h)
+        w = self._label_w
+        x = max(0, (w - badge_w) // 2)
+        y = 24
+        self.top_resource_container.setGeometry(x, y, badge_w, badge_h)
 
     def _raise_marker_layers(self):
+        if self.top_left_damage_container is not None:
+            self.top_left_damage_container.raise_()
         if self.top_threat_container is not None:
             self.top_threat_container.raise_()
         if self.top_attack_container is not None:
@@ -568,6 +614,30 @@ class CardWidget(QWidget):
             self._defense_count_label.setText(str(self.defense_value()))
             self._position_top_defense_badge()
             self._raise_marker_layers()
+
+    def damage_marker_count(self) -> int:
+        return sum(
+            1
+            for marker in self.top_right_markers
+            if getattr(marker, "marker_type", "") == "Damage"
+        )
+
+    def _update_damage_marker_visibility(self):
+        hide_markers = self.damage_marker_count() > 0
+        for marker in self.top_right_markers:
+            if getattr(marker, "marker_type", "") == "Damage":
+                marker.setVisible(not hide_markers)
+
+    def _update_damage_badge(self):
+        if self.top_left_damage_container is None:
+            return
+        count = self.damage_marker_count()
+        self.top_left_damage_container.setVisible(count > 0)
+        if count > 0:
+            self._damage_count_label.setText(str(count))
+            self._position_damage_badge()
+            self._raise_marker_layers()
+        self._update_damage_marker_visibility()
 
     def _update_progress_badge(self):
         if self.bottom_progress_container is None:
@@ -752,6 +822,7 @@ class CardWidget(QWidget):
             display_name = "魔影" if self._face_down else self.card_name
             self.name_label.setText(display_name)
         self._update_threat_badge()
+        self._update_damage_badge()
         self._raise_marker_layers()
         if self._restore_markers:
             self._restore_marker_state_from_cache()
@@ -770,6 +841,8 @@ class CardWidget(QWidget):
 
     def _recalc_stats(self):
         stats = dict(self._base_stats)
+        stats["health"] = max(0, stats["health"] + self._passive_health_bonus)
+        stats["defense"] = max(0, stats["defense"] + self._passive_defense_bonus)
         for marker in self.top_right_markers:
             marker_type = getattr(marker, "marker_type", "")
             if marker_type == "Attack":
@@ -794,6 +867,7 @@ class CardWidget(QWidget):
         self._update_threat_badge()
         self._update_attack_badge()
         self._update_defense_badge()
+        self._update_damage_badge()
         self._update_progress_badge()
         self._update_resource_badge()
         self.stats_changed.emit()
@@ -806,6 +880,20 @@ class CardWidget(QWidget):
         if amount == self._passive_threat_bonus:
             return
         self._passive_threat_bonus = amount
+        self._recalc_stats()
+
+    def set_passive_health_bonus(self, amount: int):
+        amount = int(amount)
+        if amount == self._passive_health_bonus:
+            return
+        self._passive_health_bonus = amount
+        self._recalc_stats()
+
+    def set_passive_defense_bonus(self, amount: int):
+        amount = int(amount)
+        if amount == self._passive_defense_bonus:
+            return
+        self._passive_defense_bonus = amount
         self._recalc_stats()
 
     def set_show_resource_badge(self, show: bool):
@@ -864,6 +952,7 @@ class CardWidget(QWidget):
             "base_attack": self._base_stats["attack"],
             "base_defense": self._base_stats["defense"],
             "base_health": self._base_stats["health"],
+            "passive_health_bonus": self._passive_health_bonus,
             "base_progress": self._base_stats["progress"],
             "image_path": c.image_path,
         }
@@ -886,6 +975,11 @@ class CardWidget(QWidget):
         super().mouseReleaseEvent(event)
 
     def mouseDoubleClickEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.play_requested.emit()
+            self.double_clicked.emit()
+            event.accept()
+            return
         if event.button() == Qt.RightButton and self.current_pixmap:
             self._ctx_menu_timer.stop()
             self._ctx_menu_pos = None
@@ -1060,6 +1154,7 @@ class CardWidget(QWidget):
         w, h = self._label_w, self._label_h
         self.top_right_container.setGeometry(w - 35, 2, 32, 80)
         self.bottom_left_container.setGeometry(2, h - 24, w - 8, 18)
+        self._position_damage_badge()
         self._position_top_threat_badge()
         self._position_top_attack_badge()
         self._position_top_defense_badge()
