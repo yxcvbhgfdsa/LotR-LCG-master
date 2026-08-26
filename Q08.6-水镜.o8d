@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True">
+    <card qty="1" id="1ab32b8c-b942-4c77-af19-9703fba1dfa9">Hrogar’s Hill</card>
+  </section>
+  <section name="wave1" shared="True">
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801207c9020">矿坑酋长</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801207c9039">地精长矛手</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801207c9034">地精弓箭手</card>
+    <card qty="1" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9088">狂热的叛逆者</card>
+    <card qty="1" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9052">罗萨那奇的强盗</card>
+    <card qty="1" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9085">昂巴暗杀者</card>
+    <card qty="1" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9064">半兽人暴民</card>
+    <card qty="1" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9062">半兽人纵火者</card>
+    <card qty="1" id="4823aae3-46ef-4a75-89f9-cbd3aa1b9072">魔多的苦难</card>
+    <card qty="1" id="c749f16f-1b34-48ce-ba8e-45f36b8b8229">登兰德族人</card>
+    <card qty="1" id="ceb5ede8-0acc-40b6-ac43-b9f1ff006d9e">登兰德酋长</card>
+    <card qty="1" id="def7d5a8-3af5-428d-ac94-485c33388ff9">登兰德狂战士</card>
+    <card qty="1" id="ef975c81-544a-4f1b-a3c4-d0bc42ef636c">登兰德的野人</card>
+    <card qty="1" id="ded946a7-99f0-42bf-92f6-a2c46ca64d98">半兽人散兵</card>
+    <card qty="1" id="a835576b-6a6c-4407-8f40-0151b70f5902">半兽人猎手</card>
+    <card qty="1" id="119cfabc-2cbf-4ffd-a25e-00ec140b8f26">半兽人猎犬</card>
+    <card qty="1" id="bc041e0b-dd7f-4b82-8eb0-d155b1b08398">半兽人狩猎会</card>
+    <card qty="1" id="486f9475-98e1-42d9-ac90-e6190545a5b9">南方的将军</card>
+    <card qty="1" id="6cfc4fa5-bbcc-4c99-82b7-bb6359d24750">南方的士兵</card>
+    <card qty="1" id="04a23a2e-a14f-4c54-b54f-eeef36d3a92b">南方的弓箭手</card>
+    <card qty="1" id="7d9a3914-bc46-40d6-b489-3157d7430382">魔多的半兽人</card>
+    <card qty="1" id="194ceae6-a5e2-4a52-ba07-76e6c2611e8e">史那加弓箭手</card>
+    <card qty="1" id="50f294ff-ee4b-4685-b7e1-86cd7f2e0a59">强兽人士兵</card>
+  </section>
+  <section name="wave2" shared="True">
+    <card qty="1" id="d80a5ca5-20d8-4c4b-814c-0c91bba40d43.jpg">登兰德徘徊者</card>
+    <card qty="1" id="8ab3701c-7814-403c-be93-21cdff4283ed.jpg">登兰德土匪</card>
+    <card qty="1" id="7b491dcc-668a-431f-b0a1-ec2bf34840a7.jpg">登兰德突袭者</card>
+    <card qty="1" id="a0d5be90-8618-4fe4-a917-d8d969c11264.jpg">旧恨</card>
+    <card qty="1" id="9d5d2136-f1e7-40fd-9a0f-fbac3c87f8f6.jpg">安格马半兽人</card>
+    <card qty="1" id="b2fcd022-5409-4a2f-9775-390d2c3ce7d2.jpg">安格马掠夺者</card>
+    <card qty="1" id="cc13ea34-ab19-474e-afe5-29c8651126d0.jpg">安格马统帅</card>
+    <card qty="1" id="e347f103-7444-4681-ae57-49c7b84dd3c0.jpg">半兽人伏击</card>
+    <card qty="1" id="aa6914e2-4b79-4a95-ab3e-386d6a924bee.jpg">亡者之主</card>
+    <card qty="1" id="21fec323-3155-4b64-8506-fa87d44f01fc.jpg">诅咒亡灵</card>
+    <card qty="1" id="123bc772-2c27-4f26-a7f2-a3c4928a9dc4.jpg">不倦的恶灵</card>
+    <card qty="1" id="7295a9fb-961f-42ad-b07d-33793e2f2274.jpg">封锁墓穴</card>
+    <card qty="1" id="4befb4c8-e350-48ed-a7dd-ee803e2ca8d7.jpg">东方人掠夺者</card>
+    <card qty="1" id="aabc830a-4833-42cf-9b26-d8f2c5eb9658.jpg">卢恩战士</card>
+    <card qty="1" id="b897b63d-86ac-417c-88d2-1a594f3674f1.jpg">卢恩之剑</card>
+    <card qty="1" id="576b4f3c-add2-42b6-b78c-8a2e482290ae.jpg">反曲弓</card>
+    <card qty="1" id="bbc72a18-cf4c-469f-bd01-6b1d3492c2ff.jpg">东方的战士</card>
+    <card qty="1" id="c5657436-d6c8-400d-ba1f-a723799ac685.jpg">巫王</card>
+    <card qty="1" id="2d819f76-77dd-47a2-9a3f-ac8b8018f0df.jpg">魔戒幽灵</card>
+    <card qty="1" id="4b36df3f-d75b-4b3a-9324-9ab31c10d7b9.jpg">苍白之刃</card>
+    <card qty="1" id="4765cbea-5ae8-4e39-a811-a67f1f6ca2a0.jpg">他们的武器是恐惧</card>
+    <card qty="1" id="509f3e41-385c-4b84-ad28-7cc2eed8028c.jpg">艾辛格士兵</card>
+    <card qty="1" id="fed61900-b526-41e6-b072-9c5eae29bc77.jpg">艾辛格强兽人</card>
+    <card qty="1" id="8345c4ad-4c5e-484d-bc6f-d1e4bc27805f.jpg">强兽人斗士</card>
+  </section>
+  <section name="Special" shared="True">
+  </section>
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True" />
+  <section name="Staging Setup" shared="True">
+  </section>
+  <section name="

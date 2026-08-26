@@ -23,15 +23,17 @@ if _PYQT5_QT_PLUGIN_DIR.is_dir():
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QLabel, QMenu, QVBoxLayout,
     QMessageBox, QMainWindow, QHBoxLayout, QPushButton,
-    QDialog, QTextEdit, QSizePolicy, QInputDialog,
+    QDialog, QTextEdit, QSizePolicy, QInputDialog, QListWidget,
+    QListWidgetItem, QDialogButtonBox,
 )
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QIcon
 from PyQt5.QtCore import Qt, pyqtSignal, QTimer
 from PyQt5.QtGui import QCursor
 
 _PROJECT_ROOT = Path(__file__).resolve().parent
 PLAYER_CSV = _PROJECT_ROOT / "魔戒玩家牌.csv"
 PLAYER_IMAGE_DIRS = (
+    _PROJECT_ROOT / "cards",
     _PROJECT_ROOT / "cards" / "玩家卡牌",
     _PROJECT_ROOT / "cards" / "玩家牌组",
 )
@@ -68,6 +70,30 @@ DEFAULT_MAIN_DECK: Dict[str, int] = {
 
 # 卡组名称别名（文本名 ↔ CSV 名，双向查找时备用）
 CARD_NAME_ALIASES: Dict[str, str] = {
+    # RingsDB/Main Deck 英文名 → 本地 CSV 中文主名
+    "Aragorn": "阿拉贡",
+    "Gimli": "吉姆利",
+    "Legolas": "莱戈拉斯",
+    "Faramir": "法拉米尔",
+    "Snowbourn Scout": "雪河斥候",
+    "Veteran Axehand": "老练的斧手",
+    "Gondorian Spearman": "刚铎长矛手",
+    "Beorn": "贝奥恩",
+    "Wandering Took": "漫游的图克",
+    "Gandalf": "甘道夫",
+    "Steward of Gondor": "刚铎宰相",
+    "Celebrian's Stone": "凯勒布莉安的宝石",
+    "Celebrian’s Stone": "凯勒布莉安的宝石",
+    "Blade of Gondolin": "刚多林剑",
+    "Citadel Plate": "王城板甲",
+    "Horn of Gondor": "刚铎号角",
+    "Unexpected Courage": "突来勇气",
+    "Sneak Attack": "偷袭",
+    "Valiant Sacrifice": "英勇牺牲",
+    "Feint": "佯攻",
+    "Quick Strike": "迅猛一击",
+    "Test of Will": "意志的考验",
+    "Hasty Stroke": "仓促的攻击",
     "希奥德温": "希奥杰德",
     "希优德": "希奥杰德",
     "凯勒布林博的秘密": "凯勒布莉安的宝石",
@@ -112,6 +138,25 @@ CARD_NAME_ALIASES: Dict[str, str] = {
     "毕佛": "比弗",
     "南都布理安的老兵": "南都希瑞安的老兵",
     "矮人故乡之斧": "矮人挖凿斧",
+    "黑森林长刀": "幽暗密林长刀",
+    "Mirkwood Long-knife": "幽暗密林长刀",
+    "Mirkwood Long Knife": "幽暗密林长刀",
+    "旅途永不绝": "大路长啊长",
+    "The Road Goes Ever On": "大路长啊长",
+    "\u98ce\u66b4\u5c06\u81f3": "\u66b4\u98ce\u5c06\u4e34",
+    "The Storm Comes": "\u66b4\u98ce\u5c06\u4e34",
+    "Storm Comes": "\u66b4\u98ce\u5c06\u4e34",
+    "Andrath Guardsman": "\u5b89\u5fb7\u62c9\u65af\u5b88\u62a4\u8005",
+    "Wait no Longer": "\u4e0d\u518d\u7b49\u5f85",
+    "Wait No Longer": "\u4e0d\u518d\u7b49\u5f85",
+    "Dwarf Pipe": "\u77ee\u4eba\u70df\u6597",
+    "\u96c5\u8d5e": "\u4e9a\u8d5e",
+    "Yazan": "\u4e9a\u8d5e",
+    "\u6731\u62dc\u5c14": "\u80e1\u5df4\u4f9d",
+    "Jubayr": "\u80e1\u5df4\u4f9d",
+    "Jubair": "\u80e1\u5df4\u4f9d",
+    "\u5361\u5217\u5c14": "\u5361\u91cc\u827e\u5c14",
+    "Kahliel": "\u5361\u91cc\u827e\u5c14",
     "西吉尔矿工": "齐吉尔矿工",
     "依伯鲁撰史人": "埃瑞博撰史人",
     "依伯鲁之靴": "埃瑞博靴子",
@@ -141,6 +186,28 @@ CARD_NAME_ALIASES: Dict[str, str] = {
     "维拉的看重": "主神的眷顾",
 }
 
+CARD_NAME_ALIASES.update({
+    "洛希尔人冲锋": "洛汗冲锋",
+    "加拉德瑞尔的侍女": "凯兰崔尔的侍女",
+    "Galadriel's Handmaiden": "凯兰崔尔的侍女",
+    "加拉德瑞尔的水镜": "凯兰崔尔之镜",
+    "加拉德瑞尔": "凯兰崔尔",
+    "Mirror of Galadriel": "凯兰崔尔之镜",
+    "Galadriel's Mirror": "凯兰崔尔之镜",
+    "Nenya": "南雅",
+    "鄂肯布兰德": "埃肯布兰德",
+    "Ekenbrand": "埃肯布兰德",
+    "游荡的恩特": "游荡的树人",
+    "罗瑞安斗篷": "罗瑞安斗篷",
+    "Cloak of Lórien": "罗瑞安斗篷",
+    "Cloak of Lorien": "罗瑞安斗篷",
+    "Wandering Ent": "游荡的树人",
+    "Great Yew Bow": "巨大的紫杉木弓",
+    "Black Arrow": "黑色的羽箭",
+    "Rohirrim Charge": "洛汗冲锋",
+    "Charge of the Rohirrim": "洛汗冲锋",
+})
+
 def _init_series_aliases() -> Dict[str, str]:
     """卡组列表常用简称 / 英文扩展包名 → CSV「系列」列。"""
     try:
@@ -156,9 +223,13 @@ SERIES_ALIASES: Dict[str, str] = _init_series_aliases()
 
 
 def player_row_names(row: Dict[str, str]) -> List[str]:
-    """返回 CSV 行中可用于查找的卡牌名称（主名、备用名，去重保序）。"""
+    """返回 CSV 行中可用于查找的卡牌名称。
+
+    优先「备用卡牌名称」（一般为中文正式译名），再「卡牌名称」（英文/别名），
+    去重保序；查找与同名判定都遵循这一优先级。
+    """
     names: List[str] = []
-    for key in ("卡牌名称", "备用卡牌名称"):
+    for key in ("备用卡牌名称", "卡牌名称"):
         name = (row.get(key) or "").strip()
         if name and name not in names:
             names.append(name)
@@ -245,6 +316,43 @@ def lookup_card_row_by_name_any_series(
         if row_name in candidates:
             return row
     return None
+
+
+def find_card_rows_by_name_any_series(
+    index: Dict[tuple[str, str], Dict[str, str]],
+    raw_name: str,
+) -> List[Dict[str, str]]:
+    """返回名称匹配的全部系列记录，供同名卡图选择。
+
+    优先级：先返回「备用卡牌名称」命中查询的记录，其后为仅「卡牌名称」命中的记录。
+    """
+    name = (raw_name or "").strip()
+    if not name:
+        return []
+    candidates = [name]
+    alias = CARD_NAME_ALIASES.get(name)
+    if alias:
+        candidates.append(alias)
+    for key, value in CARD_NAME_ALIASES.items():
+        if value == name and key not in candidates:
+            candidates.append(key)
+    alt_matches: List[Dict[str, str]] = []
+    primary_matches: List[Dict[str, str]] = []
+    seen: set[tuple[str, str]] = set()
+    for (_series, row_name), row in index.items():
+        if row_name not in candidates:
+            continue
+        key = ((row.get("系列") or "").strip(), (row.get("编号") or "").strip())
+        if key in seen:
+            continue
+        seen.add(key)
+        alt_name = (row.get("备用卡牌名称") or "").strip()
+        # 优先：查询直接命中当前记录的「备用卡牌名称」
+        if alt_name and alt_name in candidates:
+            alt_matches.append(row)
+        else:
+            primary_matches.append(row)
+    return alt_matches + primary_matches
 
 
 def resolve_player_csv_series(series: Optional[str]) -> str:
@@ -386,6 +494,23 @@ def parse_deck_list_text(text: str) -> ParsedDeckList:
             ))
             continue
 
+        # 兼容无括号数量格式：`2x 精灵之光 0`、`2  精灵之光`、`2x 精灵之光`。
+        # 尾部若跟着纯数字（编号/占位）则忽略，按名字回退查找系列。
+        bare_qty_match = re.match(
+            r"^(\d+)\s*[xX]?\s+(.+?)(?:\s+\d+)?\s*$",
+            line,
+        )
+        if bare_qty_match:
+            name = bare_qty_match.group(2).strip()
+            if name:
+                result.entries.append(DeckListEntry(
+                    name=name,
+                    series="",
+                    qty=int(bare_qty_match.group(1)),
+                    category=current_category,
+                ))
+                continue
+
         section_match = re.match(
             r"^(?:Player\s+)?(英雄|盟友|附属|事件|任务|次要探险)\s*\((\d+)\)\s*$",
             line,
@@ -405,6 +530,16 @@ def parse_deck_list_text(text: str) -> ParsedDeckList:
                 name=name,
                 series=series,
                 qty=1,
+                category=current_category,
+            ))
+            continue
+
+        simple_match = re.match(r"^(.+?)(?:\s+x(\d+))?$", line, re.IGNORECASE)
+        if simple_match:
+            result.entries.append(DeckListEntry(
+                name=simple_match.group(1).strip(),
+                series="",
+                qty=int(simple_match.group(2) or 1),
                 category=current_category,
             ))
             continue
@@ -432,8 +567,13 @@ def build_player_deck_from_entries(
 
     for entry in entries:
         row = lookup_card_row(index, entry.series, entry.name)
+        # 系列缺失或占位（如「0」）时，按名字在任意系列中回退查找；
+        # 同名多版本时优先返回「备用卡牌名称」命中的第一条。
+        if not row and (not entry.series or entry.series.strip().isdigit()):
+            row = lookup_card_row_by_name_any_series(index, entry.name)
         if not row:
-            missing.append(f"{entry.name} ({entry.series})")
+            display_series = (entry.series or "").strip() or "无系列"
+            missing.append(f"{entry.name} ({display_series})")
             continue
 
         card_type = (row.get("类型") or "").strip()
@@ -467,17 +607,27 @@ def build_player_deck_from_text(
 class DeckListDialog(QDialog):
     """粘贴/编辑 Main Deck 文本格式的卡组对话框。"""
 
-    def __init__(self, parent=None, initial_text: Optional[str] = None):
+    def __init__(
+        self,
+        parent=None,
+        initial_text: Optional[str] = None,
+        allow_fellowship: bool = False,
+    ):
         super().__init__(parent)
+        self.allow_fellowship = bool(allow_fellowship)
         self.setWindowTitle("加载卡组")
         self.setMinimumSize(480, 520)
 
         layout = QVBoxLayout(self)
         layout.setSpacing(10)
 
+        ringsdb_hint = "支持 decklist 与 deck/view"
+        if self.allow_fellowship:
+            ringsdb_hint += "；fellowship/view 会自动调整玩家数"
         hint = QLabel(
             "粘贴或编辑卡组列表（Main Deck 格式），\n"
-            "或粘贴 RingsDB 链接后点「加载 RingsDB」/ 直接 OK（支持 decklist 与 deck/view）。\n"
+            "或粘贴 RingsDB 链接后点「加载 RingsDB」/ 直接 OK"
+            f"（{ringsdb_hint}）。\n"
             "英雄不参与抽牌；盟友/附属/事件构成 50 张主牌组。"
         )
         hint.setStyleSheet("color: #444;")
@@ -522,13 +672,30 @@ class DeckListDialog(QDialog):
             self,
             "加载 RingsDB 牌组",
             "粘贴 RingsDB 牌组链接或编号：\n"
-            "（decklist/view 或 deck/view，如 https://ringsdb.com/deck/view/677635）",
+            "（decklist/view、deck/view"
+            + (" 或 fellowship/view" if self.allow_fellowship else "")
+            + "）",
             text=default,
         )
         if not ok or not url.strip():
             return
         try:
-            from CardViewer import ringsdb_to_deck_text
+            from CardViewer import (
+                is_ringsdb_fellowship_source,
+                ringsdb_to_deck_text,
+            )
+
+            if is_ringsdb_fellowship_source(url):
+                if not self.allow_fellowship:
+                    QMessageBox.warning(
+                        self,
+                        "无法加载队伍",
+                        "Fellowship 队伍链接只能从主游戏的开始流程加载。",
+                    )
+                    return
+                self.text_edit.setPlainText(url.strip())
+                self.accept()
+                return
 
             QApplication.setOverrideCursor(QCursor(Qt.WaitCursor))
             QApplication.processEvents()
@@ -885,12 +1052,49 @@ class PlayerCardLabel(QLabel):
         self._apply_scaled_pixmap()
 
 
+class SameNameCardDialog(QDialog):
+    """同名卡版本选择：显示卡图、系列和编号。"""
+
+    def __init__(self, rows: List[Dict[str, str]], parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("选择同名卡版本")
+        self.resize(760, 360)
+        layout = QVBoxLayout(self)
+        layout.addWidget(QLabel("检测到多个同名卡版本，请选择要加入卡组的卡图："))
+        self.list_widget = QListWidget()
+        self.list_widget.setViewMode(QListWidget.IconMode)
+        self.list_widget.setIconSize(QPixmap(110, 160).size())
+        self.list_widget.setResizeMode(QListWidget.Adjust)
+        self.list_widget.setSpacing(12)
+        for row in rows:
+            image_path = resolve_player_image((row.get("图片链接") or "").strip())
+            item = QListWidgetItem(
+                QIcon(image_path) if image_path else QIcon(),
+                f"{player_row_display_name(row)}\n"
+                f"{(row.get('系列') or '').strip()} · {(row.get('编号') or '').strip()}",
+            )
+            item.setData(Qt.UserRole, row)
+            self.list_widget.addItem(item)
+        self.list_widget.setCurrentRow(0)
+        layout.addWidget(self.list_widget)
+        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        buttons.accepted.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+        layout.addWidget(buttons)
+
+    def selected_row(self) -> Optional[Dict[str, str]]:
+        item = self.list_widget.currentItem()
+        return item.data(Qt.UserRole) if item is not None else None
+
+
 class CardDrawer(QWidget):
     """玩家卡抽取器"""
 
     card_drawn = pyqtSignal(str)
     deck_loaded = pyqtSignal(str)
     deck_reset = pyqtSignal()
+    # 牌库顶公开信息（例如《前路黑暗》甘道夫）需要在不抽牌时也同步刷新。
+    deck_state_changed = pyqtSignal()
     next_phase_requested = pyqtSignal()
 
     def __init__(self, parent=None, max_height: int = 182, adaptive: bool = False):
@@ -1137,11 +1341,35 @@ class CardDrawer(QWidget):
         print(f"已从 RingsDB 加载卡组「{deck_name}」")
         return deck_text
 
+    def _resolve_deck_entry_series(self, parsed: ParsedDeckList) -> bool:
+        """系列未知时按备用卡牌名称查找；同名版本弹出卡图选择。"""
+        rows = _read_player_csv_rows()
+        index = build_player_name_index(rows)
+        for entry in parsed.entries:
+            # 系列为空或明显的占位符（纯数字，如「0」）时按名字回退查找。
+            if entry.series and not entry.series.strip().isdigit():
+                continue
+            matches = find_card_rows_by_name_any_series(index, entry.name)
+            if not matches:
+                continue
+            if len(matches) == 1:
+                entry.series = (matches[0].get("系列") or "").strip()
+                continue
+            dialog = SameNameCardDialog(matches, self)
+            if dialog.exec_() != QDialog.Accepted:
+                return False
+            selected = dialog.selected_row()
+            if selected is None:
+                return False
+            entry.series = (selected.get("系列") or "").strip()
+            entry.name = player_row_display_name(selected)
+        return True
+
     def load_deck_from_text(self, text: str, silent: bool = False) -> bool:
         text = self._maybe_convert_ringsdb_text(text, silent=silent)
         if text is None:
             return False
-        draw_pile, heroes, parsed, issues = build_player_deck_from_text(text)
+        parsed = parse_deck_list_text(text)
 
         if parsed.errors:
             QMessageBox.warning(
@@ -1149,6 +1377,13 @@ class CardDrawer(QWidget):
                 "卡组文本格式有误：\n" + "\n".join(parsed.errors),
             )
             return False
+
+        if not self._resolve_deck_entry_series(parsed):
+            if not silent:
+                QMessageBox.information(self, "提示", "未完成同名卡版本选择。")
+            return False
+
+        draw_pile, heroes, issues = build_player_deck_from_entries(parsed.entries)
 
         if issues:
             msg = "以下卡牌未在 魔戒玩家牌.csv 中找到：\n" + "\n".join(issues)
@@ -1214,6 +1449,7 @@ class CardDrawer(QWidget):
         self.deck_stack = list(self.cards)
         if shuffle:
             random.shuffle(self.deck_stack)
+        self.deck_state_changed.emit()
 
     def _ensure_deck_stack(self) -> None:
         if self.deck_stack:
@@ -1239,6 +1475,8 @@ class CardDrawer(QWidget):
             card = self.deck_stack.pop(0)
             self.drawn_ids.add(card.id)
             taken.append(card)
+        if taken:
+            self.deck_state_changed.emit()
         return taken
 
     def put_cards_on_deck_top(self, ordered_cards: List["Card"]) -> None:
@@ -1247,6 +1485,8 @@ class CardDrawer(QWidget):
         for card in reversed(ordered_cards):
             self.drawn_ids.discard(card.id)
             self.deck_stack.insert(0, card)
+        if ordered_cards:
+            self.deck_state_changed.emit()
 
     def place_card_on_deck_bottom(self, card: "Card") -> None:
         """将指定卡牌放置于牌库底端。"""
@@ -1257,6 +1497,7 @@ class CardDrawer(QWidget):
         self.deck_stack.append(card)
         if not any(c.id == card.id for c in self.cards):
             self.cards.append(card)
+        self.deck_state_changed.emit()
 
     def debug_place_card_on_top(self, card: "Card") -> None:
         """Debug：将指定卡牌放置于牌库顶。"""
@@ -1270,6 +1511,7 @@ class CardDrawer(QWidget):
         self.deck_stack.insert(0, card)
         if not any(c.id == card.id for c in self.cards):
             self.cards.append(card)
+        self.deck_state_changed.emit()
         print(f"Debug：已将「{card.name}」放置于玩家牌库顶（剩余 {len(self.deck_stack)} 张）")
 
     def _debug_pick_and_place_on_top(self, parent=None) -> None:
@@ -1295,6 +1537,7 @@ class CardDrawer(QWidget):
             card = self.deck_stack.pop(0)
             self.drawn_ids.add(card.id)
             record_player_card(card, self.deck_path)
+            self.deck_state_changed.emit()
             return card
 
         available_cards = [card for card in self.cards if card.id not in self.drawn_ids]
@@ -1311,6 +1554,7 @@ class CardDrawer(QWidget):
         card = random.choice(available_cards)
         self.drawn_ids.add(card.id)
         record_player_card(card, self.deck_path)
+        self.deck_state_changed.emit()
         return card
 
     def return_cards_to_deck(self, cards: List["Card"]) -> int:
@@ -1324,6 +1568,7 @@ class CardDrawer(QWidget):
             self._ensure_deck_stack()
             self.deck_stack.extend(cards)
             random.shuffle(self.deck_stack)
+            self.deck_state_changed.emit()
         if count:
             names = "、".join(c.name for c in cards[:count])
             print(f"已将 {count} 张玩家卡洗回牌库: {names}")
@@ -1456,47 +1701,4 @@ class PlayerTestWindow(QMainWindow):
         btn_row.setSpacing(8)
         for text, slot in (
             ("抽取卡牌", self.drawer.draw_card),
-            ("重置卡组", self.drawer.reset_deck),
-            ("显示卡背", self.drawer.show_card_back),
-            ("加载卡组", self.drawer.load_deck),
-        ):
-            btn = QPushButton(text)
-            btn.clicked.connect(slot)
-            btn_row.addWidget(btn)
-        layout.addLayout(btn_row)
-
-        self.drawer.card_drawn.connect(lambda _cid: self._update_status())
-        self.drawer.deck_loaded.connect(lambda _path: self._update_status())
-        self.drawer.deck_reset.connect(self._update_status)
-        self._update_status()
-
-    def _update_status(self):
-        total = len(self.drawer.cards)
-        drawn = len(self.drawer.drawn_ids)
-        deck = self.drawer.deck_path or "未加载"
-        hero_count = len(self.drawer.deck_heroes)
-        info = self.drawer.get_current_card_info()
-
-        if info:
-            detail = (
-                f"{info.get('name', '?')} [{info.get('type', '?')}] "
-                f"{info.get('sphere', '')} 费用 {info.get('cost') or '-'}"
-            )
-            has_face = self.drawer.current_card is not None
-            img = "有图" if has_face and self.drawer.current_pixmap and not self.drawer.current_pixmap.isNull() else "缺图"
-            detail += f"（{img}）"
-        else:
-            detail = "卡背 / 尚未抽卡"
-
-        hero_note = f"英雄 {hero_count}　|　" if hero_count else ""
-        self.status_label.setText(
-            f"{deck}　|　{hero_note}牌库 {total} 张　已抽 {drawn}　|　{detail}"
-        )
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    app.setStyle("Fusion")
-    window = PlayerTestWindow()
-    window.show()
-    sys.exit(app.exec_())
+     

@@ -293,7 +293,37 @@ def _load_encounter_cards_for_debug(
     *,
     series: Optional[str],
     deck_path: Optional[str],
+    deck_cards: Optional[List[EncounterCard]] = None,
 ) -> List[EncounterCard]:
+    def _is_encounter_candidate(card: EncounterCard) -> bool:
+        # Quest cards are not encounter-deck cards. Guarded objective
+        # locations use "目标|地区" and must remain available.
+        card_type = (getattr(card, "type", "") or "").strip()
+        return card_type not in {"探险", "目标"}
+
+    # The live deck can contain setup cards that were shuffled in after the
+    # scenario was loaded, so it is the authoritative source for debugging.
+    if deck_cards is not None:
+        cards = [card for card in deck_cards if _is_encounter_candidate(card)]
+        # Include setup/special cards that were removed from the live deck.
+        # This keeps debug selection useful for guarded objective locations.
+        csv_cards = [
+            card for card in load_encounter_cards_from_csv(
+                series=series, csv_path=ENCOUNTER_CSV
+            )
+            if _is_encounter_candidate(card)
+        ]
+        seen = {
+            (getattr(card, "id", "") or "", getattr(card, "name", "") or "")
+            for card in cards
+        }
+        for card in csv_cards:
+            key = (getattr(card, "id", "") or "", getattr(card, "name", "") or "")
+            if key not in seen:
+                cards.append(card)
+                seen.add(key)
+        return cards
+
     use_series = series or ENCOUNTER_DEFAULT_SERIES
     path_text = (deck_path or "").strip()
     if path_text:
@@ -301,12 +331,17 @@ def _load_encounter_cards_for_debug(
         if path.suffix.lower() == ".o8d" and path.is_file():
             cards, _missing = load_encounter_deck_from_o8d(path, series=use_series)
             if cards:
-                return cards
+                return [card for card in cards if _is_encounter_candidate(card)]
         if path.suffix.lower() == ".csv" and path.is_file():
             cards = load_encounter_cards_from_csv(series=use_series, csv_path=path)
             if cards:
-                return cards
-    return load_encounter_cards_from_csv(series=use_series, csv_path=ENCOUNTER_CSV)
+                return [card for card in cards if _is_encounter_candidate(card)]
+    return [
+        card for card in load_encounter_cards_from_csv(
+            series=use_series, csv_path=ENCOUNTER_CSV
+        )
+        if _is_encounter_candidate(card)
+    ]
 
 
 def pick_player_card_for_debug(
@@ -349,6 +384,7 @@ def pick_encounter_card_for_debug(
     series: Optional[str] = None,
     *,
     deck_path: Optional[str] = None,
+    deck_cards: Optional[List[EncounterCard]] = None,
 ) -> Optional[EncounterCard]:
     use_series = series or ENCOUNTER_DEFAULT_SERIES
 
@@ -356,6 +392,7 @@ def pick_encounter_card_for_debug(
         return _load_encounter_cards_for_debug(
             series=use_series,
             deck_path=deck_path,
+            deck_cards=deck_cards,
         )
 
     return _pick_card(

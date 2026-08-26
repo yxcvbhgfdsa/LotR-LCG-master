@@ -6,11 +6,25 @@ This version avoids external MCP dependencies so Codex can start it directly.
 from __future__ import annotations
 
 import json
+import logging
 import re
 import sys
 import traceback
 from pathlib import Path
 from typing import Any, Callable
+
+# Ensure binary stdio on Windows so CRLF translations do not corrupt MCP headers.
+if sys.platform == "win32":
+    import os
+    import msvcrt
+
+    msvcrt.setmode(sys.stdin.fileno(), os.O_BINARY)
+    msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
+
+_log_path = Path(__file__).resolve().parent / "mcp_runtime.log"
+logging.basicConfig(filename=str(_log_path), level=logging.DEBUG, filemode="w")
+logging.debug("run_server.py started: argv=%s", sys.argv)
+
 
 
 _here = Path(__file__).resolve().parent
@@ -35,7 +49,7 @@ from mapping import (  # noqa: E402
 )
 
 
-PROTOCOL_VERSION = "2024-11-05"
+PROTOCOL_VERSION = "2025-03-26"
 SERVER_NAME = "ringsdb"
 SERVER_VERSION = "1.0.0"
 
@@ -395,43 +409,53 @@ def _make_error(request_id: Any, code: int, message: str, data: Any | None = Non
 
 def _write_message(message: dict[str, Any]) -> None:
     payload = json.dumps(message, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    logging.debug("sending message: %s", message)
     sys.stdout.buffer.write(f"Content-Length: {len(payload)}\r\n\r\n".encode("ascii"))
     sys.stdout.buffer.write(payload)
     sys.stdout.buffer.flush()
 
 
 def _read_message() -> dict[str, Any] | None:
-    headers: dict[str, str] = {}
-    while True:
-        line = sys.stdin.buffer.readline()
-        if not line:
-            return None
-        line = line.strip()
-        if not line:
-            break
-        if b":" not in line:
-            continue
-        key, value = line.split(b":", 1)
-        headers[key.decode("ascii", errors="ignore").lower()] = value.decode("utf-8", errors="ignore").strip()
+    try:
+        headers: dict[str, str] = {}
+        while True:
+            line = sys.stdin.buffer.readline()
+            if not line:
+                logging.debug("stdin closed while reading headers")
+                return None
+            line = line.strip()
+            if not line:
+                break
+            if b":" not in line:
+                continue
+            key, value = line.split(b":", 1)
+            headers[key.decode("ascii", errors="ignore").lower()] = value.decode("utf-8", errors="ignore").strip()
 
-    content_length = headers.get("content-length")
-    if not content_length:
+        content_length = headers.get("content-length")
+        if not content_length:
+            logging.debug("missing content-length, headers=%s", headers)
+            return None
+        length = int(content_length)
+        body = sys.stdin.buffer.read(length)
+        if not body:
+            logging.debug("empty body")
+            return None
+        logging.debug("received body: %s", body)
+        return json.loads(body.decode("utf-8"))
+    except Exception as exc:
+        logging.exception("error reading message")
         return None
-    length = int(content_length)
-    body = sys.stdin.buffer.read(length)
-    if not body:
-        return None
-    return json.loads(body.decode("utf-8"))
 
 
 def _handle_initialize(request_id: Any, params: dict[str, Any]) -> dict[str, Any]:
     protocol_version = params.get("protocolVersion") or PROTOCOL_VERSION
+    logging.debug("handling initialize, request_id=%s protocol_version=%s", request_id, protocol_version)
     return _make_response(
         request_id,
         {
             "protocolVersion": protocol_version,
             "serverInfo": {"name": SERVER_NAME, "version": SERVER_VERSION},
-            "capabilities": {"tools": {}},
+            "capabilities": {"tools": {"listChanged": False}},
         },
     )
 
@@ -477,6 +501,7 @@ def serve() -> None:
         method = request["method"]
         request_id = request.get("id")
         params = request.get("params") or {}
+        logging.debug("handling method=%s request_id=%s", method, request_id)
 
         try:
             if method == "initialize":
@@ -500,8 +525,10 @@ def serve() -> None:
 
 def main() -> None:
     try:
+        logging.debug("entering serve()")
         serve()
     except Exception:
+        logging.exception("serve() crashed")
         traceback.print_exc(file=sys.stderr)
         raise
 
