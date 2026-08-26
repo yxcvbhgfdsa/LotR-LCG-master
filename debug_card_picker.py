@@ -24,6 +24,7 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import (
     QDialog,
+    QFrame,
     QGridLayout,
     QHBoxLayout,
     QLabel,
@@ -41,8 +42,10 @@ from 玩家卡抽取 import (
     load_player_cards_for_debug,
 )
 from 遭遇抽取 import (
+    ENCOUNTER_CSV,
     DEFAULT_DECK_SERIES as ENCOUNTER_DEFAULT_SERIES,
     Card as EncounterCard,
+    load_encounter_deck_from_o8d,
     load_encounter_cards_from_csv,
 )
 
@@ -63,7 +66,7 @@ def _player_card_search_keys(card: PlayerCard) -> List[str]:
     return keys
 
 
-class _DebugCardTile(QLabel):
+class _DebugCardTile(QFrame):
     """可点击的卡牌缩略图。"""
 
     picked = pyqtSignal(object)
@@ -72,24 +75,45 @@ class _DebugCardTile(QLabel):
         super().__init__(parent)
         self._card = card
         self._selected = False
-        self.setFixedSize(72, 100)
-        self.setAlignment(Qt.AlignCenter)
-        self.setWordWrap(True)
+        self.setFixedSize(138, 216)
+        self.setCursor(Qt.PointingHandCursor)
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(4, 4, 4, 6)
+        layout.setSpacing(4)
+
+        self._image = QLabel()
+        self._image.setFixedSize(128, 170)
+        self._image.setAlignment(Qt.AlignCenter)
+        self._image.setStyleSheet("background-color: white; border: none;")
+        layout.addWidget(self._image, 0, Qt.AlignCenter)
+
+        self._name_label = QLabel(card.name or "?")
+        self._name_label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
+        self._name_label.setWordWrap(True)
+        self._name_label.setStyleSheet("border: none; color: #222;")
+        layout.addWidget(self._name_label, 1)
+
         self._apply_style()
         path = getattr(card, "image_path", "") or ""
         if path:
             pix = QPixmap(path)
             if not pix.isNull():
-                self.setPixmap(
-                    pix.scaled(68, 68, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                self._image.setPixmap(
+                    pix.scaled(120, 164, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                 )
                 tooltip = card.name or "?"
                 series = getattr(card, "series", "") or ""
+                card_type = getattr(card, "type", "") or ""
                 if series:
                     tooltip = f"{tooltip} ({series})"
+                if card_type:
+                    tooltip = f"{tooltip}\n{card_type}"
                 self.setToolTip(tooltip)
                 return
-        self.setText((card.name or "?")[:6])
+        self._image.setText((card.name or "?")[:10])
+        self._image.setWordWrap(True)
+        self._image.setStyleSheet("background-color: #f8f8f8; border: none; color: #333;")
 
     def _apply_style(self):
         border = "#0078d4" if self._selected else "#666"
@@ -123,11 +147,13 @@ class DebugCardPickDialog(QDialog):
     ):
         super().__init__(parent)
         self._all_cards = list(cards)
+        self._visible_cards = list(cards)
         self._selected: Optional[CardT] = None
         self._tiles: list[_DebugCardTile] = []
         self._match_fn = match_fn
+        self._grid_cols = 0
         self.setWindowTitle(title)
-        self.setMinimumSize(480, 420)
+        self.setMinimumSize(760, 540)
         layout = QVBoxLayout(self)
         layout.addWidget(
             QLabel("单击卡图选择，确认后放置于牌库顶（最上方）。")
@@ -138,11 +164,14 @@ class DebugCardPickDialog(QDialog):
         layout.addWidget(self._filter)
         self._grid_host = QWidget()
         self._grid = QGridLayout(self._grid_host)
+        self._grid.setContentsMargins(8, 8, 8, 8)
         self._grid.setSpacing(8)
-        scroll = QScrollArea()
-        scroll.setWidgetResizable(True)
-        scroll.setWidget(self._grid_host)
-        layout.addWidget(scroll, 1)
+        self._grid.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+        self._scroll = QScrollArea()
+        self._scroll.setWidgetResizable(True)
+        self._scroll.setWidget(self._grid_host)
+        self._scroll.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+        layout.addWidget(self._scroll, 1)
         self._status = QLabel("")
         layout.addWidget(self._status)
         row = QHBoxLayout()
@@ -155,6 +184,18 @@ class DebugCardPickDialog(QDialog):
         row.addWidget(ok_btn)
         layout.addLayout(row)
         self._rebuild_grid(self._all_cards)
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        cols = self._calc_columns()
+        if cols != self._grid_cols:
+            self._rebuild_grid(self._visible_cards)
+
+    def _calc_columns(self) -> int:
+        viewport = self._scroll.viewport()
+        width = max(1, viewport.width())
+        tile_width = 146
+        return max(1, width // tile_width)
 
     def _card_matches(self, card: CardT, needle: str) -> bool:
         if self._match_fn is not None:
@@ -170,20 +211,23 @@ class DebugCardPickDialog(QDialog):
         self._rebuild_grid(filtered)
 
     def _rebuild_grid(self, cards: List[CardT]):
+        self._visible_cards = list(cards)
         while self._grid.count():
             item = self._grid.takeAt(0)
             w = item.widget()
             if w is not None:
                 w.deleteLater()
         self._tiles.clear()
-        cols = 5
+        cols = self._calc_columns()
+        self._grid_cols = cols
         for idx, card in enumerate(cards):
             tile = _DebugCardTile(card)
             tile.picked.connect(self._on_pick)
+            tile.set_selected(self._selected is card)
             self._tiles.append(tile)
             self._grid.addWidget(tile, idx // cols, idx % cols)
         if not cards:
-            self._grid.addWidget(QLabel("（无匹配卡牌）"), 0, 0)
+            self._grid.addWidget(QLabel("（无匹配卡牌）"), 0, 0, 1, cols)
 
     def _on_pick(self, card):
         self._selected = card
@@ -245,6 +289,61 @@ def _pick_card(
     return _debug_unique_card(picked)
 
 
+def _load_encounter_cards_for_debug(
+    *,
+    series: Optional[str],
+    deck_path: Optional[str],
+    deck_cards: Optional[List[EncounterCard]] = None,
+) -> List[EncounterCard]:
+    def _is_encounter_candidate(card: EncounterCard) -> bool:
+        # Quest cards are not encounter-deck cards. Guarded objective
+        # locations use "目标|地区" and must remain available.
+        card_type = (getattr(card, "type", "") or "").strip()
+        return card_type not in {"探险", "目标"}
+
+    # The live deck can contain setup cards that were shuffled in after the
+    # scenario was loaded, so it is the authoritative source for debugging.
+    if deck_cards is not None:
+        cards = [card for card in deck_cards if _is_encounter_candidate(card)]
+        # Include setup/special cards that were removed from the live deck.
+        # This keeps debug selection useful for guarded objective locations.
+        csv_cards = [
+            card for card in load_encounter_cards_from_csv(
+                series=series, csv_path=ENCOUNTER_CSV
+            )
+            if _is_encounter_candidate(card)
+        ]
+        seen = {
+            (getattr(card, "id", "") or "", getattr(card, "name", "") or "")
+            for card in cards
+        }
+        for card in csv_cards:
+            key = (getattr(card, "id", "") or "", getattr(card, "name", "") or "")
+            if key not in seen:
+                cards.append(card)
+                seen.add(key)
+        return cards
+
+    use_series = series or ENCOUNTER_DEFAULT_SERIES
+    path_text = (deck_path or "").strip()
+    if path_text:
+        path = Path(path_text)
+        if path.suffix.lower() == ".o8d" and path.is_file():
+            cards, _missing = load_encounter_deck_from_o8d(path, series=use_series)
+            if cards:
+                return [card for card in cards if _is_encounter_candidate(card)]
+        if path.suffix.lower() == ".csv" and path.is_file():
+            cards = load_encounter_cards_from_csv(series=use_series, csv_path=path)
+            if cards:
+                return [card for card in cards if _is_encounter_candidate(card)]
+    return [
+        card for card in load_encounter_cards_from_csv(
+            series=use_series, csv_path=ENCOUNTER_CSV
+        )
+        if _is_encounter_candidate(card)
+    ]
+
+
 def pick_player_card_for_debug(
     parent,
     series: Optional[str] = None,
@@ -283,11 +382,18 @@ def pick_player_card_for_debug(
 def pick_encounter_card_for_debug(
     parent,
     series: Optional[str] = None,
+    *,
+    deck_path: Optional[str] = None,
+    deck_cards: Optional[List[EncounterCard]] = None,
 ) -> Optional[EncounterCard]:
     use_series = series or ENCOUNTER_DEFAULT_SERIES
 
     def _load() -> List[EncounterCard]:
-        return load_encounter_cards_from_csv(series=use_series)
+        return _load_encounter_cards_for_debug(
+            series=use_series,
+            deck_path=deck_path,
+            deck_cards=deck_cards,
+        )
 
     return _pick_card(
         parent,

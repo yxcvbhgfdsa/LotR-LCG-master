@@ -50,9 +50,23 @@ O8D_ENCOUNTER_SECTION = "Encounter"
 O8D_QUEST_SECTION = "Quest"
 O8D_SETUP_SECTION = "Setup"
 O8D_SPECIAL_SECTION = "Special"
+O8D_SECOND_SPECIAL_SECTION = "Second Special"
+O8D_STAGING_SETUP_SECTION = "Staging Setup"
+O8D_ACTIVE_SETUP_SECTION = "Active Setup"
 # 遭遇卡图源尺寸（宽 × 高，竖版）
 ENCOUNTER_CARD_W = 358
 ENCOUNTER_CARD_H = 500
+REVERSED_UNKNOWN_LOCATION_IMAGE_IDS = frozenset({
+    "fb5e0cb9-914f-49ee-8e21-534e89bc5533",
+    "d7ef4ad0-93f1-4c03-a04b-cdfe6339eb41",
+    "201569b2-d203-4a2a-b3e4-5dd396b8341a",
+})
+# 本地中文图片资源中“黄昏 / 日暮”的图面标签对调；卡牌 ID 与 CSV/O8D
+# 规则数据本身正确，因此只在显示图片解析时交换这两个资源文件。
+ENCOUNTER_IMAGE_ID_REMAP = {
+    "36a22f2b-56d9-4148-a962-f7fbdf60f3a1": "d3c68791-c3f9-4e8d-9515-2496f9ca1895",
+    "d3c68791-c3f9-4e8d-9515-2496f9ca1895": "36a22f2b-56d9-4148-a962-f7fbdf60f3a1",
+}
 
 
 def fit_encounter_card_size(max_height: int = 158) -> tuple[int, int]:
@@ -77,10 +91,14 @@ def resolve_encounter_image(image_id: str) -> str:
     stem = _image_id_stem(image_id)
     if not stem:
         return ""
+    stem = ENCOUNTER_IMAGE_ID_REMAP.get(stem, stem)
+    preferred_exts = [".jpg", ".jpeg", ".png", ".JPG"]
+    if stem in REVERSED_UNKNOWN_LOCATION_IMAGE_IDS:
+        preferred_exts = [".B.jpg", ".B.jpeg", ".B.png", ".B.JPG"] + preferred_exts
     for folder in ENCOUNTER_IMAGE_DIRS:
         if not folder.is_dir():
             continue
-        for ext in (".jpg", ".jpeg", ".png", ".JPG"):
+        for ext in preferred_exts:
             path = folder / f"{stem}{ext}"
             if path.is_file():
                 return str(path)
@@ -220,12 +238,19 @@ def _build_encounter_index_by_image_id(
     series: Optional[str] = None,
 ) -> Dict[str, Dict[str, str]]:
     index: Dict[str, Dict[str, str]] = {}
+    rows: List[Tuple[str, Dict[str, str]]] = []
     for row in _read_encounter_csv_rows(csv_path):
         if series and (row.get("系列") or "").strip() != series:
             continue
         image_id = _image_id_stem(row.get("图片链接") or "")
         if image_id:
             index[image_id] = row
+            rows.append((image_id, row))
+    for image_id, row in rows:
+        if image_id.lower().endswith(".b"):
+            index.setdefault(image_id[:-2], row)
+        else:
+            index.setdefault(f"{image_id}.B", row)
     return index
 
 
@@ -295,6 +320,39 @@ def _build_cards_from_o8d_section(
     return cards, missing, skipped
 
 
+def _build_cards_from_o8d_sections(
+    o8d_path: str | Path,
+    section_names: List[str],
+    csv_path: Optional[Path] = None,
+    series: Optional[str] = None,
+    use_o8d_qty: bool = False,
+    allowed_types: Optional[frozenset[str]] = None,
+) -> Tuple[List[Card], List[str], List[str]]:
+    cards: List[Card] = []
+    missing: List[str] = []
+    skipped: List[str] = []
+    seen_ids: set[str] = set()
+    for section_name in section_names:
+        sec_cards, sec_missing, sec_skipped = _build_cards_from_o8d_section(
+            o8d_path,
+            section_name,
+            csv_path=csv_path,
+            series=series,
+            use_o8d_qty=use_o8d_qty,
+            allowed_types=allowed_types,
+        )
+        missing.extend(sec_missing)
+        skipped.extend(sec_skipped)
+        for card in sec_cards:
+            card_id = getattr(card, "id", "") or ""
+            if card_id and card_id in seen_ids:
+                continue
+            if card_id:
+                seen_ids.add(card_id)
+            cards.append(card)
+    return cards, missing, skipped
+
+
 def load_encounter_deck_from_o8d(
     o8d_path: str | Path,
     csv_path: Optional[Path] = None,
@@ -322,10 +380,14 @@ def load_setup_cards_from_o8d(
     csv_path: Optional[Path] = None,
     series: Optional[str] = None,
 ) -> Tuple[List[Card], List[str]]:
-    """从 o8d 的 Setup 节加载准备牌池；不洗入遭遇牌库。"""
-    cards, missing, skipped = _build_cards_from_o8d_section(
+    """从 o8d 的 Setup/Staging Setup/Active Setup 节加载准备牌池；不洗入遭遇牌库。"""
+    cards, missing, skipped = _build_cards_from_o8d_sections(
         o8d_path,
-        O8D_SETUP_SECTION,
+        [
+            O8D_SETUP_SECTION,
+            O8D_STAGING_SETUP_SECTION,
+            O8D_ACTIVE_SETUP_SECTION,
+        ],
         csv_path=csv_path,
         series=series,
         use_o8d_qty=True,
@@ -342,9 +404,12 @@ def load_special_cards_from_o8d(
     series: Optional[str] = None,
 ) -> Tuple[List[Card], List[str]]:
     """Load o8d Special section cards; used by scenario-specific side decks."""
-    cards, missing, skipped = _build_cards_from_o8d_section(
+    cards, missing, skipped = _build_cards_from_o8d_sections(
         o8d_path,
-        O8D_SPECIAL_SECTION,
+        [
+            O8D_SPECIAL_SECTION,
+            O8D_SECOND_SPECIAL_SECTION,
+        ],
         csv_path=csv_path,
         series=series,
         use_o8d_qty=True,
@@ -353,6 +418,27 @@ def load_special_cards_from_o8d(
     if skipped:
         print(f"o8d Special skipped: {', '.join(skipped)}")
     return cards, missing
+
+
+def load_second_special_cards_from_o8d(
+    o8d_path: str | Path,
+    csv_path: Optional[Path] = None,
+    series: Optional[str] = None,
+) -> Tuple[List[Card], List[str]]:
+    """从 O8D 的 Second Special 节读取独立的遭遇副牌库。"""
+    cards, missing, skipped = _build_cards_from_o8d_section(
+        o8d_path,
+        O8D_SECOND_SPECIAL_SECTION,
+        csv_path=csv_path,
+        series=series,
+        use_o8d_qty=True,
+        allowed_types=ENCOUNTER_DECK_TYPES,
+    )
+    if skipped:
+        print(f"o8d Second Special 节已跳过非遭遇库类型: {', '.join(skipped)}")
+    return cards, missing
+
+
 def _find_o8d_section(root: ET.Element, section_name: str) -> Optional[ET.Element]:
     for section in root.findall("section"):
         if (section.get("name") or "").strip() == section_name:
@@ -723,17 +809,26 @@ class CardDrawer(QWidget):
             inferred = infer_series_from_o8d(path)
             if inferred:
                 self.deck_series = inferred
-            self.cards, missing = load_encounter_deck_from_o8d(
+            self.cards, deck_missing = load_encounter_deck_from_o8d(
                 path, series=self.deck_series
             )
             self.setup_cards, setup_missing = load_setup_cards_from_o8d(
                 path, series=self.deck_series
             )
-            missing.extend(f"Setup: {name}" for name in setup_missing)
             self.special_cards, special_missing = load_special_cards_from_o8d(
                 path, series=self.deck_series
             )
-            missing.extend(f"Special: {name}" for name in special_missing)
+            missing = list(deck_missing)
+            if setup_missing:
+                print(
+                    "o8d 可选 Setup 节未找到，已自动跳过："
+                    + "、".join(setup_missing)
+                )
+            if special_missing:
+                print(
+                    "o8d 可选 Special 节未找到，已自动跳过："
+                    + "、".join(special_missing)
+                )
         else:
             self.setup_cards = []
             self.special_cards = []
@@ -903,7 +998,12 @@ class CardDrawer(QWidget):
     def _debug_pick_and_place_on_top(self) -> None:
         from debug_card_picker import pick_encounter_card_for_debug
 
-        card = pick_encounter_card_for_debug(self, series=self.deck_series)
+        card = pick_encounter_card_for_debug(
+            self,
+            series=self.deck_series,
+            deck_path=self.deck_path,
+            deck_cards=self.cards,
+        )
         if card is None:
             return
         self.debug_place_card_on_top(card)
@@ -1072,4 +1172,3 @@ if __name__ == "__main__":
     window = EncounterTestWindow()
     window.show()
     sys.exit(app.exec_())
-

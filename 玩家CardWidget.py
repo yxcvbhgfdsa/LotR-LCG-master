@@ -508,8 +508,11 @@ class CardWidget(QWidget):
         self._passive_attack_per_damage = 0
         self._passive_attack_bonus = 0
         self._passive_willpower_bonus = 0
+        self._passive_willpower_penalty = 0
+        self._passive_willpower_override: int | None = None
         self._passive_defense_bonus = 0
         self._phase_willpower_penalty = 0
+        self._round_willpower_penalty = 0
         self._passive_health_bonus = 0
         self._resource_count = 0
         self.is_selected = False
@@ -963,7 +966,11 @@ class CardWidget(QWidget):
         for marker in self.top_right_markers:
             if getattr(marker, "marker_type", "") == "Willpower":
                 stats["willpower"] += 1
-        return stats["willpower"] - self._phase_willpower_penalty
+        return (
+            stats["willpower"]
+            - self._phase_willpower_penalty
+            - self._round_willpower_penalty
+        )
 
     def defense_value(self) -> int:
         return int(self._current_stats.get("defense", 0))
@@ -1109,6 +1116,22 @@ class CardWidget(QWidget):
         self._passive_willpower_bonus = amount
         self._recalc_stats()
 
+    def set_passive_willpower_override(self, value: int | None):
+        """被动覆盖当前意志力（例如「恐惧驱使」将其降至 0）。"""
+        normalized = None if value is None else max(0, int(value))
+        if normalized == self._passive_willpower_override:
+            return
+        self._passive_willpower_override = normalized
+        self._recalc_stats()
+
+    def set_passive_willpower_penalty(self, amount: int):
+        """持续被动意志力惩罚（不随阶段结束清除）。"""
+        amount = max(0, int(amount))
+        if amount == self._passive_willpower_penalty:
+            return
+        self._passive_willpower_penalty = amount
+        self._recalc_stats()
+
     def set_passive_defense_bonus(self, amount: int):
         """被动：面板防御力加成（如迷雾山脉鹰群面朝下附属）。"""
         amount = max(0, int(amount))
@@ -1123,6 +1146,14 @@ class CardWidget(QWidget):
         if amount == self._phase_willpower_penalty:
             return
         self._phase_willpower_penalty = amount
+        self._recalc_stats()
+
+    def set_round_willpower_penalty(self, amount: int):
+        """本回合临时意志力惩罚，持续至回合结束。"""
+        amount = max(0, int(amount))
+        if amount == self._round_willpower_penalty:
+            return
+        self._round_willpower_penalty = amount
         self._recalc_stats()
 
     def set_passive_health_bonus(self, amount: int):
@@ -1259,7 +1290,15 @@ class CardWidget(QWidget):
         stats["willpower"] += self._passive_willpower_bonus
         stats["defense"] += self._passive_defense_bonus
         stats["health"] += self._passive_health_bonus
-        stats["willpower"] = max(0, stats["willpower"] - self._phase_willpower_penalty)
+        stats["willpower"] = max(
+            0,
+            stats["willpower"]
+            - self._passive_willpower_penalty
+            - self._phase_willpower_penalty
+            - self._round_willpower_penalty,
+        )
+        if self._passive_willpower_override is not None:
+            stats["willpower"] = self._passive_willpower_override
         for marker in self.top_right_markers:
             marker_type = getattr(marker, "marker_type", "")
             if marker_type == "Attack":

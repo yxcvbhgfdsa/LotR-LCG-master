@@ -4,6 +4,7 @@ import csv
 import re
 import time
 import xml.etree.ElementTree as ET
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 from urllib.error import URLError
@@ -302,6 +303,10 @@ _RINGSDB_DECKLIST_ID_RE = re.compile(r"/decklist/[a-z]+/(\d+)", re.IGNORECASE)
 _RINGSDB_API_ID_RE = re.compile(r"/decklist/(\d+)(?:\.json)?", re.IGNORECASE)
 # 形如 https://ringsdb.com/deck/view/677635#
 _RINGSDB_DECK_BUILDER_RE = re.compile(r"/deck/view/(\d+)", re.IGNORECASE)
+# 形如 https://ringsdb.com/fellowship/view/2118/xxx
+_RINGSDB_FELLOWSHIP_RE = re.compile(
+    r"/fellowship/view/(\d+)(?:[/?#]|$)", re.IGNORECASE
+)
 
 RINGSDB_OAUTH_API_BASE = "https://ringsdb.com/api/oauth2"
 RINGSD_FETCH_TIMEOUT = 90.0
@@ -315,12 +320,30 @@ _ringsdb_fetched_packs: set[str] = set()
 _translation_map_cache: Optional[Dict[str, str]] = None
 
 
+@dataclass(frozen=True)
+class RingsDBFellowshipDeck:
+    slot: int
+    name: str
+    deck_text: str
+    missing_cards: Tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class RingsDBFellowshipImport:
+    fellowship_id: str
+    name: str
+    decks: Tuple[RingsDBFellowshipDeck, ...]
+
+
 def _parse_ringsdb_source(source: str) -> Optional[Tuple[str, str]]:
-    """解析 RingsDB 输入，返回 (编号, 'deck'|'decklist')。"""
+    """解析 RingsDB 输入，返回 (编号, deck/decklist/fellowship/auto)。"""
     s = (source or "").strip()
     if not s:
         return None
     if "ringsdb.com" in s.lower():
+        m = _RINGSDB_FELLOWSHIP_RE.search(s)
+        if m:
+            return m.group(1), "fellowship"
         m = _RINGSDB_DECK_BUILDER_RE.search(s)
         if m:
             return m.group(1), "deck"
@@ -340,11 +363,21 @@ def _extract_ringsdb_decklist_id(source: str) -> Optional[str]:
 
 
 def is_ringsdb_source(text: str) -> bool:
-    """判断输入是否为 RingsDB 牌组 URL 或纯数字 ID。"""
+    """判断输入是否为单副 RingsDB 牌组 URL 或纯数字 ID。"""
     s = (text or "").strip()
     if not s or "\n" in s:
         return False
-    return _parse_ringsdb_source(s) is not None
+    parsed = _parse_ringsdb_source(s)
+    return parsed is not None and parsed[1] != "fellowship"
+
+
+def is_ringsdb_fellowship_source(text: str) -> bool:
+    """判断输入是否为明确的 RingsDB Fellowship URL。"""
+    s = (text or "").strip()
+    if not s or "\n" in s:
+        return False
+    parsed = _parse_ringsdb_source(s)
+    return parsed is not None and parsed[1] == "fellowship"
 
 
 def _fetch_url_json(url: str, timeout: float = RINGSD_FETCH_TIMEOUT) -> Any:
@@ -364,6 +397,27 @@ def _fetch_url_json(url: str, timeout: float = RINGSD_FETCH_TIMEOUT) -> Any:
             if attempt + 1 < RINGSD_FETCH_RETRIES:
                 time.sleep(1.5 * (attempt + 1))
     raise RuntimeError(f"请求超时或失败（已重试 {RINGSD_FETCH_RETRIES} 次）：{last_err}") from last_err
+
+
+def _fetch_url_text(url: str, timeout: float = RINGSD_FETCH_TIMEOUT) -> str:
+    """带重试的 HTTP GET，返回 UTF-8 页面文本。"""
+    headers = {
+        "User-Agent": "LotR-LCG-Desktop/1.0",
+        "Accept": "text/html,application/xhtml+xml",
+    }
+    last_err: Optional[BaseException] = None
+    for attempt in range(RINGSD_FETCH_RETRIES):
+        try:
+            req = Request(url, headers=headers)
+            with urlopen(req, timeout=timeout) as resp:
+                return resp.read().decode("utf-8", errors="replace")
+        except (URLError, TimeoutError, OSError, UnicodeError) as exc:
+            last_err = exc
+            if attempt + 1 < RINGSD_FETCH_RETRIES:
+                time.sleep(1.5 * (attempt + 1))
+    raise RuntimeError(
+        f"请求超时或失败（已重试 {RINGSD_FETCH_RETRIES} 次）：{last_err}"
+    ) from last_err
 
 
 def _fetch_ringsdb_json(path: str) -> Any:
@@ -480,6 +534,8 @@ def _fetch_ringsdb_deck_data(source: str) -> Dict[str, Any]:
     if not parsed:
         raise ValueError(f"无法从输入中识别 RingsDB 牌组编号：{source}")
     deck_id, kind = parsed
+    if kind == "fellowship":
+        raise ValueError("Fellowship 队伍链接不能作为单副牌组加载")
     if kind == "deck":
         return _fetch_ringsdb_builder_deck(deck_id)
     if kind == "decklist":
@@ -584,17 +640,18 @@ def _find_player_row_for_ringsdb_card(
     return None
 
 
-def _resolve_ringsdb_deck(source: str) -> Tuple[str, List[Tuple[Dict[str, str], int]]]:
-    """拉取 RingsDB 牌组并解析为 (牌组名, [(CSV 行, 数量)])，英雄在前。"""
-    parsed = _parse_ringsdb_source(source)
-    if not parsed:
-        raise ValueError(f"无法从输入中识别 RingsDB 牌组编号：{source}")
-    deck_id, _kind = parsed
-
-    data = _fetch_ringsdb_deck_data(source)
+def _resolve_ringsdb_deck_data(
+    data: Dict[str, Any],
+    deck_id: str,
+    *,
+    skip_missing: bool = False,
+) -> Tuple[str, List[Tuple[Dict[str, str], int]], List[str]]:
+    """将 RingsDB 牌组 JSON 解析为本地 CSV 行，英雄在前。"""
     deck_name = str(data.get("name") or f"RingsDB {deck_id}")
     heroes: Dict[str, int] = data.get("heroes") or {}
     slots: Dict[str, int] = data.get("slots") or {}
+    if not isinstance(heroes, dict) or not isinstance(slots, dict):
+        raise ValueError(f"RingsDB 牌组 {deck_id} 的 heroes/slots 格式无效")
 
     # slots 中通常包含英雄，先英雄后主牌组，避免重复
     ordered: List[Tuple[str, int]] = []
@@ -628,12 +685,23 @@ def _resolve_ringsdb_deck(source: str) -> Tuple[str, List[Tuple[Dict[str, str], 
             continue
         resolved.append((row, max(1, qty)))
 
-    if missing:
+    if missing and not skip_missing:
         raise ValueError(
             "以下 RingsDB 卡牌未能匹配到本地 CSV：\n" + "\n".join(missing)
         )
     if not resolved:
         raise ValueError(f"RingsDB 牌组 {deck_id} 中没有可显示的卡牌")
+    return deck_name, resolved, missing
+
+
+def _resolve_ringsdb_deck(source: str) -> Tuple[str, List[Tuple[Dict[str, str], int]]]:
+    """拉取 RingsDB 牌组并解析为 (牌组名, [(CSV 行, 数量)])，英雄在前。"""
+    parsed = _parse_ringsdb_source(source)
+    if not parsed or parsed[1] == "fellowship":
+        raise ValueError(f"无法从输入中识别 RingsDB 单副牌组编号：{source}")
+    deck_id, _kind = parsed
+    data = _fetch_ringsdb_deck_data(source)
+    deck_name, resolved, _missing = _resolve_ringsdb_deck_data(data, deck_id)
     return deck_name, resolved
 
 
@@ -648,9 +716,10 @@ def load_deck_from_ringsdb(source: str) -> Tuple[str, List[Dict[str, Any]]]:
     return deck_name, cards
 
 
-def ringsdb_to_deck_text(source: str) -> Tuple[str, str]:
-    """将 RingsDB decklist 转为 Main Deck 中文文本（供主脚本牌库加载）。"""
-    deck_name, resolved = _resolve_ringsdb_deck(source)
+def _ringsdb_resolved_to_deck_text(
+    resolved: List[Tuple[Dict[str, str], int]],
+) -> str:
+    """将已匹配的本地 CSV 行生成 Main Deck 中文文本。"""
     hero_lines: List[str] = []
     groups: Dict[str, List[Tuple[str, int]]] = {"盟友": [], "附属": [], "事件": []}
     extra_lines: List[str] = []
@@ -680,7 +749,119 @@ def ringsdb_to_deck_text(source: str) -> Tuple[str, str]:
         lines.extend(text for text, _ in items)
         lines.append("")
     lines.extend(extra_lines)
-    return deck_name, "\n".join(lines).rstrip()
+    return "\n".join(lines).rstrip()
+
+
+def ringsdb_to_deck_text(source: str) -> Tuple[str, str]:
+    """将 RingsDB decklist 转为 Main Deck 中文文本（供主脚本牌库加载）。"""
+    deck_name, resolved = _resolve_ringsdb_deck(source)
+    return deck_name, _ringsdb_resolved_to_deck_text(resolved)
+
+
+def _parse_ringsdb_fellowship_html(
+    html: str,
+    fellowship_id: str,
+) -> Tuple[str, List[Tuple[int, Dict[str, Any]]]]:
+    """解析 Fellowship 页面内由官方模板输出的 Decks[1..4] JSON。"""
+    marker_re = re.compile(r"(?m)^[ \t]*Decks\[([1-4])\]\s*=\s*")
+    markers = list(marker_re.finditer(html or ""))
+    decks: List[Tuple[int, Dict[str, Any]]] = []
+    for index, marker in enumerate(markers):
+        slot = int(marker.group(1))
+        if index + 1 < len(markers):
+            end = markers[index + 1].start()
+        else:
+            tail = html[marker.end():]
+            tail_marker = re.search(
+                r"(?m)^[ \t]*var\s+(?:Commenters|Fellowship)\s*=", tail
+            )
+            end = marker.end() + (tail_marker.start() if tail_marker else len(tail))
+        payload = html[marker.end():end].strip()
+        if payload.endswith(";"):
+            payload = payload[:-1].rstrip()
+        try:
+            deck_data = json.loads(payload)
+        except json.JSONDecodeError as exc:
+            raise ValueError(
+                f"Fellowship {fellowship_id} 的队伍槽位 {slot} 数据格式无效"
+            ) from exc
+        if deck_data is None:
+            continue
+        if not isinstance(deck_data, dict):
+            raise ValueError(
+                f"Fellowship {fellowship_id} 的队伍槽位 {slot} 不是有效牌组"
+            )
+        decks.append((slot, deck_data))
+
+    fellowship_name = f"RingsDB Fellowship {fellowship_id}"
+    fellowship_block = re.search(
+        r"(?s)\bvar\s+Fellowship\s*=\s*\{(?P<body>.*?)\};", html or ""
+    )
+    if fellowship_block:
+        name_match = re.search(
+            r'\bname\s*:\s*(?P<value>"(?:\\.|[^"\\])*")',
+            fellowship_block.group("body"),
+        )
+        if name_match:
+            try:
+                parsed_name = json.loads(name_match.group("value"))
+                if isinstance(parsed_name, str) and parsed_name.strip():
+                    fellowship_name = parsed_name.strip()
+            except json.JSONDecodeError:
+                pass
+
+    if not decks:
+        raise ValueError(
+            f"Fellowship {fellowship_id} 中没有可导入的公开牌组"
+        )
+    return fellowship_name, decks
+
+
+def ringsdb_fellowship_to_deck_texts(
+    source: str,
+    skip_missing: bool = False,
+) -> RingsDBFellowshipImport:
+    """读取 RingsDB Fellowship，并按槽位返回各副 Main Deck 中文文本。"""
+    parsed = _parse_ringsdb_source(source)
+    if not parsed or parsed[1] != "fellowship":
+        raise ValueError(f"无法从输入中识别 RingsDB Fellowship：{source}")
+    fellowship_id, _kind = parsed
+    html = _fetch_url_text(
+        f"https://ringsdb.com/fellowship/view/{fellowship_id}"
+    )
+    fellowship_name, deck_payloads = _parse_ringsdb_fellowship_html(
+        html, fellowship_id
+    )
+    if len(deck_payloads) > 4:
+        raise ValueError("RingsDB Fellowship 最多只能包含 4 副牌组")
+
+    imported: List[RingsDBFellowshipDeck] = []
+    for slot, data in deck_payloads:
+        deck_id = str(data.get("id") or f"{fellowship_id}-{slot}")
+        try:
+            deck_name, resolved, missing = _resolve_ringsdb_deck_data(
+                data,
+                deck_id,
+                skip_missing=skip_missing,
+            )
+        except Exception as exc:
+            raise ValueError(
+                f"队伍「{fellowship_name}」槽位 {slot} 加载失败：{exc}"
+            ) from exc
+        imported.append(
+            RingsDBFellowshipDeck(
+                slot=slot,
+                name=deck_name,
+                deck_text=_ringsdb_resolved_to_deck_text(resolved),
+                missing_cards=tuple(missing),
+            )
+        )
+
+    return RingsDBFellowshipImport(
+        fellowship_id=fellowship_id,
+        name=fellowship_name,
+        decks=tuple(imported),
+    )
 
 
 def load_deck_from_path(file_path: str | Path) -> Tuple[str, List[Dict[str, Any]]]:

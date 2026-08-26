@@ -137,6 +137,7 @@ def load_quest_scenes_from_csv(
 
 
 O8D_QUEST_SECTION = "Quest"
+O8D_SECOND_QUEST_SECTION = "Second Quest Deck"
 
 
 def _build_quest_index_by_image_id(csv_path: Optional[Path] = None) -> Dict[str, Dict[str, str]]:
@@ -155,8 +156,9 @@ def _build_quest_index_by_image_id(csv_path: Optional[Path] = None) -> Dict[str,
     return index
 
 
-def load_quest_scenes_from_o8d(
+def _load_o8d_quest_section(
     o8d_path: str | Path,
+    section_name: str,
     csv_path: Optional[Path] = None,
 ) -> List[Dict]:
     """
@@ -172,7 +174,7 @@ def load_quest_scenes_from_o8d(
 
     quest_section = None
     for section in root.findall("section"):
-        if (section.get("name") or "").strip() == O8D_QUEST_SECTION:
+        if (section.get("name") or "").strip() == section_name:
             quest_section = section
             break
     if quest_section is None:
@@ -217,6 +219,24 @@ def load_quest_scenes_from_o8d(
     return quests
 
 
+def load_quest_scenes_from_o8d(
+    o8d_path: str | Path,
+    csv_path: Optional[Path] = None,
+) -> List[Dict]:
+    """从 o8d 的 Quest 节加载主探险链。"""
+    return _load_o8d_quest_section(o8d_path, O8D_QUEST_SECTION, csv_path=csv_path)
+
+
+def load_second_quest_scenes_from_o8d(
+    o8d_path: str | Path,
+    csv_path: Optional[Path] = None,
+) -> List[Dict]:
+    """从 o8d 的 Second Quest Deck 节加载第二套探险牌库。"""
+    return _load_o8d_quest_section(
+        o8d_path, O8D_SECOND_QUEST_SECTION, csv_path=csv_path
+    )
+
+
 class ImageZoomDialog(QDialog):
     def __init__(self, pixmap, parent=None, title: str = "任务图片放大显示 - 单击关闭"):
         super().__init__(parent)
@@ -251,6 +271,204 @@ class ImageZoomDialog(QDialog):
 
 
 # 场景卡图源尺寸比例（宽 × 高）
+class QuestDeckPreviewDialog(QDialog):
+    """只读探险牌库预览：展示整套探险牌顺序。"""
+
+    CARD_W = 150
+    CARD_H = 110
+
+    def __init__(self, quests: List[Dict], parent=None, title: str = "探险牌库预览"):
+        super().__init__(parent)
+        self.setWindowTitle(title)
+        self.setWindowFlags(Qt.Dialog | Qt.WindowStaysOnTopHint)
+        self.setStyleSheet("background: white;")
+        self.setContextMenuPolicy(Qt.NoContextMenu)
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(12, 12, 12, 12)
+        layout.setSpacing(10)
+
+        title_label = QLabel(title)
+        title_font = QFont()
+        title_font.setPointSize(12)
+        title_font.setWeight(QFont.Bold)
+        title_label.setFont(title_font)
+        title_label.setAlignment(Qt.AlignCenter)
+        title_label.setStyleSheet("border: none; color: #244b8f;")
+        layout.addWidget(title_label)
+
+        hint = QLabel("按顺序查看整套探险牌库，按 Esc 关闭")
+        hint.setAlignment(Qt.AlignCenter)
+        hint.setStyleSheet("border: none; color: #666; font-size: 11px;")
+        layout.addWidget(hint)
+
+        cards_row = QHBoxLayout()
+        cards_row.setSpacing(10)
+        cards_row.setAlignment(Qt.AlignCenter)
+        for quest in quests:
+            col = QVBoxLayout()
+            col.setSpacing(4)
+            face = (quest.get("face") or "?").upper()
+            name = (quest.get("name") or "未知探险").strip()
+            label = QLabel(f"{face} · {name}")
+            label.setAlignment(Qt.AlignCenter)
+            label.setWordWrap(True)
+            label.setStyleSheet("border: none; color: #333; font-weight: bold;")
+            col.addWidget(label)
+
+            card_label = QLabel("缺少图片")
+            card_label.setAlignment(Qt.AlignCenter)
+            card_label.setFixedSize(self.CARD_W, self.CARD_H)
+            card_label.setStyleSheet(
+                "border: 1px solid #888; background-color: #f8f8f8;"
+            )
+            path = quest.get("path") or ""
+            if path and os.path.exists(path):
+                pixmap = QPixmap(path)
+                if not pixmap.isNull():
+                    card_label.setPixmap(
+                        pixmap.scaled(
+                            self.CARD_W,
+                            self.CARD_H,
+                            Qt.KeepAspectRatio,
+                            Qt.SmoothTransformation,
+                        )
+                    )
+                    card_label.setText("")
+            col.addWidget(card_label)
+            cards_row.addLayout(col)
+        layout.addLayout(cards_row)
+
+        self.adjustSize()
+        screen = QApplication.primaryScreen().availableGeometry()
+        center = screen.center()
+        self.move(center.x() - self.width() // 2, center.y() - self.height() // 2)
+
+    def keyPressEvent(self, event):
+        if event.key() in (Qt.Key_Escape, Qt.Key_Return, Qt.Key_Enter):
+            self.close()
+        super().keyPressEvent(event)
+
+
+class _DeckPreviewLabel(QLabel):
+    double_clicked = pyqtSignal()
+    right_clicked = pyqtSignal()
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.original_pixmap: Optional[QPixmap] = None
+        self.setAlignment(Qt.AlignCenter)
+        self.setStyleSheet("border: 1px dashed #888; background-color: #f9f9f9;")
+
+    def set_image(self, pixmap: Optional[QPixmap]):
+        self.original_pixmap = pixmap if pixmap and not pixmap.isNull() else None
+        self._apply_scaled_pixmap()
+
+    def _apply_scaled_pixmap(self):
+        if self.original_pixmap is None:
+            self.clear()
+            return
+        self.setPixmap(
+            self.original_pixmap.scaled(
+                self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation
+            )
+        )
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self._apply_scaled_pixmap()
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.RightButton and self.original_pixmap is not None:
+            self.right_clicked.emit()
+            event.accept()
+            return
+        super().mousePressEvent(event)
+
+    def mouseDoubleClickEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.double_clicked.emit()
+            event.accept()
+            return
+        super().mouseDoubleClickEvent(event)
+
+
+class SecondQuestDeckPanel(QFrame):
+    """只读第二套探险牌库面板：显示顶部探险并支持双击查看全套。"""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self._quests: List[Dict] = []
+        self.setFrameShape(QFrame.NoFrame)
+        self.setStyleSheet("background: transparent; border: none;")
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(4)
+
+        self.title_label = QLabel("")
+        self.title_label.setAlignment(Qt.AlignCenter)
+        self.title_label.setStyleSheet(
+            "border: none; font-weight: bold; color: #244b8f;"
+        )
+        self.title_label.setVisible(False)
+
+        self.preview_label = _DeckPreviewLabel()
+        self.preview_label.setFixedSize(268, 200)
+        self.preview_label.double_clicked.connect(self.show_deck_zoom)
+        self.preview_label.right_clicked.connect(self.show_zoomed_image)
+        layout.addWidget(self.preview_label)
+
+        self.order_label = QLabel("")
+        self.order_label.setAlignment(Qt.AlignCenter)
+        self.order_label.setWordWrap(True)
+        self.order_label.setStyleSheet("border: none; color: #555; font-size: 11px;")
+        self.order_label.setVisible(False)
+
+        self.clear_panel()
+
+    def clear_panel(self, hint: str = "未布置"):
+        self._quests = []
+        self.preview_label.set_image(None)
+        self.preview_label.setText("")
+        self.order_label.setText("")
+
+    def load_quests(self, quests: List[Dict]):
+        self._quests = list(quests or [])
+        if not self._quests:
+            self.clear_panel()
+            return
+        first = self._quests[0]
+        path = first.get("path") or ""
+        pixmap = QPixmap(path) if path and os.path.exists(path) else QPixmap()
+        self.preview_label.set_image(pixmap if not pixmap.isNull() else None)
+        if pixmap.isNull():
+            self.preview_label.setText("")
+        self.order_label.setText("")
+
+    def show_zoomed_image(self):
+        """右键放大查看当前探险任务图片。"""
+        pixmap = getattr(self.preview_label, "original_pixmap", None)
+        if pixmap is None or pixmap.isNull():
+            return
+        dialog = ImageZoomDialog(
+            pixmap,
+            parent=self.window(),
+            title="探险任务放大 - 单击关闭",
+        )
+        dialog.show()
+
+    def show_deck_zoom(self):
+        if not self._quests:
+            return
+        dialog = QuestDeckPreviewDialog(
+            self._quests,
+            parent=self.window(),
+            title="第二套探险牌库 - 双击关闭",
+        )
+        dialog.exec_()
+
+
 SCENE_CARD_W = 1750
 SCENE_CARD_H = 1250
 
@@ -338,6 +556,8 @@ class 任务(QWidget):
         self.task_index = 0
         self.task_paths = []
         self.progress_count = 0
+        self.resource_count = 0
+        self.damage_count = 0
         self.progress_pixmap = None
         self.target_progress = 0
         self.task_requirements = {}
@@ -366,6 +586,40 @@ class 任务(QWidget):
         self.task_label.setGeometry(0, 0, card_w, card_h)
         self.task_label.double_clicked.connect(self.add_progress_token)
         self.task_label.right_clicked.connect(self.show_context_menu_at_label)
+
+        self.resource_marker_label = QLabel(self.task_container)
+        self.resource_marker_label.setGeometry(card_w - 36, 4, 30, 30)
+        self.resource_marker_label.setScaledContents(True)
+        self.resource_marker_label.setStyleSheet("background: transparent; border: none;")
+        resource_path = _PROJECT_ROOT / "cards" / "images" / "tokens" / "resource.png"
+        if resource_path.is_file():
+            self.resource_marker_label.setPixmap(QPixmap(str(resource_path)))
+
+        self.resource_count_label = QLabel("0", self.task_container)
+        self.resource_count_label.setGeometry(card_w - 62, 7, 24, 24)
+        self.resource_count_label.setAlignment(Qt.AlignCenter)
+        self.resource_count_label.setStyleSheet(
+            "color: #ffffff; background: rgba(0, 0, 0, 175); "
+            "border-radius: 10px; font-weight: bold; border: none;"
+        )
+
+        self.damage_marker_label = QLabel(self.task_container)
+        self.damage_marker_label.setGeometry(card_w - 36, 4, 30, 30)
+        self.damage_marker_label.setScaledContents(True)
+        self.damage_marker_label.setStyleSheet("background: transparent; border: none;")
+        damage_path = _PROJECT_ROOT / "cards" / "images" / "tokens" / "damage.png"
+        if damage_path.is_file():
+            self.damage_marker_label.setPixmap(QPixmap(str(damage_path)))
+
+        self.damage_count_label = QLabel("0", self.task_container)
+        self.damage_count_label.setGeometry(card_w - 62, 7, 24, 24)
+        self.damage_count_label.setAlignment(Qt.AlignCenter)
+        self.damage_count_label.setStyleSheet(
+            "color: #ffffff; background: rgba(0, 0, 0, 175); "
+            "border-radius: 10px; font-weight: bold; border: none;"
+        )
+        self._update_resource_display()
+        self._update_damage_display()
 
         self.progress_bar = QFrame(self)
         self.progress_bar.setFixedSize(card_w, bar_h)
@@ -655,6 +909,39 @@ class 任务(QWidget):
     def _update_progress_display(self):
         self.progress_value_label.setText(str(self.progress_count))
 
+    def _update_resource_display(self):
+        visible = max(0, int(getattr(self, "resource_count", 0) or 0)) > 0
+        self.resource_marker_label.setVisible(visible)
+        self.resource_count_label.setText(str(max(0, int(getattr(self, "resource_count", 0) or 0))))
+        self.resource_count_label.setVisible(visible)
+
+    def _update_damage_display(self):
+        visible = max(0, int(getattr(self, "damage_count", 0) or 0)) > 0
+        self.damage_marker_label.setVisible(visible)
+        self.damage_count_label.setText(
+            str(max(0, int(getattr(self, "damage_count", 0) or 0)))
+        )
+        self.damage_count_label.setVisible(visible)
+
+    def set_resource_count(self, count: int):
+        self.resource_count = max(0, int(count or 0))
+        self._update_resource_display()
+
+    def set_damage_count(self, count: int):
+        self.damage_count = max(0, int(count or 0))
+        self._update_damage_display()
+
+    def add_resource_marker(self, amount: int = 1):
+        if amount > 0:
+            self.set_resource_count(self.resource_count + int(amount))
+
+    def remove_resource_marker(self, amount: int = 1) -> int:
+        if amount <= 0:
+            return 0
+        removed = min(int(amount), self.resource_count)
+        self.set_resource_count(self.resource_count - removed)
+        return removed
+
     def add_progress_token(self):
         limit = self._max_progress_allowed()
         if self.progress_count >= limit:
@@ -771,12 +1058,14 @@ class 任务(QWidget):
             self.task_index += 1
             self.load_current_task()
             self.clear_progress_tokens()
+            self.set_resource_count(0)
             self.task_advanced.emit()
 
     def reset_task(self):
         self.task_index = 0
         self.load_current_task()
         self.clear_progress_tokens()
+        self.set_resource_count(0)
 
 
 class SceneTestWindow(QMainWindow):
