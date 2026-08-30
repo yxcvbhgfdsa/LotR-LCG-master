@@ -27,7 +27,7 @@ from PyQt5.QtWidgets import (
     QListWidgetItem, QDialogButtonBox,
 )
 from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtCore import Qt, pyqtSignal, QTimer
+from PyQt5.QtCore import Qt, QSize, pyqtSignal, QTimer
 from PyQt5.QtGui import QCursor
 
 _PROJECT_ROOT = Path(__file__).resolve().parent
@@ -319,12 +319,16 @@ def lookup_card_row_by_name_any_series(
 
 
 def find_card_rows_by_name_any_series(
-    index: Dict[tuple[str, str], Dict[str, str]],
+    rows_or_index: (
+        List[Dict[str, str]]
+        | Dict[tuple[str, str], Dict[str, str]]
+    ),
     raw_name: str,
 ) -> List[Dict[str, str]]:
     """返回名称匹配的全部系列记录，供同名卡图选择。
 
-    优先级：先返回「备用卡牌名称」命中查询的记录，其后为仅「卡牌名称」命中的记录。
+    「备用卡牌名称」是跨系列同名分组的基准；「卡牌名称」与别名只负责
+    定位这个同名组。优先返回备用名称直接命中的记录。
     """
     name = (raw_name or "").strip()
     if not name:
@@ -336,23 +340,55 @@ def find_card_rows_by_name_any_series(
     for key, value in CARD_NAME_ALIASES.items():
         if value == name and key not in candidates:
             candidates.append(key)
-    alt_matches: List[Dict[str, str]] = []
-    primary_matches: List[Dict[str, str]] = []
-    seen: set[tuple[str, str]] = set()
-    for (_series, row_name), row in index.items():
-        if row_name not in candidates:
-            continue
-        key = ((row.get("系列") or "").strip(), (row.get("编号") or "").strip())
-        if key in seen:
-            continue
-        seen.add(key)
+
+    if isinstance(rows_or_index, dict):
+        source_rows = list(rows_or_index.values())
+    else:
+        source_rows = list(rows_or_index or [])
+
+    seed_rows = [
+        row
+        for row in source_rows
+        if any(row_name in candidates for row_name in player_row_names(row))
+    ]
+    canonical_alt_names = {
+        (row.get("备用卡牌名称") or "").strip()
+        for row in seed_rows
+        if (row.get("备用卡牌名称") or "").strip()
+    }
+
+    ranked: List[tuple[int, int, Dict[str, str]]] = []
+    seen: set[tuple[str, ...]] = set()
+    for position, row in enumerate(source_rows):
+        row_names = player_row_names(row)
         alt_name = (row.get("备用卡牌名称") or "").strip()
-        # 优先：查询直接命中当前记录的「备用卡牌名称」
+        direct_match = any(row_name in candidates for row_name in row_names)
+        same_canonical_name = bool(
+            alt_name and alt_name in canonical_alt_names
+        )
+        if not direct_match and not same_canonical_name:
+            continue
+        image_id = _image_id_stem((row.get("图片链接") or "").strip())
+        identity = (
+            image_id,
+            (row.get("系列") or "").strip(),
+            (row.get("编号") or "").strip(),
+            (row.get("卡牌名称") or "").strip(),
+            alt_name,
+            (row.get("类型") or "").strip(),
+        )
+        if identity in seen:
+            continue
+        seen.add(identity)
         if alt_name and alt_name in candidates:
-            alt_matches.append(row)
+            rank = 0
+        elif same_canonical_name:
+            rank = 1
         else:
-            primary_matches.append(row)
-    return alt_matches + primary_matches
+            rank = 2
+        ranked.append((rank, position, row))
+    ranked.sort(key=lambda item: (item[0], item[1]))
+    return [row for _rank, _position, row in ranked]
 
 
 def resolve_player_csv_series(series: Optional[str]) -> str:
@@ -549,6 +585,28 @@ def parse_deck_list_text(text: str) -> ParsedDeckList:
     return result
 
 
+def format_deck_list_text(entries: List[DeckListEntry]) -> str:
+    """将已解析、已消歧的条目写成可稳定重载的 Main Deck 文本。"""
+    grouped: Dict[str, List[DeckListEntry]] = {}
+    for entry in entries:
+        category = (entry.category or "").strip()
+        grouped.setdefault(category, []).append(entry)
+
+    lines = ["Main Deck"]
+    for category, group in grouped.items():
+        lines.append("")
+        if category:
+            total = sum(max(1, int(entry.qty)) for entry in group)
+            lines.append(f"{category} ({total})")
+        for entry in group:
+            qty = max(1, int(entry.qty))
+            name = (entry.name or "").strip()
+            series = (entry.series or "").strip()
+            series_suffix = f" ({series})" if series else ""
+            lines.append(f"{qty}x  {name}{series_suffix}")
+    return "\n".join(lines).rstrip()
+
+
 def build_player_deck_from_entries(
     entries: List[DeckListEntry],
     csv_path: Optional[Path] = None,
@@ -577,7 +635,8 @@ def build_player_deck_from_entries(
             continue
 
         card_type = (row.get("类型") or "").strip()
-        is_hero = card_type == "英雄" or entry.category == "英雄"
+        # 分区标题只用于组织输入文本；所选 CSV 记录的实际类型才决定归属。
+        is_hero = card_type == "英雄"
         qty = max(1, entry.qty)
 
         for i in range(qty):
@@ -1053,29 +1112,38 @@ class PlayerCardLabel(QLabel):
 
 
 class SameNameCardDialog(QDialog):
-    """同名卡版本选择：显示卡图、系列和编号。"""
+    """同名卡版本选择：显示卡图及足以区分版本的 CSV 信息。"""
 
     def __init__(self, rows: List[Dict[str, str]], parent=None):
         super().__init__(parent)
         self.setWindowTitle("选择同名卡版本")
-        self.resize(760, 360)
+        self.resize(900, 460)
         layout = QVBoxLayout(self)
         layout.addWidget(QLabel("检测到多个同名卡版本，请选择要加入卡组的卡图："))
         self.list_widget = QListWidget()
         self.list_widget.setViewMode(QListWidget.IconMode)
-        self.list_widget.setIconSize(QPixmap(110, 160).size())
+        self.list_widget.setIconSize(QPixmap(125, 175).size())
+        self.list_widget.setGridSize(QSize(210, 270))
+        self.list_widget.setWordWrap(True)
         self.list_widget.setResizeMode(QListWidget.Adjust)
         self.list_widget.setSpacing(12)
         for row in rows:
             image_path = resolve_player_image((row.get("图片链接") or "").strip())
+            primary_name = (row.get("卡牌名称") or "").strip() or "—"
+            alternate_name = (row.get("备用卡牌名称") or "").strip() or "—"
+            card_type = (row.get("类型") or "").strip() or "—"
+            sphere = (row.get("派系") or "").strip() or "—"
+            series = (row.get("系列") or "").strip() or "—"
+            number = (row.get("编号") or "").strip() or "—"
             item = QListWidgetItem(
                 QIcon(image_path) if image_path else QIcon(),
-                f"{player_row_display_name(row)}\n"
-                f"{(row.get('系列') or '').strip()} · {(row.get('编号') or '').strip()}",
+                f"{primary_name}\n备用：{alternate_name}\n"
+                f"{card_type} · {sphere}\n{series} · {number}",
             )
             item.setData(Qt.UserRole, row)
             self.list_widget.addItem(item)
         self.list_widget.setCurrentRow(0)
+        self.list_widget.itemDoubleClicked.connect(lambda _item: self.accept())
         layout.addWidget(self.list_widget)
         buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         buttons.accepted.connect(self.accept)
@@ -1344,25 +1412,28 @@ class CardDrawer(QWidget):
     def _resolve_deck_entry_series(self, parsed: ParsedDeckList) -> bool:
         """系列未知时按备用卡牌名称查找；同名版本弹出卡图选择。"""
         rows = _read_player_csv_rows()
-        index = build_player_name_index(rows)
         for entry in parsed.entries:
             # 系列为空或明显的占位符（纯数字，如「0」）时按名字回退查找。
             if entry.series and not entry.series.strip().isdigit():
                 continue
-            matches = find_card_rows_by_name_any_series(index, entry.name)
+            matches = find_card_rows_by_name_any_series(rows, entry.name)
             if not matches:
                 continue
             if len(matches) == 1:
-                entry.series = (matches[0].get("系列") or "").strip()
-                continue
-            dialog = SameNameCardDialog(matches, self)
-            if dialog.exec_() != QDialog.Accepted:
-                return False
-            selected = dialog.selected_row()
-            if selected is None:
-                return False
+                selected = matches[0]
+            else:
+                dialog = SameNameCardDialog(matches, self)
+                if dialog.exec_() != QDialog.Accepted:
+                    return False
+                selected = dialog.selected_row()
+                if selected is None:
+                    return False
             entry.series = (selected.get("系列") or "").strip()
-            entry.name = player_row_display_name(selected)
+            entry.name = (
+                (selected.get("备用卡牌名称") or "").strip()
+                or player_row_display_name(selected)
+            )
+            entry.category = (selected.get("类型") or "").strip()
         return True
 
     def load_deck_from_text(self, text: str, silent: bool = False) -> bool:
@@ -1397,7 +1468,8 @@ class CardDrawer(QWidget):
                 QMessageBox.information(self, "提示", "主牌组为空，请检查列表。")
             return False
 
-        self.deck_text = text
+        # 保存消歧后的系列，确保重置、复制抽牌器或回档时仍使用玩家所选版本。
+        self.deck_text = format_deck_list_text(parsed.entries)
         self.deck_path = "文本卡组"
         self.deck_heroes = heroes
         self.deck_spec = None

@@ -131,6 +131,8 @@ async def handle_call_tool(context, params: types.CallToolRequestParams):
                 return types.CallToolResult(content=[types.TextContent(type="text", text="Error: query empty")], is_error=True)
 
             pack_code = arguments.get("pack_code")
+            type_code = str(arguments.get("type_code") or "").strip().lower()
+            sphere_code = str(arguments.get("sphere_code") or "").strip().lower()
             limit = min(int(arguments.get("limit", 20)), 100)
 
             if pack_code:
@@ -142,6 +144,10 @@ async def handle_call_tool(context, params: types.CallToolRequestParams):
 
             results = []
             for card in cards:
+                if type_code and str(card.get("type_code", "") or "").lower() != type_code:
+                    continue
+                if sphere_code and str(card.get("sphere_code", "") or "").lower() != sphere_code:
+                    continue
                 haystack = " ".join(str(card.get(k, "") or "") for k in ("name", "traits", "text")).lower()
                 if query in haystack:
                     results.append(_card_summary(card))
