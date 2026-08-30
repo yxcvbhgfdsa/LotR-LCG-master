@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True">
+    <card qty="1" id="db69ea89-f018-4534-9661-7c748298e1f5">Passage into Mordor</card>
+    <card qty="1" id="7ce50ea4-2496-414f-8fd5-5b076b58c9ee">An Evil Place</card>
+  </section>
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Encounter" shared="True">
+    <card qty="1" id="84b7e934-3d4d-4966-accf-c257c4413035">The Tunnels of Torech Gorgor</card>
+    <card qty="1" id="ede538df-8c8e-44b6-bab2-3a60e8a50449">A Haunt for Beasts</card>
+    <card qty="1" id="e0841275-753f-47bd-8d6d-807e4fb747ac">Overwhelming Darkness</card>
+    <card qty="2" id="c88d317b-d8b9-43ef-b41d-427ae4337f8d">Nameless Beast</card>
+    <card qty="2" id="ff815834-bf79-4914-8057-903f834190f1">Mordor Cave Troll</card>
+    <card qty="2" id="451b7209-4dea-4167-948e-dca0079fb997">Ash Mountain Werewolf</card>
+    <card qty="3" id="ba77505a-1def-4537-a194-0b7482433a72">Spawn of Shelob</card>
+    <card qty="1" id="df3f0718-7558-48c5-b680-2c2fc38d3de2">Torech Gorgor Patrol</card>
+    <card qty="2" id="ef7c6601-a62d-440a-89b1-5a9d6208481b">Fiery Chasm</card>
+    <card qty="2" id="b93c5b70-0655-4577-9f5e-68ca00d4bfc8">Hideous Deeps</card>
+    <card qty="3" id="fc8711c3-a458-4f0b-86d2-61fb3fd70316">Orc Passage</card>
+    <card qty="3" id="9832252b-4c87-4a03-b249-aa8abe404459">Ransacked Supplies</card>
+    <card qty="2" id="12a9c24d-c09d-4fd8-a746-4d75d30b7548">Burning Reek</card>
+    <card qty="2" id="b622efab-65dd-4a49-af87-8984066ab4ae">Writhing Shadows</card>
+    <card qty="2" id="67251171-ee5f-46d5-b3c8-10523350c60c">Twisted Tunnel</card>
+    <card qty="2" id="4b678143-ec9f-4727-998a-85dfef48d47a">Narrow Opening</card>
+    <card qty="2" id="6885658b-983d-459f-83f8-5a4d3ee5db9d">Crumbling Passage</card>
+    <card qty="2" id="64d1e3f3-3265-44a8-97f7-9a1c744a01b9">Fearful Shadows</card>
+    <card qty="1" id="c33f8472-2563-438e-94d3-77490d7c2175">Lost in the Dark</card>
+  </section>
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="df3f0718-7558-48c5-b680-2c2fc38d3de2">Torech Gorgor Patrol</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

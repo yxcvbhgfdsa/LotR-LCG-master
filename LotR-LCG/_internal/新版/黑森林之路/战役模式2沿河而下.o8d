@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Quest" shared="True">
+    <card qty="1" id="90e18195-713d-4013-9f8b-c09660abc002">沿河而下</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801200c9133">来到河边……</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801200c9135">安都因河的航程</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801200c9137">岸上的伏击</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801200c9081">狼骑兵</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9082">山区食人妖</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9083">半兽人射手</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801200c9084">沼泽蝰蛇</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9085">座狼</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801200c9089">多古尔都奥克</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801200c9090">乌夫沙克首领</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9091">多古尔都驯兽师</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801200c9115">东方的乌鸦</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801200c9111">迷雾山脉半兽人</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9086">陷入绝望</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801200c9092">魔影驱使</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801200c9093">死灵法师之触</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801200c9112">夜幕中的集结</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801200c9116">邪恶的风暴</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9117">魔影追击</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9118">险恶的迷雾</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9087">褐地</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9088">东林弯</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9094">死灵法师的隘口</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9095">魔法小溪</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9113">安都因河岸</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801200c9114">金鸢尾原野</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="90e18195-713d-4013-9f8b-c09660abc007">门多</card>
+    <card qty="4" id="90e18195-713d-4013-9f8b-c09660abc005">无所畏惧</card>
+    <card qty="1" id="90e18195-713d-4013-9f8b-c09660abc010">伤痕累累</card>
+    <card qty="1" id="90e18195-713d-4013-9f8b-c09660abc008">乌苟立安特的后裔</card>
+    <card qty="1" id="90e18195-713d-4013-9f8b-c09660abc009">弥漫的毒液</card>
+    <card qty="4" id="90e18195-713d-4013-9f8b-c09660abc004">门多的支援</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

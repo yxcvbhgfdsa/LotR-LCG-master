@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Quest" shared="True">
+    <card qty="1" id="0676e5a8-1637-42f8-95fa-37aa6e189070">Rescue the Prisoners</card>
+    <card qty="1" id="11a29b18-0e86-4383-a463-e020f8b1d0f6">Sneak Past the Guards</card>
+    <card qty="1" id="20291f58-7e45-4d2c-bbd8-c292e44dfcdc">Fight Your Way Out</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="1" id="b9b2c1fc-2954-46f3-8b6c-71300a35eb5d">Jailer of Cirith Gurat</card>
+    <card qty="2" id="6603b3a5-b955-4109-a63d-b8405c86d0b7">Prison Guard</card>
+    <card qty="3" id="ce5c7298-f5ff-478f-b70a-9efa27bd071e">Dungeon Warg</card>
+    <card qty="3" id="85d48eb0-3339-4db6-976f-a800213e7eea">Gate of Iron</card>
+    <card qty="2" id="fd726884-459b-4c66-a046-6fa86402ce6a">Dungeon Cell</card>
+    <card qty="2" id="c402e437-4d0c-41ed-8e82-c2923cd6984e">Uruk Guardroom</card>
+    <card qty="3" id="cc2cf907-a433-47e7-bc7f-21fa837aa025">Mines of Cirith Gurat</card>
+    <card qty="2" id="98358a49-2fba-45e3-8a26-5500bc7f04dd">Torture Room</card>
+    <card qty="2" id="041e412b-4d21-421a-a029-e1fdcb62e76d">Taken Prisoner</card>
+    <card qty="3" id="7562e662-3b3e-4378-9a3f-c45908bc05cf">Tormented by Orcs</card>
+    <card qty="1" id="9031b458-f7e0-4c55-9266-f30aaaf718c1">Captured!</card>
+    <card qty="1" id="24772594-75f3-4789-aeec-41526d845e11">In Hostile Territory</card>
+    <card qty="3" id="2b81f105-3712-4326-ac9f-ed7aa18aace1">Injured Companion</card>
+    <card qty="2" id="cf6094fe-6a58-4784-8e41-1ad546f8b6aa">Enfeebled</card>
+    <card qty="1" id="8a0a834b-d10c-43b1-a43c-75b459c18374">Uruks of the Eye</card>
+    <card qty="2" id="ad251ffd-8653-4a45-b88e-def2ffecc2dc">Uruk of Mordor</card>
+    <card qty="1" id="f63cbcf5-e846-476f-abc6-a9e86e89a2fd">Uruk Warg-Rider</card>
+    <card qty="2" id="27d6c3df-c7dc-4ea0-941f-dcad65b3f1eb">Mordor Warg</card>
+    <card qty="2" id="cfcee6c8-9eee-4623-afd1-a49ea77e2322">Fear of Mordor</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="27748abf-80e8-4928-b506-53d7c23d76c6">Uruk Chieftain</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="b0b77537-0c91-42c0-b111-647bc445a419">The Captives of Cirith Gurat</card>
+    <card qty="1" id="fd726884-459b-4c66-a046-6fa86402ce6a">Dungeon Cell</card>
+    <card qty="1" id="ea4bc222-6fb5-494e-8f1f-de30974694db">Abaan</card>
+    <card qty="1" id="b9b2c1fc-2954-46f3-8b6c-71300a35eb5d">Jailer of Cirith Gurat</card>
+    <card qty="1" id="6603b3a5-b955-4109-a63d-b8405c86d0b7">Prison Guard</card>
+    <card qty="1" id="ad251ffd-8653-4a45-b88e-def2ffecc2dc">Uruk of Mordor</card>
+    <card qty="1" id="f63cbcf5-e846-476f-abc6-a9e86e89a2fd">Uruk Warg-Rider</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

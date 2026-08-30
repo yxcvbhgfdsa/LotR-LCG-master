@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Encounter" shared="True">
+    <card qty="1" id="88e75969-9e5d-4b83-a535-d58409a473b2">Savage Werewolf</card>
+    <card qty="3" id="df7789f2-e7fd-45bd-a64f-fbd98a9ee146">Many-pillared Hall</card>
+    <card qty="1" id="f1b632df-ecaa-410a-b2c2-e037adc0ef2c">Shadow of Fear</card>
+    <card qty="2" id="bdfa990f-381b-4df3-bce6-71c46380223f">Deep-dweller</card>
+    <card qty="2" id="e99d2892-b6c4-422f-b630-4bf156a3f776">Darkened Stairway</card>
+    <card qty="1" id="9fdacc4b-5de7-4b03-af30-cee4d09769d7">We Cannot Get Out</card>
+    <card qty="3" id="3ad34bfd-3f2b-4b23-b09d-232f4640ddeb">Spider Broodling</card>
+    <card qty="1" id="ff23f4ed-4fc9-4835-91f1-16e8ab0870f0">Spider Burrow</card>
+    <card qty="1" id="aaa16a82-e6b6-4563-a523-b8d61e40e273">Grabbed by Spiders</card>
+    <card qty="2" id="43777005-d391-48bc-b84d-d40932ffc66b">Moria Bats</card>
+    <card qty="1" id="8ad1ecf9-3c76-46d6-b65f-9dad403c0960">Ancient Guardroom</card>
+    <card qty="2" id="0b0ab8a2-f531-4a68-96f8-408cc0b87924">Denizen of the Deep</card>
+    <card qty="2" id="bb5afc96-9b41-4a8d-933d-1906e550243b">Werewolf</card>
+    <card qty="1" id="948774da-a350-40cc-bb09-aca2c3ad8dcd">Fouled Well</card>
+    <card qty="2" id="23008103-17e0-4108-ac5c-966f4ddd3469">Cave In</card>
+    <card qty="1" id="ff5c0c83-0791-48ad-b4c4-e3437470263c">Hive Guardian</card>
+    <card qty="3" id="dab3229d-aadc-4c6d-a8a6-32a65d4e743b">Abandoned Mines</card>
+    <card qty="1" id="e723be8b-ba65-4aaa-ba56-825ee9311a0e">Sudden Pitfall</card>
+    <card qty="2" id="5d8db3c0-31da-4981-af11-1da3c6585bd8">Web-spinner</card>
+    <card qty="2" id="03b041ad-049a-44bb-9079-12b666e1afbc">Cobwebbed Cavern</card>
+    <card qty="1" id="fb897d38-fce6-4061-aaa5-9311eaadd8e5">Foul Air</card>
+    <card qty="1" id="f1a07644-9fe2-4764-9999-091fb8fc05b7">Brood Mother</card>
+    <card qty="2" id="67221212-2af6-4729-a8d7-3ea575befcbb">Lightless Passage</card>
+    <card qty="2" id="986225d5-6fbb-4860-9fce-af74dd4eb551">Lurking Malice</card>
+    <card qty="1" id="0c7a9790-0c68-47c0-bcf8-ed4e04b14a25">Great Cave-troll</card>
+    <card qty="1" id="736cf1d8-54bd-4bb1-8901-8b6f348a0355">Zigil Mineshaft</card>
+    <card qty="3" id="6bd6a282-9f43-4b12-a4bb-501f554daf2b">Dark and Dreadful</card>
+    <card qty="2" id="569c0cc8-58e0-46ef-97b3-6d3aef65ed8b">Goblin Follower</card>
+    <card qty="1" id="c07b0737-1a39-45b9-a08a-879e741e2526">Stairs of Náin</card>
+    <card qty="2" id="027c61dd-3d54-4e11-af5f-19d4a63dd38e">Hidden Threat</card>
+    <card qty="1" id="0e6b6b6b-a58b-4e9d-8e9b-9e2ddb4592d9">Goblin Warlord</card>
+    <card qty="2" id="95f27b98-6375-48ff-bf2b-3f625b3d1b0d">Dwarven Forge</card>
+    <card qty="2" id="c67cae2c-941e-40ad-8c14-3cfc50267359">Signs of Conflict</card>
+    <card qty="2" id="d3eee887-e9fd-40f9-bd09-47a7b0732ee2">Goblin Archer</card>
+    <card qty="2" id="32ac489f-7e40-47a0-acba-f199f3f5d8f7">Narrow Fissure</card>
+    <card qty="1" id="b58d7e13-ee6b-4986-91f8-f4583490d364">Crumbling Ruin</card>
+    <card qty="2" id="262f58ac-0e34-4d1c-b61b-1cae8358b2c7">Goblin Sneak</card>
+    <card qty="2" id="1e6bff06-79b2-4571-b584-c5b837176ded">Plundered Armoury</card>
+    <card qty="1" id="86180e01-76fb-4103-977c-0d55bbfc2250">They Are Coming!</card>
+    <card qty="3" id="2122c049-2c7d-470a-970c-f5a2a26ac66f">Swarming Goblins</card>
+    <card qty="1" id="533a076a-be76-4528-9684-483d765bb2a3">Goblin Tunnels</card>
+    <card qty="1" id="a643c446-15e1-4dc0-95f7-9146a59991b3">Massing in the Deep</card>
+  </section>
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True">
+    <card qty="1" id="92058ab4-7e65-4c78-9124-7338bca432fd">To the West-door</card>
+    <card qty="1" id="ed68974c-45ea-4378-9fe3-818cae03f9ea">Journey in the Black Pit</card>
+    <card qty="1" id="35caf8b5-dc14-4b56-827c-d2d85a1d13df">Journey in the Black Pit</card>
+    <card qty="1" id="1920b1cc-8392-4fb6-9c9c-22b8bfd8d539">Journey in the Black Pit</card>
+    <card qty="1" id="4b339e45-503d-4eb9-b7a5-fb7dbe887c03">Search for the Chamber</card>
+    <card qty="1" id="287fb255-d104-450c-8159-4fa36e37ca93">Search for the Chamber</card>
+    <card qty="1" id="aee4d9fb-2ef9-43b0-8459-1a390421052b">Search for the Chamber</card>
+    <card qty="1" id="ecb91fb3-6ae6-4a96-9bb7-71abeb0a7ec5">The Watcher</card>
+  </section>
+  <section name="Staging Setup" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True">
+    <card qty="1" id="31acc133-3c82-4c6e-8fc1-ced6537f735e">The Forgotten Temple</card>
+    <card qty="1" id="f015bc92-42c1-405d-a54e-1a1c7bc0afae">Memory of the Dark Years</card>
+    <card qty="1" id="ea80809a-c719-41a9-8729-5f58cdec149b">Shrine to Sauron</card>
+    <card qty="1" id="91c259ee-7c5c-45d4-9a97-bb0a2a05d7f8">The Lord of Middle-earth</card>
+    <card qty="1" id="ffe7cb9e-8ac6-411d-a8b9-77ebaf8ee12e">The Legacy of Mordor</card>
+  </section>
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Encounter" shared="True">
+    <card qty="2" id="89fba072-2af9-460c-8556-3bf3a8f0091e">Temple of Sauron</card>
+    <card qty="3" id="4befb4c8-e350-48ed-a7dd-ee803e2ca8d7">Easterling Raider</card>
+    <card qty="2" id="b897b63d-86ac-417c-88d2-1a594f3674f1">Sword of Rhûn</card>
+    <card qty="3" id="aabc830a-4833-42cf-9b26-d8f2c5eb9658">Warrior of Rhûn</card>
+    <card qty="2" id="576b4f3c-add2-42b6-b78c-8a2e482290ae">Recurve Bow</card>
+    <card qty="1" id="c33f8472-2563-438e-94d3-77490d7c2175">Lost in the Dark</card>
+    <card qty="1" id="bbc72a18-cf4c-469f-bd01-6b1d3492c2ff">Warriors of the East</card>
+    <card qty="2" id="64d1e3f3-3265-44a8-97f7-9a1c744a01b9">Fearful Shadows</card>
+    <card qty="2" id="4b678143-ec9f-4727-998a-85dfef48d47a">Narrow Opening</card>
+    <card qty="2" id="6885658b-983d-459f-83f8-5a4d3ee5db9d">Crumbling Passage</card>
+    <card qty="2" id="67251171-ee5f-46d5-b3c8-10523350c60c">Twisted Tunnel</card>
+    <card qty="2" id="1ac7e2b5-aa19-4608-b101-e22390c8a906">Fanaticism</card>
+    <card qty="3" id="8d61982f-acf9-4b03-969f-6e75688ee1fd">Ulchor's Rage</card>
+    <card qty="3" id="24ffba46-0c66-4559-ae13-d0980180f537">Place of Evil</card>
+    <card qty="4" id="74ceb68a-a1c9-41bc-aeb8-41738b34a3bb">Ulchor's Guard</card>
+    <card qty="3" id="2744032b-21e4-4b52-a66e-f4c1926f451b">Hall of Horrors</card>
+  </section>
+  <section name="Special" shared="True">
+    <card qty="1" id="2fe95d8c-0f30-4c20-b926-d92e4feea8e2">Khamûl the Easterling</card>
+    <card qty="1" id="47ecf6a6-84e9-4aa7-ba23-9afe914027cd">The Tower of Barad-dûr</card>
+    <card qty="1" id="4cd62a82-6bc9-4e38-8561-49b5fa2aba7e">Under the Watchful Eye</card>
+    <card qty="1" id="bd837efe-9358-4fe9-8770-69b9b1fefb48">The Armies of Mordor</card>
+    <card qty="1" id="f3285b0c-ccd9-48b1-9c20-c8fbc4bd1695">Covered in Darkness</card>
+  </section>
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="039a688f-8bef-4a77-97c4-84b942f3d91a">Than Ulchor</card>
+    <card qty="1" id="20a011e7-0153-45b1-9c6c-a68753683a79">Tribute to Mordor</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

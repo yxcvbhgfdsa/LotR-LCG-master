@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Quest" shared="True">
+    <card qty="1" id="9f4fa8d5-eaa4-4089-82aa-1ea4563a237b">The Passage of the Marshes</card>
+    <card qty="1" id="61963ddc-1260-471f-afdf-96581602a444">The Passage of the Marshes</card>
+    <card qty="1" id="7fdde250-5b13-4c94-a9b8-4a3a0029928a">The Taming of Smeagol</card>
+    <card qty="1" id="d63f87da-45b4-4c5c-b3b5-970a4277c263">Across the Marshes</card>
+    <card qty="1" id="e40770a1-7b1b-4257-afca-443c55701850">"Don't Look at the Lights!"</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="3" id="c1554b49-597c-4d1b-8871-dfbe867253d5">Candle-bearer</card>
+    <card qty="3" id="e25328c2-1a6b-4dda-866e-02685eff4a88">Evil-smelling Fens</card>
+    <card qty="3" id="77ee7ac0-7957-4cb2-9f01-05eea2c80d6e">Festering Mire</card>
+    <card qty="3" id="a6993cad-4a32-48f4-b5fc-289d39faf740">Candle-lit Pool</card>
+    <card qty="2" id="04029ea1-9780-4335-a8a2-74c08710c3f2">Great Reed Thicket</card>
+    <card qty="3" id="b2113592-2485-4324-98c8-ab4bec23deae">Pale Faces</card>
+    <card qty="3" id="6e82330b-ca0d-4d6b-a796-024de152ca56">Rotting Thing</card>
+    <card qty="2" id="9b0f5fb4-4f7f-4e89-8565-b327980f2627">Gollum's Rage</card>
+    <card qty="3" id="555dcce7-e705-4ba1-ba58-4880b449c178">Rot and Vapors</card>
+    <card qty="2" id="8893eba4-1f9c-4661-bfc2-bb485e023066">Shifting Quagmire</card>
+    <card qty="2" id="39262ffc-6819-422c-a72a-9baed00f648a">Stagnant Pools</card>
+    <card qty="1" id="3254a776-09e5-4576-9b3c-164cc93e1e26">Soft Mires</card>
+    <card qty="2" id="f214f533-374b-423c-86b5-dca1ab5d048f">Creeping Marshes</card>
+    <card qty="2" id="694650d0-9ba6-4573-bf13-10ca8eb7995d">A Fell Light</card>
+    <card qty="2" id="74d1310a-6c88-49cd-bac1-a1d4b5bbbcdc">Morgul Wraith</card>
+    <card qty="2" id="5e8714e3-0581-4b6f-bf45-414098819626">Call of the Ring</card>
+    <card qty="2" id="42e22482-0281-4811-aa65-2b342319ee07">We Hates Them</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="4" id="8b9b03e6-0036-473a-bdb7-d2d8e74edc69">The Searching Eye</card>
+    <card qty="1" id="ba62a8f1-1857-4449-8f49-7b584b9aaa7d">The Passage of the Marshes</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="32993141-956c-4426-98d9-8705de6fee00">Gollum</card>
+    <card qty="1" id="fe58a6d3-7028-41c1-ab00-5e33e7d77b5f">Frodo Baggins</card>
+    <card qty="1" id="32267333-091c-4bbf-bb29-5f21c8b79188">The One Ring</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

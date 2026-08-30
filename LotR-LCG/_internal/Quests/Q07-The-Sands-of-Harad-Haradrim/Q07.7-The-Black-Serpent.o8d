@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True">
+    <card qty="1" id="c3f9965f-711d-4c51-b9aa-a0b5d5953b49">The Crossroad’s Fort</card>
+    <card qty="1" id="e3bc9212-fbc0-48e0-b1c5-42b80ee58b5e">Battle in the Camp</card>
+    <card qty="1" id="9d451960-2db3-43df-9cd8-d525ef58cf55">Defeat the Serpent</card>
+  </section>
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Encounter" shared="True">
+    <card qty="4" id="97f3e5c2-8ba8-44f9-a3e3-3bad40fd67e8">Serpent Guard</card>
+    <card qty="2" id="7ac077eb-0879-4230-8e27-97549f46eb4b">The Serpent’s Redoubt</card>
+    <card qty="2" id="c9b1ad84-a3ea-4ab5-9db1-4addb4ae383d">Roofless Tower</card>
+    <card qty="3" id="e8c78f25-00d0-4b3b-8cac-03e533edfe41">Desert Bastion</card>
+    <card qty="3" id="5855e76e-e807-4a8c-9035-de7b9cb4366e">Southron Camp</card>
+    <card qty="3" id="a53e4587-03e4-4120-8aa5-9601a7069edd">Broken Courtyard</card>
+    <card qty="3" id="1a3d3725-9451-4c97-a8c7-5d2fa8e35c4c">Bold and Grim</card>
+    <card qty="2" id="49e857d2-b78f-4b5f-8c07-604af73fd616">No Quarter</card>
+    <card qty="2" id="3ef57050-0209-46de-8815-0c4d52b1aaf7">Chaos in the Night</card>
+    <card qty="1" id="8275a439-ebcd-4cc3-907b-1e217d222806">Don’t let them escape!</card>
+    <card qty="1" id="47b1cd0f-5d56-483c-956c-7851eb4b0a9a">Southron Champion</card>
+    <card qty="1" id="486f9475-98e1-42d9-ac90-e6190545a5b9">Southron Captain</card>
+    <card qty="3" id="6cfc4fa5-bbcc-4c99-82b7-bb6359d24750">Southron Soldier</card>
+    <card qty="4" id="04a23a2e-a14f-4c54-b54f-eeef36d3a92b">Southron Archer</card>
+    <card qty="3" id="37f205e5-5144-4987-8764-46909460797b">Nowhere to Hide</card>
+  </section>
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True">
+    <card qty="1" id="d6d4ea3a-402c-413b-9732-a07a21dd15b0">Banner of the Serpent</card>
+    <card qty="1" id="50e62ade-1958-439d-9314-383d8621ecf5">The Serpent’s Garb</card>
+    <card qty="1" id="8174f1b9-6fd0-4eeb-971d-98b2d7a4eaf4">Summons from Mordor</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="9511bcf2-9c06-413e-bf09-3bc076eb76d4">The Black Serpent</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

@@ -68416,6 +68416,35 @@ class MainWindow(QMainWindow):
             )
         )
         notes.extend(
+            self._resolve_orc_arsonist_forced_after_engage(
+                enemy_card, player_index
+            )
+        )
+        notes.extend(
+            self._resolve_umbar_assassin_forced_after_engage(
+                enemy_card,
+                player_index,
+                voluntary_engagement=voluntary_engagement,
+            )
+        )
+        if self._is_urdug_card(enemy_card):
+            self._urdug_engaged_ids.add(getattr(enemy_card, "id", "") or "")
+            notes.append(
+                f"强制 · {getattr(enemy_card, 'name', '昂杜格')}："
+                "与玩家交锋后，任务阶段开始时将立即攻击该玩家。"
+            )
+        notes.extend(
+            self._resolve_grey_mountain_giant_after_engage(
+                enemy_card, player_index
+            )
+        )
+        # 夜晚的伏击 1B 的强制效果发生在交锋完成时，不能等到攻击结束。
+        notes.extend(
+            self._resolve_ambushed_at_night_threat_after_engage(
+                enemy_card, player_index
+            )
+        )
+        notes.extend(
             self._resolve_boarding_keyword(
                 enemy_card,
                 player_index,
@@ -94415,6 +94444,7 @@ class MainWindow(QMainWindow):
                     "该行动只能在玩家行动窗口发动。",
                 )
             return
+        card = self._character_card_by_id(char_id)
         if self._character_text_blank_by_afraid_of_the_dark(card):
             self._inform("害怕黑暗", f"「{self._character_display_name(char_id)}」的文本框视为空白，不能触发其行动效果。")
             return

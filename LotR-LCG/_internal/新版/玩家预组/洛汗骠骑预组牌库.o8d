@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Hero" shared="False">
+    <card qty="1" id="068e0590-6bb4-429e-8a2b-2ef0869c7c4f">Hirgon</card>
+    <card qty="1" id="4cca8984-2e4e-4df2-ac96-86af18b2a961">Lothíriel</card>
+    <card qty="1" id="21cfb9e9-6777-4bc6-ace6-08fe68e949a4">Éomer</card>
+  </section>
+  <section name="Ally" shared="False">
+    <card qty="3" id="0916b82a-068e-4ca3-9554-f589a58e82fe">Riddermark Knight</card>
+    <card qty="3" id="38420e0c-f73c-4df4-8161-c189fecb9114">Westfold Lancer</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9030">Horseback Archer</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9073">Gandalf</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801201c9009">Westfold Horse-breaker</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801202c9009">Éomund</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801203c9009">Escort from Edoras</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801206c9026">West Road Traveller</card>
+    <card qty="1" id="06baca74-330a-4038-9387-32ce8657dd8f">Guthlaf</card>
+    <card qty="3" id="93a364f6-2a0f-4872-9770-aa7a1bd30d3d">Westfold Outrider</card>
+    <card qty="2" id="0567c2df-677c-4529-985a-54621088fe58">Westfold Horse-breeder</card>
+  </section>
+  <section name="Attachment" shared="False">
+    <card qty="1" id="0b179f39-f202-4fe7-b930-0f3db582bc3e">The Red Arrow</card>
+    <card qty="2" id="6f02e0de-b54d-4c13-97b8-2f3a53b3aa77">War Axe</card>
+    <card qty="2" id="52a0f137-da57-4c41-b455-9671aecd5298">Horn of the Mark</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801203c9005">Ancient Mathom</card>
+    <card qty="2" id="0ee1f1e6-1952-4bad-8ecd-631e80f4ccc0">Firefoot</card>
+  </section>
+  <section name="Event" shared="False">
+    <card qty="2" id="e73ef9d3-e2a1-400b-9ed7-bfdfd0a3bc2a">Wait no Longer</card>
+    <card qty="2" id="ae807a4c-d656-42a1-bf2c-024eaffc9fc6">Oath of Eorl</card>
+    <card qty="2" id="8047c8c2-1569-428c-865e-0459c2733db3">The Muster of Rohan</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9034">Feint</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801200c9050">A Test of Will</card>
+    <card qty="2" id="51223bd0-ffd1-11df-a976-0801206c9003">Astonishing Speed</card>
+    <card qty="2" id="80cdd2b5-60cf-4d47-afe7-505b79abcb1b">Forth Eorlingas!</card>
+  </section>
+  <section name="Side Quest" shared="False">
+  </section>
+  <section name="Sideboard" shared="False">
+    <card qty="1" id="d87344c3-d234-44c8-89b1-249f5c88bfab">Fastred</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801201c9009">Westfold Horse-breaker</card>
+    <card qty="3" id="51223bd0-ffd1-11df-a976-0801204c9023">The Riddermark&#039;s Finest</card>
+    <card qty="2" id="06baca74-330a-4038-9387-32ce8657dd8f">Guthlaf</card>
+    <card qty="1" id="0567c2df-677c-4529-985a-54621088fe58">Westfold Horse-breeder</card>
+    <card qty="1" id="6f02e0de-b54d-4c13-97b8-2f3a53b3aa77">War Axe</card>
+    <card qty="1" id="52a0f137-da57-4c41-b455-9671aecd5298">Horn of the Mark</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801203c9005">Ancient Mathom</card>
+    <card qty="3" id="66d8e628-8ca8-4605-9017-aece027f054f">Spear of the Mark</card>
+    <card qty="3" id="90d300da-a557-44b1-a634-d54782ff5e48">Steed of the Mark</card>
+    <card qty="3" id="6f8508d7-bb11-4d5c-a077-80a35e00105e">Rohan Warhorse</card>
+    <card qty="1" id="0ee1f1e6-1952-4bad-8ecd-631e80f4ccc0">Firefoot</card>
+    <card qty="1" id="e73ef9d3-e2a1-400b-9ed7-bfdfd0a3bc2a">Wait no Longer</card>
+    <card qty="1" id="ae807a4c-d656-42a1-bf2c-024eaffc9fc6">Oath of Eorl</card>
+    <card qty="1" id="8047c8c2-1569-428c-865e-0459c2733db3">The Muster of Rohan</card>
+    <card qty="1" id="51223bd0-ffd1-11df-a976-0801206c9003">Astonishing Speed</card>
+    <card qty="1" id="80cdd2b5-60cf-4d47-afe7-505b79abcb1b">Forth Eorlingas!</card>
+    <card qty="3" id="4fb48ed9-1651-4ae7-83d1-9d76a1dc27e7">Charge of the Rohirrim</card>
+  </section>
+  <section name="Quest" shared="True" />
+  <section name="Encounter" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

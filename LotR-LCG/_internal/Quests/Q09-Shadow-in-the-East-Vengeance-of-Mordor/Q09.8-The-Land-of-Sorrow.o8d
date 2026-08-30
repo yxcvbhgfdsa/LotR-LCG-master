@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Quest" shared="True">
+    <card qty="1" id="6566587d-e2ac-46e6-adbd-fe667b077136">Slaves of the Dark Lord</card>
+    <card qty="1" id="744536a0-0ff0-47e8-b938-ee0f379b1370">Lead the Revolt</card>
+  </section>
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Encounter" shared="True">
+    <card qty="3" id="99b98ca0-1320-4630-8791-984a578685d2">Easterling Guard</card>
+    <card qty="4" id="90bdfcd8-0505-4f40-bf51-092f21525ef7">Nurn Slaver</card>
+    <card qty="3" id="7b261ec7-bc90-4bd3-884d-d14a44e88942">Working Fields</card>
+    <card qty="3" id="7edae662-fc3f-40b3-868b-e5a43dbd0670">Watch Tower</card>
+    <card qty="2" id="1b5b129a-0c2c-4750-b1d6-dd3ea82acb84">Overseer's Whip</card>
+    <card qty="3" id="2d14c8ba-a35a-491b-867b-d43b5547f235">Cruelty of Mordor</card>
+    <card qty="2" id="a9e14405-1ac0-4db8-8357-1ac2e9d59624">Broken Captives</card>
+    <card qty="3" id="4befb4c8-e350-48ed-a7dd-ee803e2ca8d7">Easterling Raider</card>
+    <card qty="3" id="aabc830a-4833-42cf-9b26-d8f2c5eb9658">Warrior of Rhûn</card>
+    <card qty="2" id="b897b63d-86ac-417c-88d2-1a594f3674f1">Sword of Rhûn</card>
+    <card qty="2" id="576b4f3c-add2-42b6-b78c-8a2e482290ae">Recurve Bow</card>
+    <card qty="1" id="bbc72a18-cf4c-469f-bd01-6b1d3492c2ff">Warriors of the East</card>
+    <card qty="4" id="c6ffa525-d499-4dcc-9f07-cbd0da50479f">Rollings Plains</card>
+    <card qty="2" id="926a17c6-ea0b-43ba-925a-71ba5ef1ed77">Rocky Outcrop</card>
+    <card qty="2" id="1f4cdef5-6847-4dd5-96b0-8ce03d21bd8d">Weary Lands</card>
+    <card qty="2" id="37153373-7a82-484e-9aca-7ed47a6a7703">Painful Fatigue</card>
+    <card qty="1" id="c1ee0cb7-a209-44d6-8f35-8494a9e6cf1d">An Arduous Journey</card>
+  </section>
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Setup" shared="True">
+    <card qty="1" id="23befee6-1e3f-4955-826d-62562a5433ed">Edrahil</card>
+    <card qty="1" id="1d7a27ca-e24b-4449-8f2c-3bb44b088330">Arador</card>
+    <card qty="1" id="9b2c868d-9d09-4d1c-9383-e81b77fe4979">Farin</card>
+    <card qty="1" id="cb3c0b3a-1c07-4da9-a65a-2e108d39736d">Ulwarth</card>
+    <card qty="1" id="77833ba7-253c-4d4b-9c45-1764ce014dce">Lorgan</card>
+    <card qty="1" id="79a9dd7a-48c9-4f29-9090-5edde6b5f038">Borlach</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="e839fa89-15b4-451f-9fac-6a8f38e31d65">The Barracks</card>
+    <card qty="1" id="e33fbbde-d10b-4392-bc2e-bd4a39b5188e">Slave Quarters</card>
+    <card qty="1" id="8a703700-ca1b-46fa-b5fc-67544c5ad254">The Storehouse</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

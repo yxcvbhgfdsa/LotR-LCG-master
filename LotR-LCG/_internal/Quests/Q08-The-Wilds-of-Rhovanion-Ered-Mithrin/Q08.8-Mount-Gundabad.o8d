@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Quest" shared="True">
+    <card qty="1" id="8eae3ce5-c37e-4092-b91d-02c0721ffc0d">The Side Door</card>
+    <card qty="1" id="044a7b39-8ef6-41c7-bb99-ce209f700b09">Exploring Gundabad</card>
+    <card qty="1" id="5a0d35ad-e9af-48b1-8454-534753394ed2">Exploring Gundabad</card>
+    <card qty="1" id="cf435143-655b-4a7c-ac6b-f9f61b4cba72">Exploring Gundabad</card>
+    <card qty="1" id="b3147b4e-2a60-402f-a1aa-5d56c002326d">Exploring Gundabad</card>
+    <card qty="1" id="89cd149f-69d3-4d75-887d-96b45730792a">Exploring Gundabad</card>
+    <card qty="1" id="5abd3a4b-2769-401d-aa3c-c904da21b97a">Exploring Gundabad</card>
+    <card qty="1" id="47aada3f-9ee6-455d-8c2d-786962633f34">Exploring Gundabad</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="3" id="3cbe2fe1-e7ab-4213-85dd-fd9b6244479f">Guardian of Gundabad</card>
+    <card qty="3" id="475d31c0-45d5-4a9f-aaac-c23b93c73f03">Dagnir’s Slave</card>
+    <card qty="2" id="d3bd47e5-cf59-4097-9cec-92a15fe56bf4">Deep-dweller</card>
+    <card qty="3" id="a802fd4f-0a1b-440e-8648-ff44601bda2c">Mines of Gundabad</card>
+    <card qty="2" id="f77ffb66-297c-49e0-8ed5-9cc3bd715926">Narrow Stair</card>
+    <card qty="2" id="34c61d95-cb2e-49c4-b85e-5d3c32b02342">Desecrated Ruins</card>
+    <card qty="2" id="62d5807c-caef-49bd-8cbc-cb6429647fce">Wilderland’s Bane</card>
+    <card qty="2" id="fd06cd6e-5741-4bd2-b50c-52052f973208">Suffocating Shadows</card>
+    <card qty="2" id="3566b6df-a1cd-4417-b202-27e0ecc0a966">Afraid of the Dark</card>
+    <card qty="3" id="cfddac0a-3055-46bd-af9a-8bdda8c9abb6">Eyes in the Dark</card>
+    <card qty="2" id="23fb0422-0e54-4064-bb76-e5bf3c214709">Stone Troll</card>
+    <card qty="2" id="b7431f72-5157-4a6d-a6c0-86bcf88f2669">Hobgoblin</card>
+    <card qty="2" id="6220ef6b-f314-4cf9-92df-f9551d6cfde0">Dragon Breath</card>
+    <card qty="2" id="51b186ac-ddf5-4909-a484-20d273be27c9">Dragon Scales</card>
+    <card qty="2" id="1062dfa2-d821-474d-9a8f-9eda79753222">Forked Passage</card>
+    <card qty="4" id="14f41245-2616-4358-a8bb-6b9bcf83cf56">Dark Tunnel</card>
+    <card qty="3" id="f945cfde-271f-4e93-8eed-93eaaf0fb408">Dark Places</card>
+  </section>
+  <section name="Special" shared="True">
+    <card qty="1" id="ea5faa85-5a47-4ab3-a623-3f88df71f7fd">Throat of the Mountain</card>
+    <card qty="1" id="286a5206-9ebb-4ec4-a349-2960ccb2f669">Lost Armory</card>
+    <card qty="1" id="c0c522b2-5f5c-45a0-b6fc-e05c8bb835d8">Ancient Treasury</card>
+    <card qty="1" id="9e490f6c-3873-4cd7-8c80-98a6640b9043">Frightful Den</card>
+    <card qty="1" id="acbf7fd1-9f93-4d0b-b18a-8f0854e028f5">Lightless Grotto</card>
+    <card qty="1" id="9a5884f4-c2a8-4696-97b5-f0c5c5e92b6d">Crumbling Cavern</card>
+    <card qty="1" id="8be23a53-ba85-4db3-8d1f-821da0323cbf">Underground Lake</card>
+    <card qty="1" id="9d1daee2-2d6e-4d9a-87e4-b706779555d4">Dagnir’s Hoard</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="71060c15-34c0-44ad-885b-4b6c18d2962a">The First Forge</card>
+  </section>
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="fe2c30ae-dd35-48de-a2c2-4886a0c0783e">Dagnir</card>
+    <card qty="1" id="cfe00736-4ac0-4f51-b698-705b04eca9a4">Wormsbane</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

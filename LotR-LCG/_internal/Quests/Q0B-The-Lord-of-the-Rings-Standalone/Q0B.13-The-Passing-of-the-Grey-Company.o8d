@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
+  <section name="Quest" shared="True">
+    <card qty="1" id="2878bd63-b20b-419a-85a2-dff419864e08">The Forbidden Door</card>
+    <card qty="1" id="820e2015-fc9c-4547-8e93-d4eb7cd79691">The Paths of the Dead</card>
+    <card qty="1" id="90203b8d-a359-4f18-8314-12815090a9d0">The Dead are Following</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="2" id="d4e4ab9d-d5ea-4d33-89f1-d8d24d166002">Dark Door</card>
+    <card qty="3" id="87ca18e7-934a-4da9-bbb0-3a66f3d1b4c3">Trysting Place</card>
+    <card qty="3" id="70fc56ec-dca4-485a-8c5e-7d0cf4e17038">Deadly Road</card>
+    <card qty="3" id="46e10da4-a188-4502-b53f-6644495a1319">Haunted Path</card>
+    <card qty="4" id="78520dc7-5891-47f3-8782-ca930c434374">Dead Man of Dunharrow</card>
+    <card qty="3" id="abfe3930-7bca-4ce8-9594-038ad4846205">Faithless Dead</card>
+    <card qty="2" id="28b27afb-c966-4960-a4e7-5e5364e45c05">Ghosts of Men</card>
+    <card qty="2" id="8a5f4d2e-9558-413f-9913-376ec6a0c184">Shadow Host</card>
+    <card qty="3" id="7cf91fea-06b4-43f3-ae5d-96f00884fd71">Blood Runs Chill</card>
+    <card qty="2" id="faacffc1-0c11-42ea-aca9-96982cc80e7a">The Way is Shut</card>
+    <card qty="3" id="474616b8-11f2-44fe-bad3-a9d3e2bdd208">Whispers in the Dark</card>
+    <card qty="2" id="06ff6757-f80c-499b-8450-1e85e793d02c">No Turning Back</card>
+  </section>
+  <section name="Setup" shared="True">
+    <card qty="1" id="4d904ec3-1c74-4091-861d-c543412b5443">The Stone of Erech</card>
+    <card qty="1" id="a25b4139-f1d0-4466-83f2-f06fa3e0c30b">Army of the Dead</card>
+    <card qty="1" id="c7ef7b6e-4346-4b4c-a9fa-2b42e3c2ab5c">The Passing of the Grey Company</card>
+  </section>
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="2e778689-9e3f-4da8-a473-781c777f6473">Aragorn</card>
+    <card qty="4" id="926d92fd-b7b8-4f13-8018-3f632c84a3d7">Overcome by Fear</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>

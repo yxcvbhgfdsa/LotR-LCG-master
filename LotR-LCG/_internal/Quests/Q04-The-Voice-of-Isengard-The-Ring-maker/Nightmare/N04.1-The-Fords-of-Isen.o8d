@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f">
+  <section name="Quest" shared="True">
+    <card qty="1" id="d985a0cd-4c06-4e2e-b05a-ad0ac9ac86be">The Fords of Isen</card>
+    <card qty="1" id="74f297ed-3cb6-4c2d-83d8-c27b447a9250">Fight at the Fords</card>
+    <card qty="1" id="93ece501-fae4-46e8-9720-316383b86688">Dunlending Attack</card>
+    <card qty="1" id="0cdc4034-738d-487d-9a8c-8ef364772076">Hold the Fords</card>
+    <card qty="1" id="414a8370-1c4d-4e95-b33d-3b6f59db315c">Wicked Huorn</card>
+  </section>
+  <section name="Encounter" shared="True">
+    <card qty="3" id="db1ee7dd-d43c-40a0-9e89-89a5b233af70">Fords of Isen</card>
+    <card qty="2" id="200ec48a-dd14-41c4-994b-2f5b753f47de">Gap of Rohan</card>
+    <card qty="2" id="0ae9f4f9-eec9-404f-ae93-7a54287d1bc2">Pillaging and Burning</card>
+    <card qty="1" id="10e7e890-727f-49ae-bd5d-d769812d9dce">Down From The Hills</card>
+    <card qty="2" id="4362ef23-0ade-4eea-974b-2959803f8528">Ill Tidings</card>
+    <card qty="2" id="ceb5ede8-0acc-40b6-ac43-b9f1ff006d9e">Dunland Chieftain</card>
+    <card qty="2" id="c749f16f-1b34-48ce-ba8e-45f36b8b8229">Dunland Tribesman</card>
+    <card qty="2" id="def7d5a8-3af5-428d-ac94-485c33388ff9">Dunland Berserker</card>
+    <card qty="2" id="ef975c81-544a-4f1b-a3c4-d0bc42ef636c">Wild Men of Dunland</card>
+    <card qty="2" id="a0d5be90-8618-4fe4-a917-d8d969c11264">Old Hatreds</card>
+    <card qty="2" id="7b491dcc-668a-431f-b0a1-ec2bf34840a7">Dunland Raider</card>
+    <card qty="2" id="f53cd455-26e0-419c-967d-45ecc9990bab">Dunland Assassin</card>
+    <card qty="3" id="40299169-8b0f-4462-ae58-03db71c0970f">Vengeful Hillman</card>
+    <card qty="3" id="82f9180c-0d38-4485-b99b-d15ed7910e17">Savage Hillman</card>
+    <card qty="3" id="f642149c-2bfe-44c1-b4d6-dbf30ef5c988">Western Shore</card>
+    <card qty="3" id="6a768da7-6c40-4002-ad01-e405edd4f286">Eastern Shore</card>
+    <card qty="3" id="d26e6602-0c2d-440e-8065-10cfa89687c1">Isen River</card>
+    <card qty="2" id="1e392c0d-2fc3-4d57-8209-3a5e64292f3d">Brutal Assault</card>
+  </section>
+  <section name="Setup" shared="True" />
+  <section name="Hero" shared="False" />
+  <section name="Ally" shared="False" />
+  <section name="Attachment" shared="False" />
+  <section name="Event" shared="False" />
+  <section name="Side Quest" shared="False" />
+  <section name="Sideboard" shared="False" />
+  <section name="Second Quest Deck" shared="True" />
+  <section name="Special" shared="True" />
+  <section name="Second Special" shared="True" />
+  <section name="Staging Setup" shared="True">
+    <card qty="1" id="3f8e889e-db35-4044-ac19-43fd146bffd1">The Islet</card>
+    <card qty="1" id="5542dd91-98bd-4a72-bd19-f706f3440ab8">Gríma</card>
+  </section>
+  <section name="Active Setup" shared="True" />
+  <notes><![CDATA[]]></notes>
+</deck>
