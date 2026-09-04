@@ -18,12 +18,19 @@ if _PYQT5_QT_PLUGIN_DIR.is_dir():
 from PyQt5.QtWidgets import (
     QLabel, QVBoxLayout, QHBoxLayout, QDialog, QMenu,
     QWidget, QGridLayout, QFrame, QApplication, QMainWindow,
-    QPushButton,
+    QPushButton, QAbstractSlider,
 )
-from PyQt5.QtGui import QPixmap, QFont, QPainter, QPen, QColor, QFontMetrics
-from PyQt5.QtCore import Qt, pyqtSignal, QTimer
+from PyQt5.QtGui import QPixmap, QFont, QPainter, QPen, QColor, QFontMetrics, QCursor
+from PyQt5.QtCore import QEvent, Qt, pyqtSignal, QTimer
 
 from card_drag_zoom import CardDragZoomController
+from card_detail_ui import (
+    CardDetailPayload,
+    CardPreviewWidget,
+    card_zoom_content_limits,
+    place_card_zoom_window,
+    resolve_card_detail,
+)
 
 from 玩家卡抽取 import (
     PLAYER_CSV,
@@ -185,31 +192,78 @@ class MarkerLabel(QLabel):
 
 
 class CardImageZoomDialog(QDialog):
-    def __init__(self, pixmap, parent=None):
+    def __init__(
+        self,
+        pixmap,
+        parent=None,
+        *,
+        details: Optional[CardDetailPayload] = None,
+    ):
         super().__init__(parent)
         self.setWindowTitle("卡牌放大显示 - 单击关闭")
         self.setWindowFlags(Qt.Dialog | Qt.WindowStaysOnTopHint)
         self.setStyleSheet("background: black")
         self.setContextMenuPolicy(Qt.NoContextMenu)
 
-        screen = QApplication.primaryScreen().availableGeometry()
-        max_width = min(800, int(screen.width() * 0.8))
-        max_height = min(1000, int(screen.height() * 0.8))
-
-        scaled_pixmap = pixmap.scaled(max_width, max_height, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-        self.setFixedSize(scaled_pixmap.width() + 40, scaled_pixmap.height() + 40)
+        available, content_limit = card_zoom_content_limits(
+            self,
+            parent,
+            layout_width=40,
+            layout_height=40,
+        )
+        screen_obj = QApplication.screenAt(available.center()) or QApplication.primaryScreen()
+        screen = screen_obj.availableGeometry()
+        if details is None:
+            # 纯卡图沿用原有缩放上限，保持窗口尺寸不变。
+            max_width = min(
+                800,
+                int(screen.width() * 0.8),
+                content_limit.width(),
+            )
+        else:
+            max_width = min(
+                max(1, min(1160, int(screen.width() * 0.9)) - 40),
+                content_limit.width(),
+            )
+        max_height = min(
+            1000,
+            int(screen.height() * 0.8),
+            content_limit.height(),
+        )
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(20, 20, 20, 20)
-        self.image_label = QLabel()
-        self.image_label.setAlignment(Qt.AlignCenter)
-        self.image_label.setPixmap(scaled_pixmap)
-        self.image_label.setStyleSheet("border: 2px solid #888;")
-        self.image_label.setContextMenuPolicy(Qt.NoContextMenu)
-        layout.addWidget(self.image_label)
+        self.preview_widget = CardPreviewWidget(
+            pixmap,
+            details,
+            orientation="horizontal",
+            max_width=max_width,
+            max_height=max_height,
+            image_style="border: 2px solid #888;",
+            parent=self,
+        )
+        # 保留旧属性，避免现有调用方依赖 image_label 时失效。
+        self.image_label = self.preview_widget.image_label
+        self.detail_panel = self.preview_widget.detail_panel
+        layout.addWidget(self.preview_widget)
+        self.setFixedSize(
+            self.preview_widget.width() + 40,
+            self.preview_widget.height() + 40,
+        )
 
-        center_point = screen.center()
-        self.move(center_point.x() - self.width() // 2, center_point.y() - self.height() // 2)
+        place_card_zoom_window(self, available)
+        for child in self.preview_widget.findChildren(QWidget):
+            child.installEventFilter(self)
+
+    def eventFilter(self, watched, event):
+        if (
+            event.type() == QEvent.MouseButtonPress
+            and event.button() == Qt.LeftButton
+            and not isinstance(watched, QAbstractSlider)
+        ):
+            self.close()
+            return True
+        return super().eventFilter(watched, event)
 
     def contextMenuEvent(self, event):
         event.accept()
@@ -1386,7 +1440,18 @@ class CardWidget(QWidget):
         self._ctx_menu_pos = None
         if self.zoom_dialog:
             self.zoom_dialog.close()
-        self.zoom_dialog = CardImageZoomDialog(self.current_pixmap, self)
+        details = None
+        if not self._face_down and self.current_card is not None:
+            details = resolve_card_detail(
+                self.current_card,
+                kind="player",
+                csv_path=self.csv_path,
+            )
+        self.zoom_dialog = CardImageZoomDialog(
+            self.current_pixmap,
+            self,
+            details=details,
+        )
         self.zoom_dialog.show()
 
     def contextMenuEvent(self, event):

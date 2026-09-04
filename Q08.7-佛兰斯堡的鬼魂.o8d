@@ -2,8 +2,11 @@
 <deck game="a21af4e8-be4b-4cda-a6b6-534f9717391f" sleeveid="0">
   <section name="Quest" shared="True">
     <card qty="1" id="9b75cef3-e5a3-4284-aff6-9a0b473fa37d">The Haunted Keep</card>
+    <card qty="1" id="9b75cef3-e5a3-4284-aff6-9a0b473fa37d.B">The Haunted Keep</card>
     <card qty="1" id="48d2ea1f-449b-4af9-9f43-c70fffd66991">Searching the Ruins</card>
+    <card qty="1" id="48d2ea1f-449b-4af9-9f43-c70fffd66991.B">Searching the Ruins</card>
     <card qty="1" id="6948a0fa-e13f-4023-865f-3c8b6599c6a0">The Cursed Shade</card>
+    <card qty="1" id="6948a0fa-e13f-4023-865f-3c8b6599c6a0.B">The Cursed Shade</card>
   </section>
   <section name="Encounter" shared="True">
     <card qty="1" id="c3aff9c9-640f-4e90-85f3-6e245c2156fe">Crypt Key</card>

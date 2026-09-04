@@ -24,11 +24,19 @@ from PyQt5.QtWidgets import (
     QApplication, QWidget, QLabel, QMenu, QVBoxLayout,
     QMessageBox, QMainWindow, QHBoxLayout, QPushButton,
     QDialog, QTextEdit, QSizePolicy, QInputDialog, QListWidget,
-    QListWidgetItem, QDialogButtonBox,
+    QListWidgetItem, QDialogButtonBox, QAbstractSlider,
 )
 from PyQt5.QtGui import QPixmap, QIcon
-from PyQt5.QtCore import Qt, QSize, pyqtSignal, QTimer
+from PyQt5.QtCore import Qt, QSize, QEvent, pyqtSignal, QTimer
 from PyQt5.QtGui import QCursor
+
+from card_detail_ui import (
+    CardDetailPayload,
+    CardPreviewWidget,
+    card_zoom_content_limits,
+    place_card_zoom_window,
+    resolve_card_detail,
+)
 
 _PROJECT_ROOT = Path(__file__).resolve().parent
 PLAYER_CSV = _PROJECT_ROOT / "魔戒玩家牌.csv"
@@ -100,6 +108,58 @@ CARD_NAME_ALIASES: Dict[str, str] = {
     "亚拉冈": "阿拉贡",
     "刚铎长枪兵": "刚铎长矛手",
     "伊欧玟": "伊奥温",
+    "汤姆·科顿": "汤姆·卡顿",
+    "Tom Cotton": "汤姆·卡顿",
+    "罗丝·科顿": "小玫·卡顿",
+    "Rosie Cotton": "小玫·卡顿",
+    "埃尔夫海尔姆": "艾海姆",
+    "Elfhelm": "艾海姆",
+    "西方众将领": "西方众将",
+    "Captains of the West": "西方众将",
+    "鼓动夏尔起来抗暴": "唤醒整个夏尔",
+    "Raise the Shire": "唤醒整个夏尔",
+    "古斯威奈": "古丝温",
+    "Gúthwinë": "古丝温",
+    "Guthwine": "古丝温",
+    "最亲密的朋友": "最好的朋友",
+    "Best Friend": "最好的朋友",
+    "奥克伪装": "半兽人伪装",
+    "Orc Disguise": "半兽人伪装",
+    "巴因之子布兰德": "巴恩之子布兰德",
+    "Brand son of Bain": "巴恩之子布兰德",
+    "Brand Son of Bain": "巴恩之子布兰德",
+    "河谷邦战士": "谷地战士",
+    "Dale Warrior": "谷地战士",
+    "河谷邦之王": "谷地之王",
+    "King of Dale": "谷地之王",
+    "紫衫木弓": "紫杉木弓",
+    "Yew Bow": "紫杉木弓",
+    "罗瓦尼安地图": "罗马尼安地图",
+    "Map of Rhovanion": "罗马尼安地图",
+    "Girion's Necklace": "吉瑞安的项链",
+    "河谷邦的物流": "谷地的运输",
+    "Traffic from Dale": "谷地的运输",
+    "To Arms!": "拿起武器！",
+    "Valour of the North": "北方的英勇",
+    "Valor of the North": "北方的英勇",
+    "Bartering": "以货易货",
+    "长老郁比翁": "老格里姆贝奥恩",
+    "Grimbeorn the Old": "老格里姆贝奥恩",
+    "埃斯加洛斯守卫": "伊斯加守卫",
+    "Guardian of Esgaroth": "伊斯加守卫",
+    "Guard of Esgaroth": "伊斯加守卫",
+    "侍从头盔": "扈从头盔",
+    "Squire's Helm": "扈从头盔",
+    "林中空地": "被砍伐的空地",
+    "Woodmen's Clearing": "被砍伐的空地",
+    "隐蔽的小路": "隐藏的小路",
+    "The Hidden Way": "隐藏的小路",
+    "贝奥恩一族换皮人": "比翁换皮人",
+    "Beorning Skin-changer": "比翁换皮人",
+    "贝奥恩之怒": "比翁之怒",
+    "Beorn's Rage": "比翁之怒",
+    "阿肯宝钻": "阿肯宝石",
+    "The Arkenstone": "阿肯宝石",
     "葛罗音": "格罗因",
     "金雳": "吉姆利",
     "贝拉沃": "贝拉芙",
@@ -162,6 +222,8 @@ CARD_NAME_ALIASES: Dict[str, str] = {
     "依伯鲁之靴": "埃瑞博靴子",
     "爱罗希尔": "埃洛希尔",
     "爱拉丹": "埃尔拉丹",
+    "Elrohir": "埃洛希尔",
+    "Elladan": "埃尔拉丹",
     "波佛": "波弗",
     "乌丘斥候": "渡鸦岭斥候",
     "登丹漫游者": "杜内丹漫游者",
@@ -707,6 +769,9 @@ class DeckListDialog(QDialog):
 
         ok_btn = QPushButton("OK")
         ok_btn.clicked.connect(self.accept)
+        copy_btn = QPushButton("复制卡组文字")
+        copy_btn.setToolTip("将编辑框中的完整卡组文字复制到剪贴板")
+        copy_btn.clicked.connect(self._copy_text)
         clear_btn = QPushButton("清空文字")
         clear_btn.clicked.connect(self._clear_text)
         ringsdb_btn = QPushButton("加载 RingsDB")
@@ -715,6 +780,7 @@ class DeckListDialog(QDialog):
         cancel_btn.clicked.connect(self.reject)
 
         footer.addWidget(ok_btn)
+        footer.addWidget(copy_btn)
         footer.addWidget(clear_btn)
         footer.addWidget(ringsdb_btn)
         footer.addWidget(cancel_btn)
@@ -722,6 +788,10 @@ class DeckListDialog(QDialog):
 
     def _clear_text(self):
         self.text_edit.clear()
+
+    def _copy_text(self):
+        QApplication.clipboard().setText(self.text_edit.toPlainText())
+        QMessageBox.information(self, "复制完成", "卡组文字已复制到剪贴板。")
 
     def _load_ringsdb_into_editor(self):
         """从 RingsDB URL/编号拉取牌组并填入编辑框。"""
@@ -1031,9 +1101,16 @@ def read_draw_log(log_file: Path = LOG_FILE) -> list[tuple[str, str]]:
 class ImageZoomDialog(QWidget):
     """图片放大显示窗口"""
 
-    def __init__(self, pixmap, parent=None):
+    def __init__(
+        self,
+        pixmap,
+        parent=None,
+        *,
+        details: Optional[CardDetailPayload] = None,
+    ):
         super().__init__(parent)
         self.original_pixmap = pixmap
+        self.details = details
         self.init_ui()
 
     def init_ui(self):
@@ -1041,27 +1118,58 @@ class ImageZoomDialog(QWidget):
         self.setWindowFlags(Qt.Window | Qt.WindowStaysOnTopHint)
         self.setContextMenuPolicy(Qt.NoContextMenu)
 
-        screen = QApplication.primaryScreen().availableGeometry()
-        max_width = int(screen.width() * 0.6)
-        max_height = int(screen.height() * 0.8)
-
-        scaled_pixmap = self.original_pixmap.scaled(
-            max_width, max_height, Qt.KeepAspectRatio, Qt.SmoothTransformation
+        available, content_limit = card_zoom_content_limits(
+            self,
+            self.parentWidget(),
+            layout_width=20,
+            layout_height=20,
         )
-
-        self.setFixedSize(scaled_pixmap.width() + 20, scaled_pixmap.height() + 20)
+        screen_obj = QApplication.screenAt(available.center()) or QApplication.primaryScreen()
+        screen = screen_obj.availableGeometry()
+        if self.details is None:
+            # 纯卡图沿用原有缩放上限，保持窗口尺寸不变。
+            max_width = min(int(screen.width() * 0.6), content_limit.width())
+        else:
+            max_width = min(
+                max(1, int(screen.width() * 0.9) - 20),
+                content_limit.width(),
+            )
+        max_height = min(int(screen.height() * 0.8), content_limit.height())
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(10, 10, 10, 10)
 
-        self.image_label = QLabel()
-        self.image_label.setAlignment(Qt.AlignCenter)
-        self.image_label.setPixmap(scaled_pixmap)
-        self.image_label.setStyleSheet("border: 2px solid #333; background-color: white;")
-        self.image_label.setContextMenuPolicy(Qt.NoContextMenu)
-        layout.addWidget(self.image_label)
+        self.preview_widget = CardPreviewWidget(
+            self.original_pixmap,
+            self.details,
+            orientation="horizontal",
+            max_width=max_width,
+            max_height=max_height,
+            image_style="border: 2px solid #333; background-color: white;",
+            parent=self,
+        )
+        # 保留旧属性，避免现有调用方依赖 image_label 时失效。
+        self.image_label = self.preview_widget.image_label
+        self.detail_panel = self.preview_widget.detail_panel
+        layout.addWidget(self.preview_widget)
+        self.setFixedSize(
+            self.preview_widget.width() + 20,
+            self.preview_widget.height() + 20,
+        )
 
-        self.move((screen.width() - self.width()) // 2, (screen.height() - self.height()) // 2)
+        place_card_zoom_window(self, available)
+        for child in self.preview_widget.findChildren(QWidget):
+            child.installEventFilter(self)
+
+    def eventFilter(self, watched, event):
+        if (
+            event.type() == QEvent.MouseButtonPress
+            and event.button() == Qt.LeftButton
+            and not isinstance(watched, QAbstractSlider)
+        ):
+            self.close()
+            return True
+        return super().eventFilter(watched, event)
 
     def contextMenuEvent(self, event):
         event.accept()
@@ -1119,7 +1227,11 @@ class SameNameCardDialog(QDialog):
         self.setWindowTitle("选择同名卡版本")
         self.resize(900, 460)
         layout = QVBoxLayout(self)
-        layout.addWidget(QLabel("检测到多个同名卡版本，请选择要加入卡组的卡图："))
+        layout.addWidget(QLabel(
+            "检测到多个同名卡版本，请选择要加入卡组的卡图。\n"
+            "左键双击确认；右键双击、右键菜单或点击“放大查看”可查看大图。"
+        ))
+        self.zoom_dialog: Optional[ImageZoomDialog] = None
         self.list_widget = QListWidget()
         self.list_widget.setViewMode(QListWidget.IconMode)
         self.list_widget.setIconSize(QPixmap(125, 175).size())
@@ -1127,6 +1239,11 @@ class SameNameCardDialog(QDialog):
         self.list_widget.setWordWrap(True)
         self.list_widget.setResizeMode(QListWidget.Adjust)
         self.list_widget.setSpacing(12)
+        self.list_widget.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.list_widget.customContextMenuRequested.connect(
+            self._open_card_context_menu
+        )
+        self.list_widget.viewport().installEventFilter(self)
         for row in rows:
             image_path = resolve_player_image((row.get("图片链接") or "").strip())
             primary_name = (row.get("卡牌名称") or "").strip() or "—"
@@ -1146,9 +1263,54 @@ class SameNameCardDialog(QDialog):
         self.list_widget.itemDoubleClicked.connect(lambda _item: self.accept())
         layout.addWidget(self.list_widget)
         buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        zoom_button = buttons.addButton("放大查看", QDialogButtonBox.ActionRole)
+        zoom_button.clicked.connect(self.show_selected_card_zoom)
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
         layout.addWidget(buttons)
+
+    def eventFilter(self, watched, event):
+        if (
+            watched is self.list_widget.viewport()
+            and event.type() == QEvent.MouseButtonDblClick
+            and event.button() == Qt.RightButton
+        ):
+            item = self.list_widget.itemAt(event.pos())
+            if item is not None:
+                self.list_widget.setCurrentItem(item)
+                self.show_selected_card_zoom()
+            return True
+        return super().eventFilter(watched, event)
+
+    def _open_card_context_menu(self, pos):
+        item = self.list_widget.itemAt(pos)
+        if item is None:
+            return
+        self.list_widget.setCurrentItem(item)
+        menu = QMenu(self)
+        zoom_action = menu.addAction("放大显示")
+        if menu.exec_(self.list_widget.viewport().mapToGlobal(pos)) == zoom_action:
+            self.show_selected_card_zoom()
+
+    def show_selected_card_zoom(self):
+        row = self.selected_row()
+        if row is None:
+            QMessageBox.information(self, "放大查看", "请先选择一个同名卡版本。")
+            return
+        image_path = resolve_player_image((row.get("图片链接") or "").strip())
+        pixmap = QPixmap(image_path) if image_path else QPixmap()
+        if pixmap.isNull():
+            QMessageBox.information(self, "放大查看", "该版本没有可用的卡牌图片。")
+            return
+        if self.zoom_dialog is not None:
+            self.zoom_dialog.close()
+        details = resolve_card_detail(
+            row=row,
+            kind="player",
+            csv_path=PLAYER_CSV,
+        )
+        self.zoom_dialog = ImageZoomDialog(pixmap, self, details=details)
+        self.zoom_dialog.show()
 
     def selected_row(self) -> Optional[Dict[str, str]]:
         item = self.list_widget.currentItem()
@@ -1179,6 +1341,8 @@ class CardDrawer(QWidget):
         self.drawn_ids: set[str] = set()
         self.deck_stack: List[Card] = []
         self.zoom_dialog: Optional[ImageZoomDialog] = None
+        # 主窗口可注入 CharacterImagePickDialog 版本选择器，避免反向导入主脚本。
+        self.same_name_card_selector = None
         self._ctx_menu_pos = None
         self._ctx_menu_timer = QTimer(self)
         self._ctx_menu_timer.setSingleShot(True)
@@ -1291,7 +1455,19 @@ class CardDrawer(QWidget):
         self._ctx_menu_pos = None
         if self.zoom_dialog:
             self.zoom_dialog.close()
-        self.zoom_dialog = ImageZoomDialog(self.current_pixmap, self)
+        csv_path = PLAYER_CSV
+        if self.deck_path and Path(self.deck_path).suffix.lower() == ".csv":
+            csv_path = Path(self.deck_path)
+        details = resolve_card_detail(
+            self.current_card,
+            kind="player",
+            csv_path=csv_path,
+        )
+        self.zoom_dialog = ImageZoomDialog(
+            self.current_pixmap,
+            self,
+            details=details,
+        )
         self.zoom_dialog.show()
 
     def contextMenuEvent(self, event):
@@ -1422,10 +1598,14 @@ class CardDrawer(QWidget):
             if len(matches) == 1:
                 selected = matches[0]
             else:
-                dialog = SameNameCardDialog(matches, self)
-                if dialog.exec_() != QDialog.Accepted:
-                    return False
-                selected = dialog.selected_row()
+                selector = getattr(self, "same_name_card_selector", None)
+                if callable(selector):
+                    selected = selector(matches)
+                else:
+                    dialog = SameNameCardDialog(matches, self)
+                    if dialog.exec_() != QDialog.Accepted:
+                        return False
+                    selected = dialog.selected_row()
                 if selected is None:
                     return False
             entry.series = (selected.get("系列") or "").strip()

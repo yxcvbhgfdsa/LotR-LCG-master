@@ -25,6 +25,7 @@ from PyQt5.QtCore import Qt, pyqtSignal, QTimer
 from PyQt5.QtGui import QFont, QPixmap
 
 from card_drag_zoom import CardDragZoomController
+from card_detail_ui import card_zoom_content_limits, place_card_zoom_window
 
 _PROJECT_ROOT = Path(__file__).resolve().parent
 ENCOUNTER_CSV = _PROJECT_ROOT / "魔戒遭遇.csv"
@@ -246,7 +247,20 @@ class ImageZoomDialog(QDialog):
         self.setStyleSheet("background: white")
         self.setContextMenuPolicy(Qt.NoContextMenu)
 
-        scaled_pixmap = pixmap.scaled(600, 800, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        available, content_limit = card_zoom_content_limits(
+            self,
+            parent,
+            layout_width=20,
+            layout_height=20,
+        )
+        max_width = min(600, content_limit.width())
+        max_height = min(800, content_limit.height())
+        scaled_pixmap = pixmap.scaled(
+            max_width,
+            max_height,
+            Qt.KeepAspectRatio,
+            Qt.SmoothTransformation,
+        )
         self.setFixedSize(scaled_pixmap.width() + 20, scaled_pixmap.height() + 20)
 
         layout = QVBoxLayout(self)
@@ -256,6 +270,8 @@ class ImageZoomDialog(QDialog):
         self.image_label.setPixmap(scaled_pixmap)
         self.image_label.setContextMenuPolicy(Qt.NoContextMenu)
         layout.addWidget(self.image_label)
+
+        place_card_zoom_window(self, available)
 
     def contextMenuEvent(self, event):
         event.accept()

@@ -19,6 +19,12 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt, pyqtSignal, QSize, QTimer
 from PyQt5.QtGui import QPixmap, QFont, QCursor
 
+from card_detail_ui import (
+    CardPreviewWidget,
+    card_zoom_content_limits,
+    place_card_zoom_window,
+    resolve_card_detail,
+)
 from 玩家卡抽取 import (
     PLAYER_CSV,
     DEFAULT_DECK_SERIES as PLAYER_DEFAULT_SERIES,
@@ -896,29 +902,76 @@ def load_default_deck() -> Tuple[str, List[Dict[str, Any]]]:
 class ImageDialog(QDialog):
     closed = pyqtSignal()  # 新增关闭信号
 
-    def __init__(self, image_path, title, parent=None):
+    def __init__(self, image_path, title, parent=None, details=None):
         super().__init__(parent)
         self.setWindowTitle(title)
         self.setModal(True)
         self.setAttribute(Qt.WA_DeleteOnClose)
-        self.initUI(image_path)
+        self.initUI(image_path, details)
 
-    def initUI(self, image_path):
+    def initUI(self, image_path, details=None):
         layout = QVBoxLayout(self)
-        self.image_label = QLabel(self)
-        self.image_label.setAlignment(Qt.AlignCenter)
+        self.preview_widget = None
+        margins = layout.contentsMargins()
+        zoom_geometry, content_limit = card_zoom_content_limits(
+            self,
+            self.parentWidget(),
+            layout_width=margins.left() + margins.right(),
+            layout_height=margins.top() + margins.bottom(),
+        )
+        screen_obj = QApplication.screenAt(zoom_geometry.center()) or QApplication.primaryScreen()
+        screen_size = screen_obj.availableGeometry().size()
 
         if image_path and Path(image_path).is_file():
-            screen_size = QApplication.primaryScreen().size()
-            max_width = int(screen_size.width() * 0.8)
-            max_height = int(screen_size.height() * 0.8)
-            pixmap = QPixmap(image_path).scaled(QSize(max_width, max_height), Qt.KeepAspectRatio, Qt.SmoothTransformation)
-            self.image_label.setPixmap(pixmap)
+            pixmap = QPixmap(image_path)
+            if details is not None:
+                max_width = min(
+                    int(screen_size.width() * 0.8),
+                    content_limit.width(),
+                )
+                max_height = min(
+                    int(screen_size.height() * 0.8),
+                    content_limit.height(),
+                )
+                self.preview_widget = CardPreviewWidget(
+                    pixmap,
+                    details,
+                    orientation="horizontal",
+                    max_width=max_width,
+                    max_height=max_height,
+                    parent=self,
+                )
+                self.image_label = self.preview_widget.image_label
+                layout.addWidget(self.preview_widget)
+            else:
+                max_width = min(
+                    int(screen_size.width() * 0.8),
+                    content_limit.width(),
+                )
+                max_height = min(
+                    int(screen_size.height() * 0.8),
+                    content_limit.height(),
+                )
+                self.image_label = QLabel(self)
+                self.image_label.setAlignment(Qt.AlignCenter)
+                pixmap = pixmap.scaled(
+                    QSize(max_width, max_height),
+                    Qt.KeepAspectRatio,
+                    Qt.SmoothTransformation,
+                )
+                self.image_label.setPixmap(pixmap)
+                layout.addWidget(self.image_label)
         else:
+            self.image_label = QLabel(self)
+            self.image_label.setAlignment(Qt.AlignCenter)
             self.image_label.setText("无法加载图片")
-
-        layout.addWidget(self.image_label)
+            layout.addWidget(self.image_label)
         self.setLayout(layout)
+        if self.preview_widget is not None:
+            self.setFixedSize(self.sizeHint())
+        else:
+            self.adjustSize()
+        place_card_zoom_window(self, zoom_geometry)
 
     def contextMenuEvent(self, event):
         win = self.window()
@@ -1216,7 +1269,19 @@ class CardDeckWidget(QMainWindow):
     def show_enlarged_image(self, card_data):
         self.close_enlarged_image()
         image_path = card_data.get('image_path', '')
-        self.current_image_dialog = ImageDialog(image_path, card_data.get('name', '查看大图'), self)
+        details = resolve_card_detail(
+            image_path=image_path,
+            card_id=card_data.get('id', ''),
+            series=card_data.get('series', ''),
+            name=card_data.get('name', ''),
+            kind=card_data.get('deck_type', ''),
+        )
+        self.current_image_dialog = ImageDialog(
+            image_path,
+            card_data.get('name', '查看大图'),
+            self,
+            details=details,
+        )
         self.current_image_dialog.closed.connect(self.clear_image_dialog)
         self.current_image_dialog.show()
 
